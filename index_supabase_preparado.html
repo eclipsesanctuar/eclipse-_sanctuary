@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b12">
+<title>ECLIPSE : Sanctuary — Bound to You</title>
+<style>
+:root{--bg:#090b12;--panel:#111521;--panel2:#171b2a;--red:#8f2639;--blue:#263f83;--green:#1d644d;--text:#f4f1f5;--muted:#b4b5c5;--line:#35384a;--gold:#d8c18a}
+*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:Georgia,"Times New Roman",serif;background:radial-gradient(ellipse at 12% 8%,#50172455,transparent 35%),radial-gradient(ellipse at 90% 18%,#1b367155,transparent 34%),radial-gradient(ellipse at 70% 95%,#14503c44,transparent 32%),var(--bg);min-height:100vh}
+header{padding:22px 6vw;border-bottom:1px solid #ffffff18;background:#090b12b8;backdrop-filter:blur(10px);position:sticky;top:0;z-index:5}
+.nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-size:clamp(17px,2.5vw,25px);letter-spacing:2px}.brand span{display:block;color:var(--muted);font:11px Arial,sans-serif;letter-spacing:3px;margin-top:5px}.nav a{color:var(--text);text-decoration:none;font:13px Arial,sans-serif;border:1px solid var(--line);padding:10px 13px;border-radius:999px}
+main{max-width:1100px;margin:auto;padding:40px 20px 70px}.hero{text-align:center;padding:42px 15px 36px}.sigil{color:var(--gold);font-size:20px;letter-spacing:7px}.hero h1{font-size:clamp(30px,6vw,58px);font-weight:normal;letter-spacing:3px;margin:18px 0 10px}.hero p{font:14px/1.7 Arial,sans-serif;color:var(--muted);max-width:620px;margin:0 auto}.ornament{color:var(--gold);letter-spacing:8px;margin:24px 0}
+.notice{border:1px solid #d8c18a55;background:#d8c18a0b;border-radius:14px;padding:14px 16px;color:#e8d9b5;font:13px/1.6 Arial,sans-serif;margin:0 auto 26px;max-width:850px}
+.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}.panel{background:linear-gradient(135deg,#161a29f2,#0f121cf2);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 18px 50px #0003;position:relative;overflow:hidden}.panel:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,var(--red),var(--blue),var(--green))}.panel h2{font-size:21px;font-weight:normal;margin:2px 0 8px}.sub{color:var(--muted);font:13px/1.6 Arial,sans-serif;margin:0 0 18px}.field{display:block;margin:13px 0;color:#d9d9e4;font:12px Arial,sans-serif}.field input{display:block;width:100%;margin-top:7px;padding:12px 13px;border-radius:9px;background:#090c15;border:1px solid var(--line);color:white;font-size:14px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}.btn{border:1px solid #7f3142;background:linear-gradient(110deg,#6c1d30,#26376d);color:white;padding:11px 16px;border-radius:999px;cursor:pointer;font:13px Arial,sans-serif}.btn.secondary{background:#171b29;border-color:var(--line)}.btn:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}.small{font:12px/1.6 Arial,sans-serif;color:var(--muted)}.status{font:13px/1.6 Arial,sans-serif;color:#e6d7ad;min-height:20px;margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.stat{background:#ffffff06;border:1px solid #ffffff12;padding:13px 10px;border-radius:12px;text-align:center}.stat strong{display:block;font-size:23px;font-weight:normal}.stat span{display:block;font:11px Arial,sans-serif;color:var(--muted);margin-top:5px}
+.candidate{display:grid;grid-template-columns:66px 1fr auto;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid #ffffff12}.avatar{width:66px;height:66px;border-radius:12px;display:grid;place-items:center;font-size:25px;background:linear-gradient(135deg,#562033,#25396d,#1a4c3b);border:1px solid #ffffff22}.candidate h3{margin:0 0 5px;font-size:16px;font-weight:normal}.candidate p{margin:0;color:var(--muted);font:12px Arial,sans-serif}.vote-btn{padding:9px 12px}.bar{height:5px;background:#ffffff12;border-radius:99px;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--blue),var(--green));border-radius:99px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.pill{border:1px solid #ffffff22;border-radius:999px;padding:6px 10px;color:var(--muted);font:10px Arial,sans-serif;letter-spacing:1px}.full{margin-top:20px}.footer{text-align:center;color:#8e90a3;font:11px/1.8 Arial,sans-serif;margin-top:32px;letter-spacing:.5px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.nav{align-items:flex-start}.nav a{white-space:nowrap}.hero{padding-top:30px}.panel{padding:20px}.candidate{grid-template-columns:54px 1fr auto}.avatar{width:54px;height:54px}.stats{gap:6px}.stat{padding:12px 5px}}
+</style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header><div class="nav"><div class="brand">✦ ECLIPSE : SANCTUARY <span>BOUND TO YOU · GLOBAL VOTING</span></div><a href="#access">ENTRAR / REGISTRARSE</a></div></header>
+<main>
+<section class="hero"><div class="sigil">✦ ─── ⌈ SANCTUARY ⌋ ─── ✦</div><h1>Bound to You</h1><p>Un santuario para celebrar a tus favoritos. Una comunidad, una votación compartida y resultados para participantes de todo el mundo.</p><div class="ornament">✧ ❖ ✧</div></section>
+<div class="notice"><strong>Versión de preparación:</strong> el formulario visual ya no pide correo electrónico. Esta plantilla incluye el punto de conexión inicial. Aún no crea cuentas ni guarda votos: faltan tablas, políticas RLS y autenticación segura. No introduzcas contraseñas reales.</div>
+<div class="grid">
+<section class="panel" id="voting"><div class="section-title"><h2>✦ Votación del santuario</h2><span class="pill" id="voteState">VISTA PREVIA</span></div><p class="sub">Los resultados de abajo son ejemplos visuales, no votos reales.</p>
+<div class="stats"><div class="stat"><strong id="totalVotes">128</strong><span>VOTOS DE EJEMPLO</span></div><div class="stat"><strong>5</strong><span>PUNTOS / VOTO*</span></div><div class="stat"><strong>—</strong><span>ESTADO REAL</span></div></div>
+<div class="candidate"><div class="avatar">✧</div><div><h3>Participante Uno</h3><p>Ejemplo · 52 votos</p><div class="bar"><i style="width:41%"></i></div></div><button class="btn vote-btn" data-demo="Uno">Votar</button></div>
+<div class="candidate"><div class="avatar">❖</div><div><h3>Participante Dos</h3><p>Ejemplo · 43 votos</p><div class="bar"><i style="width:34%"></i></div></div><button class="btn vote-btn" data-demo="Dos">Votar</button></div>
+<div class="candidate"><div class="avatar">✦</div><div><h3>Participante Tres</h3><p>Ejemplo · 33 votos</p><div class="bar"><i style="width:26%"></i></div></div><button class="btn vote-btn" data-demo="Tres">Votar</button></div>
+<p class="small">* El valor es ilustrativo. En la versión conectada se podrá configurar desde el panel de administración.</p><div class="status" id="voteMessage" aria-live="polite"></div></section>
+<aside class="panel" id="access"><h2>✦ Acceso al santuario</h2><p class="sub">Diseño de ejemplo para registro e inicio de sesión.</p>
+<form id="demoForm"><label class="field">Nombre de usuario<input id="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" required placeholder="Ejemplo: EclipseFan"></label><label class="field">Contraseña<input id="password" type="password" autocomplete="new-password" minlength="10" required placeholder="Usa 10 caracteres o más"></label><div class="actions"><button class="btn" type="submit">Vista previa de registro</button><button class="btn secondary" type="button" id="clearForm">Limpiar</button></div><div class="status" id="formMessage" aria-live="polite"></div></form>
+<hr style="border:0;border-top:1px solid #ffffff18;margin:22px 0"><h2>✧ Reglas previstas</h2><p class="small">• Una votación por cuenta<br>• Puntos por voto configurables<br>• Cada 5 puntos equivalen a 1 voto equivalente; los sobrantes se conservan<br>• Ajustes administrativos con historial<br>• Retirada de participantes sin borrar su historial<br>• Fotos personales con permisos adecuados</p></aside>
+</div>
+<section class="panel full"><div class="section-title"><h2>✦ Administración</h2><span class="pill">SOLO ADMINISTRADORES</span></div><p class="sub">El panel real deberá verificar los permisos en Supabase, no solo ocultar controles en la página.</p><p class="small">Cuando la conexión esté lista, aquí podrás gestionar permisos, abrir o cerrar votaciones, ajustar puntos con motivo registrado y consultar el historial.</p></section>
+<div class="footer">✦ ECLIPSE : SANCTUARY · BOUND TO YOU ✦<br>PLANTILLA DE CONEXIÓN · FUNCIONES REALES PENDIENTES</div>
+</main>
+<script>
+
+// ── Supabase: conexión inicial ──────────────────────────────────
+// Reemplaza ambos marcadores por Project URL y Publishable key.
+// Usa SOLO sb_publishable_... o la antigua anon. Nunca service_role/secret.
+const SUPABASE_URL = "PEGA_AQUI_TU_PROJECT_URL";
+const SUPABASE_PUBLISHABLE_KEY = "PEGA_AQUI_TU_PUBLISHABLE_KEY";
+
+let supabaseClient = null;
+const supabaseConfigReady =
+  window.supabase &&
+  SUPABASE_URL.startsWith("https://") &&
+  !SUPABASE_URL.includes("PEGA_AQUI") &&
+  SUPABASE_PUBLISHABLE_KEY &&
+  !SUPABASE_PUBLISHABLE_KEY.includes("PEGA_AQUI");
+
+if (supabaseConfigReady) {
+  supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+  console.info("Cliente Supabase inicializado.");
+} else {
+  console.info("Supabase pendiente: añade Project URL y Publishable key.");
+}
+
+document.querySelectorAll('[data-demo]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('voteMessage').textContent='Esta es solo una vista previa: no se ha guardado ningún voto. La votación real se habilitará al conectar Supabase.';}));
+document.getElementById('demoForm').addEventListener('submit',event=>{event.preventDefault();document.getElementById('formMessage').textContent='Esta es solo una vista previa. No se creó ninguna cuenta. El registro real sin correo requiere configurar el servidor de forma segura.';document.getElementById('password').value='';});
+document.getElementById('clearForm').addEventListener('click',()=>{document.getElementById('demoForm').reset();document.getElementById('formMessage').textContent='';});
+</script>
+</body>
+</html>
