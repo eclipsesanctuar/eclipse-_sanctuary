@@ -17,6 +17,7 @@
       --muted: #bcb0d3;
       --accent: #b59add;
       --danger: #ffb4b4;
+      --success: #b9edc9;
     }
 
     * { box-sizing: border-box; }
@@ -41,9 +42,12 @@
     }
 
     main { padding: 24px; }
+
     h1 { font-size: clamp(24px, 5vw, 34px); }
-    h2 { font-size: 20px; }
+    h2 { font-size: 21px; }
+    h3 { font-size: 17px; }
     p { line-height: 1.55; }
+
     .muted { color: var(--muted); }
 
     .eyebrow {
@@ -62,12 +66,12 @@
       background: var(--panel);
     }
 
-    .toolbar, nav {
+    .toolbar, nav, .actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 10px;
-      margin: 18px 0;
+      margin: 16px 0;
     }
 
     .toolbar { justify-content: space-between; }
@@ -87,7 +91,32 @@
       color: #180f27;
     }
 
-    button:disabled { opacity: .55; cursor: wait; }
+    button:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    button:focus-visible, input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    input, select {
+      display: block;
+      width: 100%;
+      margin: 8px 0 16px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px Arial, sans-serif;
+    }
+
+    label {
+      display: block;
+      font: 14px Arial, sans-serif;
+    }
 
     .status {
       padding: 12px;
@@ -98,6 +127,7 @@
     }
 
     .error { color: var(--danger); }
+    .success { color: var(--success); }
     .hidden { display: none !important; }
 
     .table-wrap { overflow-x: auto; }
@@ -117,6 +147,32 @@
     }
 
     th { color: var(--muted); }
+
+    .round-card {
+      padding: 16px;
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel2);
+    }
+
+    .round-card h3 {
+      margin-top: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .round-meta {
+      color: var(--muted);
+      font: 13px/1.6 Arial, sans-serif;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 9px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font: 12px Arial, sans-serif;
+    }
 
     footer {
       padding: 30px 20px;
@@ -153,8 +209,8 @@
     <p id="denied-message" class="error" role="alert">
       No se pudo confirmar el acceso.
     </p>
-    <button id="retry-button">Reintentar</button>
-    <button id="login-button">Volver al inicio de sesión</button>
+    <button id="retry-button" type="button">Reintentar</button>
+    <button id="login-button" type="button">Volver al inicio de sesión</button>
   </section>
 
   <section id="dashboard" class="hidden">
@@ -163,8 +219,10 @@
         <div class="eyebrow">Sesión autenticada</div>
         <p id="account-label" class="muted">Cuenta verificada</p>
       </div>
-      <button id="refresh-button">Actualizar</button>
-      <button id="logout-button">Cerrar sesión</button>
+      <div class="actions">
+        <button id="refresh-button" type="button">Actualizar</button>
+        <button id="logout-button" type="button">Cerrar sesión</button>
+      </div>
     </div>
 
     <div id="global-message" class="status" role="status" aria-live="polite">
@@ -172,35 +230,74 @@
     </div>
 
     <nav aria-label="Secciones">
-      <button class="tab active" data-tab="rounds">Rondas</button>
-      <button class="tab" data-tab="participants">Participantes</button>
-      <button class="tab" data-tab="votes">Votos y puntos</button>
-      <button class="tab" data-tab="settings">Configuración</button>
+      <button type="button" class="tab active" data-tab="rounds">Rondas</button>
+      <button type="button" class="tab" data-tab="participants">Participantes</button>
+      <button type="button" class="tab" data-tab="votes">Votos y puntos</button>
+      <button type="button" class="tab" data-tab="settings">Configuración</button>
     </nav>
 
+    <!-- RONDAS -->
     <section id="tab-rounds" class="panel tab-panel">
-      <h2>Rondas</h2>
+      <h2>Administrar rondas</h2>
+      <p class="muted">
+        Crea rondas, modifica sus títulos y cambia sus estados.
+      </p>
+
+      <form id="round-form" class="panel">
+        <h3 id="round-form-heading">Crear una ronda</h3>
+
+        <label for="round-title">Título</label>
+        <input
+          id="round-title"
+          name="title"
+          type="text"
+          maxlength="120"
+          required
+          placeholder="Ej. Ronda 1 — El comienzo"
+        >
+
+        <div class="toolbar">
+          <button id="round-submit" type="submit">Crear ronda</button>
+          <button id="round-cancel" type="button" class="hidden">
+            Cancelar edición
+          </button>
+        </div>
+
+        <p id="round-form-message" class="muted" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="toolbar">
+        <h3>Rondas existentes</h3>
+        <button id="rounds-refresh" type="button">Actualizar rondas</button>
+      </div>
+
       <div id="rounds-data" class="status">Esperando datos…</div>
     </section>
 
+    <!-- PARTICIPANTES -->
     <section id="tab-participants" class="panel tab-panel hidden">
       <h2>Participantes</h2>
       <h3>Participantes</h3>
       <div id="participants-data" class="status">Esperando datos…</div>
+
       <h3>Perfiles</h3>
       <div id="profiles-data" class="status">Esperando datos…</div>
+
       <h3>Participantes por ronda</h3>
       <div id="round-participants-data" class="status">Esperando datos…</div>
     </section>
 
+    <!-- VOTOS -->
     <section id="tab-votes" class="panel tab-panel hidden">
       <h2>Votos y puntos</h2>
       <h3>Votos</h3>
       <div id="votes-data" class="status">Esperando datos…</div>
+
       <h3>Registro de puntos</h3>
       <div id="point-ledger-data" class="status">Esperando datos…</div>
     </section>
 
+    <!-- CONFIGURACIÓN -->
     <section id="tab-settings" class="panel tab-panel hidden">
       <h2>Configuración</h2>
       <p class="muted">Vista de solo lectura.</p>
@@ -223,6 +320,7 @@
   const SUPABASE_URL =
     "https://oflletoswulovqfrxqpc.supabase.co";
 
+  // Clave pública del proyecto. Nunca pongas aquí la service_role key.
   const SUPABASE_PUBLIC_KEY =
     "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
 
@@ -236,11 +334,36 @@
   let checking = false;
   let authorizedUserId = null;
   let pageActive = false;
+  let editingRoundId = null;
+  let authEventReady = false;
 
   function showOnly(section) {
     ["checking", "denied", "dashboard"].forEach(id => {
       $("#" + id).classList.toggle("hidden", id !== section);
     });
+  }
+
+  function setGlobalMessage(message, isError = false) {
+    const element = $("#global-message");
+    element.textContent = message;
+    element.classList.toggle("error", isError);
+    element.classList.toggle("success", !isError);
+  }
+
+  function showRoundFormMessage(message, isError = false) {
+    const element = $("#round-form-message");
+    element.textContent = message;
+    element.classList.toggle("error", isError);
+    element.classList.toggle("success", !isError && Boolean(message));
+  }
+
+  function resetRoundForm() {
+    editingRoundId = null;
+    $("#round-form").reset();
+    $("#round-form-heading").textContent = "Crear una ronda";
+    $("#round-submit").textContent = "Crear ronda";
+    $("#round-cancel").classList.add("hidden");
+    showRoundFormMessage("");
   }
 
   function renderRows(container, rows) {
@@ -310,30 +433,258 @@
 
       if (error) {
         container.textContent =
-          "No se pudieron leer los datos de esta tabla. " +
-          "Comprueba sus permisos y las políticas RLS.";
+          "No se pudieron leer los datos. Comprueba los permisos RLS.";
         container.classList.add("error");
-        console.warn(
-          "Error de lectura en " + tableName + ":",
-          error.code
-        );
+        console.warn("Error de lectura en " + tableName, error.code);
         return;
       }
 
       renderRows(container, data);
-    } catch {
+    } catch (error) {
       container.textContent = "Error de conexión al cargar esta tabla.";
       container.classList.add("error");
+      console.warn("Error de conexión en " + tableName, error);
+    }
+  }
+
+  async function loadRounds() {
+    const container = $("#rounds-data");
+
+    if (!authorizedUserId || !pageActive) return;
+
+    container.textContent = "Cargando rondas…";
+    container.classList.remove("error");
+
+    try {
+      const { data, error } = await supabase
+        .from("rounds")
+        .select("id, title, status, created_at")
+        .order("id", { ascending: true });
+
+      if (error) {
+        container.textContent =
+          "No se pudieron cargar las rondas. Comprueba la conexión y las políticas RLS.";
+        container.classList.add("error");
+        console.warn("Error al cargar rondas:", error.code);
+        return;
+      }
+
+      container.replaceChildren();
+
+      if (!data || data.length === 0) {
+        container.textContent = "Todavía no hay rondas creadas.";
+        return;
+      }
+
+      const statusLabels = {
+        draft: "Borrador",
+        open: "Abierta",
+        closed: "Cerrada"
+      };
+
+      data.forEach(round => {
+        const card = document.createElement("article");
+        card.className = "round-card";
+
+        const title = document.createElement("h3");
+        title.textContent = round.title;
+
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent =
+          statusLabels[round.status] || round.status;
+
+        const meta = document.createElement("p");
+        meta.className = "round-meta";
+        meta.textContent =
+          "ID: " + round.id +
+          " · Creada: " +
+          (round.created_at
+            ? new Date(round.created_at).toLocaleString("es")
+            : "No disponible");
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "Editar título";
+        editButton.addEventListener("click", () => {
+          editingRoundId = round.id;
+          $("#round-title").value = round.title;
+          $("#round-form-heading").textContent =
+            "Editar ronda " + round.id;
+          $("#round-submit").textContent = "Guardar cambios";
+          $("#round-cancel").classList.remove("hidden");
+          showRoundFormMessage("Modifica el título y guarda los cambios.");
+
+          $("#round-form").scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+          $("#round-title").focus();
+        });
+
+        actions.appendChild(editButton);
+
+        if (round.status !== "open") {
+          const openButton = document.createElement("button");
+          openButton.type = "button";
+          openButton.textContent = "Abrir ronda";
+          openButton.addEventListener("click", () => {
+            changeRoundStatus(round.id, "open");
+          });
+          actions.appendChild(openButton);
+        }
+
+        if (round.status !== "closed") {
+          const closeButton = document.createElement("button");
+          closeButton.type = "button";
+          closeButton.textContent = "Cerrar ronda";
+          closeButton.addEventListener("click", () => {
+            changeRoundStatus(round.id, "closed");
+          });
+          actions.appendChild(closeButton);
+        }
+
+        card.append(title, badge, meta, actions);
+        container.appendChild(card);
+      });
+    } catch (error) {
+      container.textContent = "Ocurrió un error al cargar las rondas.";
+      container.classList.add("error");
+      console.warn("Error al cargar rondas:", error);
+    }
+  }
+
+  async function changeRoundStatus(roundId, newStatus) {
+    if (!authorizedUserId || !pageActive) return;
+
+    if (!["open", "closed"].includes(newStatus)) return;
+
+    const action = newStatus === "open" ? "abrir" : "cerrar";
+
+    if (!confirm("¿Seguro que quieres " + action + " esta ronda?")) {
+      return;
+    }
+
+    setGlobalMessage("Guardando estado…");
+
+    try {
+      const { data, error } = await supabase
+        .from("rounds")
+        .update({ status: newStatus })
+        .eq("id", roundId)
+        .select("id");
+
+      if (error) {
+        console.warn("Error al cambiar estado:", error.code);
+        setGlobalMessage(
+          "No se pudo guardar el estado. Revisa los permisos.",
+          true
+        );
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        setGlobalMessage(
+          "No se confirmó el cambio. Comprueba que la ronda exista y sea accesible.",
+          true
+        );
+        return;
+      }
+
+      setGlobalMessage("Estado actualizado correctamente.");
+      await loadRounds();
+    } catch (error) {
+      setGlobalMessage("Error de conexión al actualizar el estado.", true);
+      console.warn(error);
+    }
+  }
+
+  async function handleRoundSubmit(event) {
+    event.preventDefault();
+
+    if (!authorizedUserId || !pageActive) {
+      showRoundFormMessage("La sesión no está activa.", true);
+      return;
+    }
+
+    const title = $("#round-title").value.trim();
+
+    if (!title) {
+      showRoundFormMessage("Escribe el título de la ronda.", true);
+      return;
+    }
+
+    const submitButton = $("#round-submit");
+    submitButton.disabled = true;
+    showRoundFormMessage("Guardando…");
+
+    try {
+      let result;
+
+      if (editingRoundId !== null) {
+        result = await supabase
+          .from("rounds")
+          .update({ title })
+          .eq("id", editingRoundId)
+          .select("id");
+      } else {
+        result = await supabase
+          .from("rounds")
+          .insert({
+            title,
+            status: "draft"
+          })
+          .select("id");
+      }
+
+      if (result.error) {
+        console.warn("Error al guardar ronda:", {
+          code: result.error.code,
+          message: result.error.message
+        });
+
+        showRoundFormMessage(
+          "No se pudo guardar. Código: " +
+          (result.error.code || "desconocido") +
+          ". Revisa la configuración de la tabla y los permisos.",
+          true
+        );
+        return;
+      }
+
+      if (!result.data || result.data.length === 0) {
+        showRoundFormMessage(
+          "Supabase no confirmó el cambio. Comprueba los permisos y la existencia de la ronda.",
+          true
+        );
+        return;
+      }
+
+      resetRoundForm();
+      setGlobalMessage("Ronda guardada correctamente.");
+      await loadRounds();
+
+    } catch (error) {
+      showRoundFormMessage(
+        "Ocurrió un error de conexión al guardar.",
+        true
+      );
+      console.warn("Error al guardar ronda:", error);
+    } finally {
+      submitButton.disabled = false;
     }
   }
 
   async function loadDashboardData() {
     if (!authorizedUserId || !pageActive) return;
 
-    $("#global-message").textContent = "Actualizando datos…";
+    setGlobalMessage("Actualizando datos…");
 
     await Promise.all([
-      loadTable("rounds", "rounds-data"),
+      loadRounds(),
       loadTable("participants", "participants-data"),
       loadTable("profiles", "profiles-data"),
       loadTable("round_participants", "round-participants-data"),
@@ -342,8 +693,9 @@
       loadTable("voting_settings", "settings-data")
     ]);
 
-    $("#global-message").textContent =
-      "Carga terminada. Las tablas sin permiso de lectura mostrarán un aviso.";
+    if (pageActive) {
+      setGlobalMessage("Carga terminada.");
+    }
   }
 
   async function verifyAccess() {
@@ -359,41 +711,39 @@
     try {
       stage = "configuración de la clave pública";
 
-      if (!SUPABASE_PUBLIC_KEY) {
-        throw new Error("Falta configurar la clave pública.");
+      if (!SUPABASE_URL || !SUPABASE_PUBLIC_KEY) {
+        throw new Error("Falta configurar la conexión pública de Supabase.");
       }
 
       stage = "sesión";
 
-      const { data: sessionData, error: sessionError } =
-        await supabase.auth.getSession();
+      const {
+        data: sessionData,
+        error: sessionError
+      } = await supabase.auth.getSession();
 
       if (sessionError) {
-        console.warn("Error de sesión:", sessionError.message);
         throw new Error("No se pudo consultar la sesión.");
       }
 
       if (!sessionData.session) {
-        throw new Error("No existe una sesión activa.");
+        throw new Error("No existe una sesión activa. Inicia sesión primero.");
       }
 
       const sessionUserId = sessionData.session.user.id;
 
-      stage = "permisos";
+      stage = "permisos de administrador";
 
       const { data: isAdmin, error: adminError } =
         await supabase.rpc("is_eclipse_admin");
 
       if (adminError) {
-        console.warn("Error de permisos:", {
-          code: adminError.code,
-          message: adminError.message
-        });
-        throw new Error("La base de datos no pudo verificar los permisos.");
+        console.warn("Error al comprobar permisos:", adminError.code);
+        throw new Error("Supabase no pudo verificar los permisos.");
       }
 
       if (isAdmin !== true) {
-        throw new Error("La cuenta no tiene permisos de administrador.");
+        throw new Error("Esta cuenta no tiene permisos de administrador.");
       }
 
       stage = "validación final";
@@ -406,14 +756,14 @@
         !userData.user ||
         userData.user.id !== sessionUserId
       ) {
-        throw new Error("La sesión no pudo validarse.");
+        throw new Error("No se pudo validar la sesión actual.");
       }
 
       authorizedUserId = userData.user.id;
       pageActive = true;
 
       $("#account-label").textContent =
-        "ID de cuenta: " + authorizedUserId;
+        "Cuenta verificada · ID: " + authorizedUserId;
 
       $("#security-status").textContent =
         "Sesión válida y permisos de administrador confirmados por Supabase.";
@@ -425,8 +775,7 @@
       console.warn("Comprobación fallida en " + stage + ":", error.message);
 
       $("#denied-message").textContent =
-        "Falló la comprobación de: " + stage + ". " +
-        error.message;
+        "Falló la comprobación de: " + stage + ". " + error.message;
 
       $("#security-status").textContent =
         "No se ha concedido acceso al panel.";
@@ -436,6 +785,12 @@
       checking = false;
     }
   }
+
+  // Eventos de los formularios y botones
+  $("#round-form").addEventListener("submit", handleRoundSubmit);
+  $("#round-cancel").addEventListener("click", resetRoundForm);
+
+  $("#rounds-refresh").addEventListener("click", loadRounds);
 
   $("#retry-button").addEventListener("click", verifyAccess);
 
@@ -469,13 +824,17 @@
   });
 
   supabase.auth.onAuthStateChange(event => {
-    if (event === "SIGNED_OUT" && pageActive) {
+    if (
+      authEventReady &&
+      event === "SIGNED_OUT"
+    ) {
       pageActive = false;
       authorizedUserId = null;
       window.location.replace("./admin.html");
     }
   });
 
+  authEventReady = true;
   await verifyAccess();
 </script>
 </body>
