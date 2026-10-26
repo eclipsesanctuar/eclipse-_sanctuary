@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#100d1b">
-  <title>Panel de administración | ECLIPSE : Sanctuary</title>
-
+  <title>Administración | ECLIPSE : Sanctuary</title>
   <style>
     :root {
       color-scheme: dark;
@@ -41,46 +40,46 @@
       margin: auto;
     }
 
+    main { padding: 24px; }
+    h1 { font-size: clamp(24px, 5vw, 34px); }
+    h2 { font-size: 20px; }
+    p { line-height: 1.55; }
+    .muted { color: var(--muted); }
+
     .eyebrow {
       color: var(--muted);
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       font: 11px Arial, sans-serif;
       text-transform: uppercase;
     }
 
-    h1 { font-size: clamp(23px, 5vw, 34px); margin: 10px 0; }
-    h2 { font-size: 20px; }
-    p { line-height: 1.55; }
+    .panel {
+      padding: 20px;
+      margin: 16px 0;
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
+    }
 
-    .muted { color: var(--muted); }
-
-    main { padding: 24px; }
-
-    .toolbar {
+    .toolbar, nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 22px;
+      gap: 10px;
+      margin: 18px 0;
     }
 
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 20px 0;
-    }
+    .toolbar { justify-content: space-between; }
 
-    button, .link-button {
+    button {
+      padding: 11px 14px;
       border: 1px solid var(--border);
       border-radius: 9px;
-      padding: 11px 14px;
       background: var(--panel2);
       color: var(--text);
       font: 14px Arial, sans-serif;
       cursor: pointer;
-      text-decoration: none;
     }
 
     button:hover, button.active {
@@ -89,15 +88,6 @@
     }
 
     button:disabled { opacity: .55; cursor: wait; }
-
-    .panel {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--panel);
-      padding: 20px;
-      margin: 16px 0;
-      min-width: 0;
-    }
 
     .status {
       padding: 12px;
@@ -109,15 +99,13 @@
 
     .error { color: var(--danger); }
     .success { color: #c5f2d0; }
+    .hidden { display: none !important; }
 
-    .table-wrap {
-      overflow-x: auto;
-      max-width: 100%;
-    }
+    .table-wrap { overflow-x: auto; }
 
     table {
-      border-collapse: collapse;
       width: 100%;
+      border-collapse: collapse;
       font: 13px/1.5 Arial, sans-serif;
     }
 
@@ -127,25 +115,15 @@
       text-align: left;
       vertical-align: top;
       overflow-wrap: anywhere;
-      max-width: 280px;
     }
 
     th { color: var(--muted); }
 
-    pre {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font: 12px/1.5 monospace;
-      margin: 0;
-    }
-
-    .hidden { display: none !important; }
-
     footer {
+      padding: 30px 20px;
+      text-align: center;
       color: var(--muted);
       font: 12px Arial, sans-serif;
-      text-align: center;
-      padding: 30px 20px;
     }
 
     @media (max-width: 600px) {
@@ -157,368 +135,357 @@
 </head>
 
 <body>
-  <header>
-    <div class="header-inner">
-      <div class="eyebrow">Bound to You · Sanctuary</div>
-      <h1>☾ ECLIPSE : Sanctuary</h1>
-      <p class="muted">Panel privado de administración</p>
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">Bound to You · Sanctuary</div>
+    <h1>☾ ECLIPSE : Sanctuary</h1>
+    <p class="muted">Panel privado de administración</p>
+  </div>
+</header>
+
+<main>
+  <section id="checking" class="panel">
+    <h2>Verificando acceso…</h2>
+    <p class="muted">Comprobando sesión y permisos.</p>
+  </section>
+
+  <section id="denied" class="panel hidden">
+    <h2>Acceso no verificado</h2>
+    <p id="denied-message" class="error" role="alert">
+      No se pudo confirmar el acceso.
+    </p>
+    <button id="retry-button">Reintentar</button>
+    <button id="login-button">Volver al inicio de sesión</button>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="toolbar">
+      <div>
+        <div class="eyebrow">Sesión autenticada</div>
+        <p id="account-label" class="muted">Cuenta verificada</p>
+      </div>
+      <button id="refresh-button">Actualizar</button>
+      <button id="logout-button">Cerrar sesión</button>
     </div>
-  </header>
 
-  <main>
-    <section id="checking" class="panel">
-      <h2>Verificando acceso…</h2>
-      <p class="muted">Comprobando tu sesión y los permisos de administrador.</p>
+    <div id="global-message" class="status" role="status" aria-live="polite">
+      Acceso verificado.
+    </div>
+
+    <nav aria-label="Secciones">
+      <button class="tab active" data-tab="rounds">Rondas</button>
+      <button class="tab" data-tab="participants">Participantes</button>
+      <button class="tab" data-tab="votes">Votos y puntos</button>
+      <button class="tab" data-tab="settings">Configuración</button>
+    </nav>
+
+    <section id="tab-rounds" class="panel tab-panel">
+      <h2>Rondas</h2>
+      <div id="rounds-data" class="status">Esperando datos…</div>
     </section>
 
-    <section id="denied" class="panel hidden">
-      <h2>Acceso no autorizado</h2>
-      <p id="denied-message" class="error" role="alert">
-        No se pudo verificar tu acceso.
+    <section id="tab-participants" class="panel tab-panel hidden">
+      <h2>Participantes</h2>
+      <h3>Participantes</h3>
+      <div id="participants-data" class="status">Esperando datos…</div>
+      <h3>Perfiles</h3>
+      <div id="profiles-data" class="status">Esperando datos…</div>
+      <h3>Participantes por ronda</h3>
+      <div id="round-participants-data" class="status">Esperando datos…</div>
+    </section>
+
+    <section id="tab-votes" class="panel tab-panel hidden">
+      <h2>Votos y puntos</h2>
+      <h3>Votos</h3>
+      <div id="votes-data" class="status">Esperando datos…</div>
+      <h3>Registro de puntos</h3>
+      <div id="point-ledger-data" class="status">Esperando datos…</div>
+    </section>
+
+    <section id="tab-settings" class="panel tab-panel hidden">
+      <h2>Configuración</h2>
+      <p class="muted">Vista de solo lectura.</p>
+      <div id="settings-data" class="status">Esperando datos…</div>
+    </section>
+
+    <section class="panel">
+      <h2>Seguridad</h2>
+      <p id="security-status" class="muted">
+        Pendiente de comprobación.
       </p>
-      <button id="retry-button" type="button">Volver a comprobar</button>
-      <button id="login-button" type="button">Volver al inicio de sesión</button>
     </section>
+  </section>
+</main>
 
-    <section id="dashboard" class="hidden">
-      <div class="toolbar">
-        <div>
-          <div class="eyebrow">Acceso verificado</div>
-          <p id="account-label" class="muted">Sesión activa</p>
-        </div>
-        <button id="refresh-button" type="button">Actualizar datos</button>
-        <button id="logout-button" type="button">Cerrar sesión</button>
-      </div>
+<footer>ECLIPSE : Sanctuary · Área privada</footer>
 
-      <div id="global-message" class="status" role="status" aria-live="polite">
-        Acceso comprobado.
-      </div>
+<script type="module">
+  import { createClient } from
+    "https://esm.sh/@supabase/supabase-js@2";
 
-      <nav aria-label="Secciones de administración">
-        <button type="button" class="tab active" data-tab="rounds">Rondas</button>
-        <button type="button" class="tab" data-tab="participants">Participantes</button>
-        <button type="button" class="tab" data-tab="votes">Votos y puntos</button>
-        <button type="button" class="tab" data-tab="settings">Configuración</button>
-      </nav>
+  const SUPABASE_URL =
+    "https://oflletoswulovqfrxqpc.supabase.co";
 
-      <section class="panel tab-panel" id="tab-rounds">
-        <h2>Rondas</h2>
-        <p class="muted">Registros de la tabla <code>rounds</code>.</p>
-        <div id="rounds-data" class="status">Cargando…</div>
-      </section>
+  // Sustituye este texto por tu clave PUBLICABLE.
+  // Nunca uses la service_role ni una clave secreta.
+  const SUPABASE_PUBLIC_KEY =
+    "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
 
-      <section class="panel tab-panel hidden" id="tab-participants">
-        <h2>Participantes</h2>
-        <p class="muted">Participantes, perfiles y asignaciones a rondas.</p>
-        <div id="participants-data" class="status">Cargando…</div>
-      </section>
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLIC_KEY
+  );
 
-      <section class="panel tab-panel hidden" id="tab-votes">
-        <h2>Votos y puntos</h2>
-        <p class="muted">Votos registrados y movimientos de puntos.</p>
-        <div id="votes-data" class="status">Cargando…</div>
-      </section>
+  const $ = selector => document.querySelector(selector);
 
-      <section class="panel tab-panel hidden" id="tab-settings">
-        <h2>Configuración</h2>
-        <p class="muted">
-          Ajustes actuales de votación. Esta vista no modifica la configuración.
-        </p>
-        <div id="settings-data" class="status">Cargando…</div>
-      </section>
+  let checking = false;
+  let authorizedUserId = null;
+  let pageActive = false;
 
-      <section class="panel">
-        <h2>Estado de seguridad</h2>
-        <p id="security-status" class="muted">
-          La comprobación de permisos está pendiente.
-        </p>
-      </section>
-    </section>
-  </main>
+  function showOnly(section) {
+    ["checking", "denied", "dashboard"].forEach(id => {
+      $("#" + id).classList.toggle("hidden", id !== section);
+    });
+  }
 
-  <footer>ECLIPSE : Sanctuary · Área privada</footer>
+  function renderRows(container, rows) {
+    container.replaceChildren();
 
-  <script type="module">
-    import { createClient } from
-      "https://esm.sh/@supabase/supabase-js@2";
+    if (!rows || rows.length === 0) {
+      container.textContent = "No hay registros disponibles.";
+      return;
+    }
 
-    const SUPABASE_URL =
-      "https://oflletoswulovqfrxqpc.supabase.co";
+    const columns = [
+      ...new Set(rows.flatMap(row => Object.keys(row)))
+    ];
 
-    // Usa aquí la clave PUBLICABLE que ya está en admin.html.
-    // Nunca pongas aquí una service_role ni una clave secreta.
-    const SUPABASE_PUBLIC_KEY =
-      "PEGA_AQUI_TU_CLAVE_PUBLICA";
+    const wrap = document.createElement("div");
+    wrap.className = "table-wrap";
 
-    const supabase = createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLIC_KEY,
-      {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true
-        }
-      }
-    );
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const header = document.createElement("tr");
 
-    const $ = (selector) => document.querySelector(selector);
+    columns.forEach(column => {
+      const th = document.createElement("th");
+      th.textContent = column;
+      header.appendChild(th);
+    });
 
-    let authorizedUserId = null;
-    let checking = false;
-    let pageActive = false;
+    thead.appendChild(header);
+    table.appendChild(thead);
 
-    const tableTargets = {
-      rounds: ["rounds"],
-      participants: [
-        "participants",
-        "profiles",
-        "round_participants"
-      ],
-      votes: ["votes", "point_ledger"],
-      settings: ["voting_settings"]
-    };
+    const tbody = document.createElement("tbody");
 
-    function showOnly(id) {
-      ["checking", "denied", "dashboard"].forEach((name) => {
-        $("#" + name).classList.toggle("hidden", name !== id);
+    rows.forEach(row => {
+      const tr = document.createElement("tr");
+
+      columns.forEach(column => {
+        const td = document.createElement("td");
+        const value = row[column];
+
+        td.textContent = value == null
+          ? "—"
+          : typeof value === "object"
+            ? JSON.stringify(value)
+            : String(value);
+
+        tr.appendChild(td);
       });
-    }
 
-    function setGlobalMessage(message, isError = false) {
-      const element = $("#global-message");
-      element.textContent = message;
-      element.className = "status" + (isError ? " error" : "");
-    }
+      tbody.appendChild(tr);
+    });
 
-    function safeText(value) {
-      if (value === null || value === undefined) return "—";
-      if (typeof value === "object") {
-        try {
-          return JSON.stringify(value);
-        } catch {
-          return "[dato]";
-        }
-      }
-      return String(value);
-    }
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    container.appendChild(wrap);
+  }
 
-    function renderRows(container, rows) {
-      container.replaceChildren();
+  async function loadTable(tableName, containerId) {
+    const container = $("#" + containerId);
+    container.textContent = "Cargando…";
+    container.classList.remove("error");
 
-      if (!rows || rows.length === 0) {
-        container.textContent = "No hay registros disponibles.";
+    try {
+      const { data, error } = await supabase
+        .from(tableName)
+        .select("*")
+        .limit(100);
+
+      if (error) {
+        container.textContent =
+          "No se pudieron leer los datos de esta tabla. " +
+          "Comprueba sus permisos y las políticas RLS.";
+        container.classList.add("error");
+        console.warn(
+          "Error de lectura en " + tableName + ":",
+          error.code
+        );
         return;
       }
 
-      const columns = [...new Set(rows.flatMap(row => Object.keys(row)))];
-      const wrap = document.createElement("div");
-      wrap.className = "table-wrap";
+      renderRows(container, data);
+    } catch {
+      container.textContent =
+        "Error de conexión al cargar esta tabla.";
+      container.classList.add("error");
+    }
+  }
 
-      const table = document.createElement("table");
-      const thead = document.createElement("thead");
-      const headRow = document.createElement("tr");
+  async function loadDashboardData() {
+    if (!authorizedUserId || !pageActive) return;
 
-      columns.forEach((column) => {
-        const th = document.createElement("th");
-        th.textContent = column;
-        headRow.appendChild(th);
-      });
+    $("#global-message").textContent = "Actualizando datos…";
 
-      thead.appendChild(headRow);
-      table.appendChild(thead);
+    await Promise.all([
+      loadTable("rounds", "rounds-data"),
+      loadTable("participants", "participants-data"),
+      loadTable("profiles", "profiles-data"),
+      loadTable("round_participants", "round-participants-data"),
+      loadTable("votes", "votes-data"),
+      loadTable("point_ledger", "point-ledger-data"),
+      loadTable("voting_settings", "settings-data")
+    ]);
 
-      const tbody = document.createElement("tbody");
+    $("#global-message").textContent =
+      "Carga terminada. Las tablas sin permiso de lectura mostrarán un aviso.";
+  }
 
-      rows.forEach((row) => {
-        const tr = document.createElement("tr");
+  async function verifyAccess() {
+    if (checking) return;
 
-        columns.forEach((column) => {
-          const td = document.createElement("td");
-          td.textContent = safeText(row[column]);
-          tr.appendChild(td);
+    checking = true;
+    pageActive = false;
+    authorizedUserId = null;
+    showOnly("checking");
+
+    let stage = "inicio";
+
+    try {
+      if (
+        !SUPABASE_PUBLIC_KEY ||
+        SUPABASE_PUBLIC_KEY === "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N"
+      ) {
+        stage = "configuración de la clave pública";
+        throw new Error("Falta configurar la clave pública.");
+      }
+
+      stage = "sesión";
+
+      const { data: sessionData, error: sessionError } =
+        await supabase.auth.getSession();
+
+      if (sessionError) {
+        console.warn("Error de sesión:", sessionError.message);
+        throw new Error("No se pudo consultar la sesión.");
+      }
+
+      if (!sessionData.session) {
+        throw new Error("No existe una sesión activa.");
+      }
+
+      const sessionUserId = sessionData.session.user.id;
+
+      stage = "permisos";
+
+      const { data: isAdmin, error: adminError } =
+        await supabase.rpc("is_eclipse_admin");
+
+      if (adminError) {
+        // El detalle queda en la consola, no se muestra públicamente.
+        console.warn("Error de comprobación de permisos:", {
+          code: adminError.code,
+          message: adminError.message
         });
+        throw new Error("La base de datos no pudo verificar los permisos.");
+      }
 
-        tbody.appendChild(tr);
+      if (isAdmin !== true) {
+        throw new Error("La cuenta no tiene permisos de administrador.");
+      }
+
+      stage = "validación final";
+
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
+
+      if (
+        userError ||
+        !userData.user ||
+        userData.user.id !== sessionUserId
+      ) {
+        throw new Error("La sesión no pudo validarse.");
+      }
+
+      authorizedUserId = userData.user.id;
+      pageActive = true;
+
+      $("#account-label").textContent =
+        "ID de cuenta: " + authorizedUserId;
+
+      $("#security-status").textContent =
+        "Sesión válida y permisos de administrador confirmados por Supabase.";
+
+      showOnly("dashboard");
+      await loadDashboardData();
+
+    } catch (error) {
+      console.warn("Comprobación fallida en " + stage + ":", error.message);
+
+      $("#denied-message").textContent =
+        "Falló la comprobación de: " + stage + ". " +
+        error.message;
+
+      $("#security-status").textContent =
+        "No se ha concedido acceso al panel.";
+
+      showOnly("denied");
+    } finally {
+      checking = false;
+    }
+  }
+
+  $("#retry-button").addEventListener("click", verifyAccess);
+
+  $("#login-button").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    window.location.replace("./admin.html");
+  });
+
+  $("#logout-button").addEventListener("click", async () => {
+    pageActive = false;
+    authorizedUserId = null;
+    await supabase.auth.signOut();
+    window.location.replace("./admin.html");
+  });
+
+  $("#refresh-button").addEventListener("click", verifyAccess);
+
+  document.querySelectorAll(".tab").forEach(button => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(tab => {
+        tab.classList.toggle("active", tab === button);
       });
 
-      table.appendChild(tbody);
-      wrap.appendChild(table);
-      container.appendChild(wrap);
-    }
-
-    async function loadTable(tableName, container) {
-      container.textContent = "Cargando " + tableName + "…";
-
-      try {
-        const { data, error } = await supabase
-          .from(tableName)
-          .select("*")
-          .limit(100);
-
-        if (error) {
-          container.textContent =
-            "No se pudieron leer estos datos. Comprueba las políticas RLS y los permisos de la tabla.";
-          container.classList.add("error");
-          console.warn("Lectura no disponible:", tableName, error.code);
-          return false;
-        }
-
-        container.classList.remove("error");
-        renderRows(container, data);
-        return true;
-      } catch {
-        container.textContent =
-          "No se pudieron cargar los datos. Inténtalo de nuevo.";
-        container.classList.add("error");
-        return false;
-      }
-    }
-
-    async function loadDashboardData() {
-      if (!authorizedUserId) return;
-
-      setGlobalMessage("Actualizando datos…");
-
-      const results = await Promise.all(
-        Object.entries(tableTargets).map(async ([section, tables]) => {
-          const container = $("#" + section + "-data");
-          container.replaceChildren();
-
-          for (const tableName of tables) {
-            const title = document.createElement("h3");
-            title.textContent = tableName;
-            container.appendChild(title);
-
-            const resultBox = document.createElement("div");
-            resultBox.className = "status";
-            container.appendChild(resultBox);
-
-            await loadTable(tableName, resultBox);
-          }
-          return true;
-        })
-      );
-
-      setGlobalMessage(
-        "Carga terminada. Si alguna tabla no aparece, revisa sus políticas RLS y permisos."
-      );
-    }
-
-    async function verifyAccess() {
-      if (checking) return;
-      checking = true;
-      pageActive = false;
-      authorizedUserId = null;
-      showOnly("checking");
-
-      try {
-        if (
-          !SUPABASE_PUBLIC_KEY ||
-          SUPABASE_PUBLIC_KEY === "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N"
-        ) {
-          throw new Error("Falta configurar la clave pública.");
-        }
-
-        const { data: sessionData, error: sessionError } =
-          await supabase.auth.getSession();
-
-        if (sessionError || !sessionData.session) {
-          throw new Error("No hay una sesión activa.");
-        }
-
-        const user = sessionData.session.user;
-
-        // La autorización se decide en la base de datos mediante
-        // una función que comprueba la identidad autenticada.
-        const { data: isAdmin, error: adminError } =
-          await supabase.rpc("is_eclipse_admin");
-
-        if (adminError || isAdmin !== true) {
-          throw new Error("La base de datos no confirmó permisos de administrador.");
-        }
-
-        // Verificar que la sesión sigue siendo válida.
-        const { data: verifiedData, error: verifiedError } =
-          await supabase.auth.getUser();
-
-        if (
-          verifiedError ||
-          !verifiedData.user ||
-          verifiedData.user.id !== user.id
-        ) {
-          throw new Error("No se pudo verificar la sesión.");
-        }
-
-        authorizedUserId = user.id;
-        pageActive = true;
-
-        $("#account-label").textContent =
-          "Cuenta verificada · ID: " + user.id;
-
-        $("#security-status").textContent =
-          "Sesión de Supabase válida y permisos de administrador confirmados por la base de datos.";
-
-        showOnly("dashboard");
-        await loadDashboardData();
-      } catch (error) {
-        console.warn("No se pudo verificar el acceso:", error.message);
-        $("#denied-message").textContent =
-          error.message === "Falta configurar la clave pública."
-            ? "Configura la clave pública de Supabase en este archivo."
-            : "No se pudo confirmar tu sesión y tus permisos de administrador. Vuelve a iniciar sesión o comprueba la función is_eclipse_admin y las políticas de acceso.";
-
-        showOnly("denied");
-      } finally {
-        checking = false;
-      }
-    }
-
-    $("#retry-button").addEventListener("click", verifyAccess);
-
-    $("#login-button").addEventListener("click", async () => {
-      await supabase.auth.signOut();
-      window.location.href = "./admin.html";
+      document.querySelectorAll(".tab-panel").forEach(panel => {
+        panel.classList.toggle(
+          "hidden",
+          panel.id !== "tab-" + button.dataset.tab
+        );
+      });
     });
+  });
 
-    $("#logout-button").addEventListener("click", async () => {
+  supabase.auth.onAuthStateChange(event => {
+    if (event === "SIGNED_OUT" && pageActive) {
       pageActive = false;
       authorizedUserId = null;
-      await supabase.auth.signOut();
       window.location.replace("./admin.html");
-    });
+    }
+  });
 
-    $("#refresh-button").addEventListener("click", async () => {
-      if (!pageActive) return verifyAccess();
-
-      // Revalidar los permisos antes de volver a mostrar datos.
-      await verifyAccess();
-    });
-
-    document.querySelectorAll(".tab").forEach((button) => {
-      button.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach((tab) => {
-          tab.classList.toggle("active", tab === button);
-        });
-
-        document.querySelectorAll(".tab-panel").forEach((panel) => {
-          panel.classList.toggle(
-            "hidden",
-            panel.id !== "tab-" + button.dataset.tab
-          );
-        });
-      });
-    });
-
-    supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_OUT" && pageActive) {
-        pageActive = false;
-        authorizedUserId = null;
-        window.location.replace("./admin.html");
-      }
-    });
-
-    await verifyAccess();
-  </script>
+  await verifyAccess();
+</script>
 </body>
 </html>
