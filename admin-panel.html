@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#100d1b">
   <title>Administración | ECLIPSE : Sanctuary</title>
+
   <style>
     :root {
       color-scheme: dark;
@@ -98,7 +98,6 @@
     }
 
     .error { color: var(--danger); }
-    .success { color: #c5f2d0; }
     .hidden { display: none !important; }
 
     .table-wrap { overflow-x: auto; }
@@ -210,9 +209,7 @@
 
     <section class="panel">
       <h2>Seguridad</h2>
-      <p id="security-status" class="muted">
-        Pendiente de comprobación.
-      </p>
+      <p id="security-status" class="muted">Pendiente de comprobación.</p>
     </section>
   </section>
 </main>
@@ -226,8 +223,6 @@
   const SUPABASE_URL =
     "https://oflletoswulovqfrxqpc.supabase.co";
 
-  // Sustituye este texto por tu clave PUBLICABLE.
-  // Nunca uses la service_role ni una clave secreta.
   const SUPABASE_PUBLIC_KEY =
     "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
 
@@ -327,8 +322,7 @@
 
       renderRows(container, data);
     } catch {
-      container.textContent =
-        "Error de conexión al cargar esta tabla.";
+      container.textContent = "Error de conexión al cargar esta tabla.";
       container.classList.add("error");
     }
   }
@@ -363,11 +357,9 @@
     let stage = "inicio";
 
     try {
-      if (
-        !SUPABASE_PUBLIC_KEY ||
-        SUPABASE_PUBLIC_KEY === "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N"
-      ) {
-        stage = "configuración de la clave pública";
+      stage = "configuración de la clave pública";
+
+      if (!SUPABASE_PUBLIC_KEY) {
         throw new Error("Falta configurar la clave pública.");
       }
 
@@ -393,8 +385,7 @@
         await supabase.rpc("is_eclipse_admin");
 
       if (adminError) {
-        // El detalle queda en la consola, no se muestra públicamente.
-        console.warn("Error de comprobación de permisos:", {
+        console.warn("Error de permisos:", {
           code: adminError.code,
           message: adminError.message
         });
