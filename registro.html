@@ -2,25 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crear cuenta | ECLIPSE : Sanctuary</title>
-
   <style>
-    :root {
-      --bg: #100b17;
-      --panel: #1d1425;
-      --input: #130d1b;
-      --lilac: #d4b5f0;
-      --text: #f6effb;
-      --muted: #cbbbd7;
-      --border: #624b72;
-      --error: #ffb8c2;
-      --success: #b8f0ce;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -29,8 +14,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: var(--bg);
-      color: var(--text);
+      background: #100b17;
+      color: #f6effb;
       font-family: Georgia, "Times New Roman", serif;
     }
 
@@ -38,9 +23,9 @@
       width: 100%;
       max-width: 620px;
       padding: 34px 30px;
-      border: 1px solid var(--border);
+      border: 1px solid #624b72;
       border-radius: 36px;
-      background: var(--panel);
+      background: #1d1425;
       box-shadow: 0 15px 45px #0004;
     }
 
@@ -52,7 +37,7 @@
 
     .intro {
       margin: 0 0 28px;
-      color: var(--muted);
+      color: #cbbbd7;
       text-align: center;
       font-size: 22px;
       line-height: 1.5;
@@ -69,22 +54,22 @@
       width: 100%;
       min-height: 76px;
       padding: 18px;
-      border: 1px solid var(--border);
+      border: 1px solid #624b72;
       border-radius: 17px;
       outline: none;
-      background: var(--input);
+      background: #130d1b;
       color: white;
       font: 20px Arial, sans-serif;
     }
 
     input:focus {
-      border-color: var(--lilac);
+      border-color: #d4b5f0;
       box-shadow: 0 0 0 2px #d4b5f033;
     }
 
     .hint {
       margin: 14px 0 24px;
-      color: var(--muted);
+      color: #cbbbd7;
       font-size: 18px;
       line-height: 1.5;
     }
@@ -95,7 +80,7 @@
       margin-top: 30px;
       border: 0;
       border-radius: 17px;
-      background: var(--lilac);
+      background: #d4b5f0;
       color: #1c1027;
       font-size: 22px;
       font-weight: bold;
@@ -103,25 +88,20 @@
     }
 
     button:disabled {
-      opacity: 0.65;
+      opacity: .65;
       cursor: wait;
     }
 
     #message {
-      min-height: 30px;
       margin: 22px 0;
-      font-size: 19px;
+      font-size: 17px;
       line-height: 1.5;
       overflow-wrap: anywhere;
+      white-space: pre-wrap;
     }
 
-    #message.error {
-      color: var(--error);
-    }
-
-    #message.success {
-      color: var(--success);
-    }
+    #message.error { color: #ffb8c2; }
+    #message.success { color: #b8f0ce; }
 
     .links {
       display: flex;
@@ -132,22 +112,12 @@
       font-size: 21px;
     }
 
-    a {
-      color: var(--lilac);
-    }
+    a { color: #d4b5f0; }
 
     @media (max-width: 420px) {
-      .panel {
-        padding: 28px 20px;
-      }
-
-      .intro {
-        font-size: 19px;
-      }
-
-      label {
-        font-size: 22px;
-      }
+      .panel { padding: 28px 20px; }
+      .intro { font-size: 19px; }
+      label { font-size: 22px; }
     }
   </style>
 </head>
@@ -174,6 +144,7 @@
         spellcheck="false"
         required
       >
+
       <p class="hint">
         Entre 3 y 24 caracteres. Puedes usar letras, números y _.
       </p>
@@ -188,6 +159,7 @@
         autocomplete="new-password"
         required
       >
+
       <p class="hint">Usa al menos 8 caracteres.</p>
 
       <label for="confirmPassword">Confirmar contraseña</label>
@@ -224,7 +196,7 @@
     const SUPABASE_PUBLIC_KEY =
       "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
 
-    // IMPORTANTE: el guion final coincide con el nombre de tu función.
+    // Nombre exacto de la función desplegada en Supabase.
     const REGISTER_FUNCTION = "username-register-";
 
     const supabase = createClient(
@@ -251,27 +223,39 @@
       message.className = type;
     }
 
-    async function explainError(error) {
+    async function getErrorDetails(error) {
+      let details = error?.message || String(error);
       const response = error?.context;
 
       if (response && typeof response.clone === "function") {
-        const status = response.status;
-        const body = await response.clone().json().catch(() => null);
+        details += ` | HTTP ${response.status}`;
 
-        if (body?.error) {
-          return body.error;
-        }
+        try {
+          const body = await response.clone().text();
 
-        if (status) {
-          return `Error HTTP ${status}. Revisa que la función esté desplegada y que sus permisos sean correctos.`;
-        }
+          if (body) {
+            details += ` | ${body.slice(0, 500)}`;
+          }
+        } catch (_) {}
       }
 
-      if (error?.message) {
-        return error.message;
+      return details;
+    }
+
+    async function callFunction(name, body) {
+      const { data, error } = await supabase.functions.invoke(name, {
+        body
+      });
+
+      if (error) {
+        throw new Error(await getErrorDetails(error));
       }
 
-      return "No se pudo contactar con el servidor de registro.";
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+
+      return data;
     }
 
     form.addEventListener("submit", async (event) => {
@@ -283,13 +267,15 @@
 
       if (!/^[A-Za-z0-9_]{3,24}$/.test(username)) {
         showMessage(
-          "El usuario debe tener entre 3 y 24 caracteres y usar solo letras, números o _."
+          "El usuario debe tener entre 3 y 24 caracteres y solo usar letras, números o _."
         );
         return;
       }
 
       if (password.length < 8 || password.length > 72) {
-        showMessage("La contraseña debe tener entre 8 y 72 caracteres.");
+        showMessage(
+          "La contraseña debe tener entre 8 y 72 caracteres."
+        );
         return;
       }
 
@@ -299,73 +285,60 @@
       }
 
       button.disabled = true;
-      button.textContent = "Creando cuenta…";
-      showMessage("Estamos preparando tu lugar en el santuario.", "success");
+      button.textContent = "Creando cuenta...";
+      showMessage("Conectando con el santuario...", "success");
 
       try {
-        const { data, error } = await supabase.functions.invoke(
-          REGISTER_FUNCTION,
-          {
-            body: { username, password }
-          }
-        );
+        // Crear la cuenta en el servidor.
+        const data = await callFunction(REGISTER_FUNCTION, {
+          username,
+          password
+        });
 
-        if (error) {
-          throw new Error(await explainError(error));
-        }
-
-        if (data?.error) {
-          throw new Error(data.error);
-        }
-
-        // Si la función devuelve sesión, la guardamos.
-        // Si no, iniciamos sesión mediante username-login.
+        // Si el servidor devuelve una sesión, guardarla.
         if (data?.access_token && data?.refresh_token) {
-          const { error: sessionError } = await supabase.auth.setSession({
+          const { error } = await supabase.auth.setSession({
             access_token: data.access_token,
             refresh_token: data.refresh_token
           });
 
-          if (sessionError) {
-            throw sessionError;
-          }
+          if (error) throw error;
         } else {
-          const { data: loginData, error: loginError } =
-            await supabase.functions.invoke("username-login", {
-              body: { username, password }
-            });
+          // Si no devuelve sesión, intentar iniciar sesión.
+          const loginData = await callFunction("username-login", {
+            username,
+            password
+          });
 
-          if (loginError) {
-            throw new Error(await explainError(loginError));
-          }
-
-          if (loginData?.error) {
-            throw new Error(loginData.error);
-          }
-
-          if (!loginData?.access_token || !loginData?.refresh_token) {
+          if (
+            !loginData?.access_token ||
+            !loginData?.refresh_token
+          ) {
             throw new Error(
-              "La cuenta se creó, pero no se recibió una sesión de inicio de sesión."
+              "La cuenta podría haberse creado, pero no se recibió una sesión. Comprueba el inicio de sesión antes de volver a registrarte."
             );
           }
 
-          const { error: sessionError } = await supabase.auth.setSession({
+          const { error } = await supabase.auth.setSession({
             access_token: loginData.access_token,
             refresh_token: loginData.refresh_token
           });
 
-          if (sessionError) {
-            throw sessionError;
-          }
+          if (error) throw error;
         }
 
-        showMessage("¡Cuenta creada! Entrando al santuario…", "success");
+        showMessage(
+          "¡Cuenta creada! Entrando al santuario...",
+          "success"
+        );
 
         window.location.replace("./index.html");
+
       } catch (error) {
         console.error("Error de registro:", error);
+
         showMessage(
-          error?.message || "No se pudo completar el registro."
+          "Error de registro:\n" + (error.message || String(error))
         );
       } finally {
         button.disabled = false;
