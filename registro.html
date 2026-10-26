@@ -1,144 +1,166 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#100c19">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crear cuenta | ECLIPSE : Sanctuary</title>
 
   <style>
     :root {
-      color-scheme: dark;
-      --background: #100c19;
-      --panel: #1c1528;
-      --border: #59416c;
-      --text: #f4eafa;
-      --muted: #c9bad8;
-      --accent: #b89ad8;
-      --accent-hover: #d1b6ed;
+      --bg: #100b17;
+      --panel: #1d1425;
+      --input: #130d1b;
+      --lilac: #d4b5f0;
+      --text: #f6effb;
+      --muted: #cbbbd7;
+      --border: #624b72;
+      --error: #ffb8c2;
+      --success: #b8f0ce;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background:
-        radial-gradient(ellipse at top, #352044 0%, transparent 55%),
-        var(--background);
+      padding: 28px 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--bg);
       color: var(--text);
       font-family: Georgia, "Times New Roman", serif;
     }
 
-    main {
+    .panel {
       width: 100%;
-      max-width: 440px;
-      padding: 32px;
+      max-width: 620px;
+      padding: 34px 30px;
       border: 1px solid var(--border);
-      border-radius: 20px;
-      background: rgba(28, 21, 40, 0.96);
-      box-shadow: 0 20px 70px #0007;
-    }
-
-    .moon {
-      text-align: center;
-      font-size: 38px;
-      margin-bottom: 8px;
+      border-radius: 36px;
+      background: var(--panel);
+      box-shadow: 0 15px 45px #0004;
     }
 
     h1 {
+      margin: 0 0 16px;
       text-align: center;
-      font-size: clamp(25px, 6vw, 34px);
-      margin: 0 0 12px;
-      letter-spacing: 1px;
+      font-size: clamp(28px, 6vw, 38px);
     }
 
-    .subtitle {
+    .intro {
+      margin: 0 0 28px;
       color: var(--muted);
       text-align: center;
-      line-height: 1.6;
-      margin-bottom: 26px;
+      font-size: 22px;
+      line-height: 1.5;
     }
 
     label {
       display: block;
-      margin: 18px 0 8px;
+      margin: 22px 0 12px;
+      font-size: 25px;
     }
 
     input {
       display: block;
       width: 100%;
-      padding: 13px 14px;
-      border-radius: 9px;
-      border: 1px solid #69517d;
-      background: #120e1b;
+      min-height: 76px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      outline: none;
+      background: var(--input);
       color: white;
-      font-size: 16px;
+      font: 20px Arial, sans-serif;
     }
 
     input:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+      border-color: var(--lilac);
+      box-shadow: 0 0 0 2px #d4b5f033;
     }
 
     .hint {
+      margin: 14px 0 24px;
       color: var(--muted);
-      font-size: 13px;
-      margin-top: 7px;
+      font-size: 18px;
       line-height: 1.5;
     }
 
     button {
       width: 100%;
-      margin-top: 24px;
-      padding: 14px;
+      min-height: 76px;
+      margin-top: 30px;
       border: 0;
-      border-radius: 9px;
-      cursor: pointer;
-      background: var(--accent);
-      color: #1a1024;
-      font-size: 16px;
+      border-radius: 17px;
+      background: var(--lilac);
+      color: #1c1027;
+      font-size: 22px;
       font-weight: bold;
+      cursor: pointer;
     }
 
-    button:hover { background: var(--accent-hover); }
-    button:disabled { opacity: 0.6; cursor: wait; }
+    button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
 
     #message {
+      min-height: 30px;
+      margin: 22px 0;
+      font-size: 19px;
+      line-height: 1.5;
       overflow-wrap: anywhere;
-      line-height: 1.6;
-      margin-top: 18px;
+    }
+
+    #message.error {
+      color: var(--error);
+    }
+
+    #message.success {
+      color: var(--success);
     }
 
     .links {
-      text-align: center;
-      margin-top: 24px;
-      color: var(--muted);
-      line-height: 1.8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 30px;
+      font-size: 21px;
     }
 
-    a { color: #d8bafa; }
+    a {
+      color: var(--lilac);
+    }
 
     @media (max-width: 420px) {
-      main { padding: 23px; }
+      .panel {
+        padding: 28px 20px;
+      }
+
+      .intro {
+        font-size: 19px;
+      }
+
+      label {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main>
-    <div class="moon" aria-hidden="true">☾</div>
-    <h1>ECLIPSE : Sanctuary</h1>
+  <main class="panel">
+    <h1>Únete al santuario</h1>
 
-    <p class="subtitle">
+    <p class="intro">
       Crea tu cuenta y encuentra tu lugar en el santuario.
     </p>
 
-    <form id="register-form">
+    <form id="registerForm">
       <label for="username">Nombre de usuario</label>
       <input
         id="username"
@@ -147,7 +169,6 @@
         minlength="3"
         maxlength="24"
         pattern="[A-Za-z0-9_]{3,24}"
-        title="Usa entre 3 y 24 letras, números o guiones bajos."
         autocomplete="username"
         autocapitalize="none"
         spellcheck="false"
@@ -169,10 +190,10 @@
       >
       <p class="hint">Usa al menos 8 caracteres.</p>
 
-      <label for="confirm-password">Confirmar contraseña</label>
+      <label for="confirmPassword">Confirmar contraseña</label>
       <input
-        id="confirm-password"
-        name="confirm-password"
+        id="confirmPassword"
+        name="confirmPassword"
         type="password"
         minlength="8"
         maxlength="72"
@@ -180,18 +201,17 @@
         required
       >
 
-      <button id="submit-button" type="submit">
+      <button id="submitButton" type="submit">
         Crear cuenta
       </button>
+
+      <p id="message" role="status" aria-live="polite"></p>
     </form>
 
-    <p id="message" role="status" aria-live="polite"></p>
-
-    <div class="links">
-      <a href="./admin.html">Ir a iniciar sesión</a>
-      <br>
+    <nav class="links">
+      <a href="./login.html">Ir a iniciar sesión</a>
       <a href="./index.html">Volver al inicio</a>
-    </div>
+    </nav>
   </main>
 
   <script type="module">
@@ -204,111 +224,149 @@
     const SUPABASE_PUBLIC_KEY =
       "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
 
+    // IMPORTANTE: el guion final coincide con el nombre de tu función.
+    const REGISTER_FUNCTION = "username-register-";
+
     const supabase = createClient(
       SUPABASE_URL,
-      SUPABASE_PUBLIC_KEY
+      SUPABASE_PUBLIC_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
     );
 
-    const form = document.querySelector("#register-form");
-    const usernameInput = document.querySelector("#username");
-    const passwordInput = document.querySelector("#password");
-    const confirmInput = document.querySelector("#confirm-password");
-    const message = document.querySelector("#message");
-    const button = document.querySelector("#submit-button");
+    const form = document.getElementById("registerForm");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const confirmInput = document.getElementById("confirmPassword");
+    const button = document.getElementById("submitButton");
+    const message = document.getElementById("message");
+
+    function showMessage(text, type = "error") {
+      message.textContent = text;
+      message.className = type;
+    }
+
+    async function explainError(error) {
+      const response = error?.context;
+
+      if (response && typeof response.clone === "function") {
+        const status = response.status;
+        const body = await response.clone().json().catch(() => null);
+
+        if (body?.error) {
+          return body.error;
+        }
+
+        if (status) {
+          return `Error HTTP ${status}. Revisa que la función esté desplegada y que sus permisos sean correctos.`;
+        }
+      }
+
+      if (error?.message) {
+        return error.message;
+      }
+
+      return "No se pudo contactar con el servidor de registro.";
+    }
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      message.textContent = "";
 
       const username = usernameInput.value.trim();
       const password = passwordInput.value;
-      const confirmation = confirmInput.value;
+      const confirmPassword = confirmInput.value;
 
-      if (!/^[a-zA-Z0-9_]{3,24}$/.test(username)) {
-        message.textContent =
-          "El nombre debe tener entre 3 y 24 letras, números o guiones bajos.";
+      if (!/^[A-Za-z0-9_]{3,24}$/.test(username)) {
+        showMessage(
+          "El usuario debe tener entre 3 y 24 caracteres y usar solo letras, números o _."
+        );
         return;
       }
 
       if (password.length < 8 || password.length > 72) {
-        message.textContent =
-          "La contraseña debe tener entre 8 y 72 caracteres.";
+        showMessage("La contraseña debe tener entre 8 y 72 caracteres.");
         return;
       }
 
-      if (password !== confirmation) {
-        message.textContent = "Las contraseñas no coinciden.";
-        confirmInput.focus();
+      if (password !== confirmPassword) {
+        showMessage("Las contraseñas no coinciden.");
         return;
       }
 
       button.disabled = true;
-      button.textContent = "Creando cuenta...";
+      button.textContent = "Creando cuenta…";
+      showMessage("Estamos preparando tu lugar en el santuario.", "success");
 
       try {
         const { data, error } = await supabase.functions.invoke(
-          "username-register",
+          REGISTER_FUNCTION,
           {
             body: { username, password }
           }
         );
 
         if (error) {
-          throw new Error(
-            data?.error || "No se pudo contactar con el servidor de registro."
-          );
+          throw new Error(await explainError(error));
         }
 
-        if (!data?.success) {
-          throw new Error(
-            data?.error || "No se pudo crear la cuenta."
-          );
+        if (data?.error) {
+          throw new Error(data.error);
         }
 
-        message.textContent =
-          "Cuenta creada. Iniciando sesión...";
-
-        const { data: login, error: loginError } =
-          await supabase.functions.invoke(
-            "username-login",
-            {
-              body: { username, password }
-            }
-          );
-
-        if (
-          loginError ||
-          !login?.access_token ||
-          !login?.refresh_token
-        ) {
-          message.textContent =
-            "Tu cuenta se creó correctamente. Ahora puedes iniciar sesión desde la página de acceso.";
-          return;
-        }
-
-        const { error: sessionError } =
-          await supabase.auth.setSession({
-            access_token: login.access_token,
-            refresh_token: login.refresh_token
+        // Si la función devuelve sesión, la guardamos.
+        // Si no, iniciamos sesión mediante username-login.
+        if (data?.access_token && data?.refresh_token) {
+          const { error: sessionError } = await supabase.auth.setSession({
+            access_token: data.access_token,
+            refresh_token: data.refresh_token
           });
 
-        if (sessionError) {
-          message.textContent =
-            "Tu cuenta se creó correctamente. Ve a iniciar sesión para entrar.";
-          return;
+          if (sessionError) {
+            throw sessionError;
+          }
+        } else {
+          const { data: loginData, error: loginError } =
+            await supabase.functions.invoke("username-login", {
+              body: { username, password }
+            });
+
+          if (loginError) {
+            throw new Error(await explainError(loginError));
+          }
+
+          if (loginData?.error) {
+            throw new Error(loginData.error);
+          }
+
+          if (!loginData?.access_token || !loginData?.refresh_token) {
+            throw new Error(
+              "La cuenta se creó, pero no se recibió una sesión de inicio de sesión."
+            );
+          }
+
+          const { error: sessionError } = await supabase.auth.setSession({
+            access_token: loginData.access_token,
+            refresh_token: loginData.refresh_token
+          });
+
+          if (sessionError) {
+            throw sessionError;
+          }
         }
 
-        message.textContent =
-          "¡Bienvenido al santuario!";
+        showMessage("¡Cuenta creada! Entrando al santuario…", "success");
 
-        // Cambia este destino si tu página pública para miembros
-        // tiene otro nombre. No redirigir usuarios normales al panel admin.
-        window.location.assign("./index.html");
-
+        window.location.replace("./index.html");
       } catch (error) {
-        message.textContent =
-          error?.message ||
-          "Ocurrió un error. Inténtalo de nuevo más tarde.";
+        console.error("Error de registro:", error);
+        showMessage(
+          error?.message || "No se pudo completar el registro."
+        );
       } finally {
         button.disabled = false;
         button.textContent = "Crear cuenta";
