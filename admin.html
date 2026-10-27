@@ -152,7 +152,7 @@
       "https://oflletoswulovqfrxqpc.supabase.co";
 
     const SUPABASE_PUBLIC_KEY =
-      "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zSoqf-N";
+      "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
 
     const supabase = createClient(
       SUPABASE_URL,
@@ -194,19 +194,24 @@
                   responseText.slice(0, 300);
               }
             } catch {
-              // Conserva el mensaje original.
+              // Conservar el mensaje original.
             }
           }
 
           throw new Error(detail);
         }
 
+        if (data?.error || data?.success === false) {
+          throw new Error(
+            data.message || data.error ||
+            "No se pudo iniciar sesión."
+          );
+        }
+
         if (!data?.access_token || !data?.refresh_token) {
           throw new Error(
-            data?.error ||
             data?.message ||
-            "La función no devolvió los tokens de sesión. " +
-            "Respuesta: " + JSON.stringify(data).slice(0, 300)
+            "El servidor no devolvió una sesión válida."
           );
         }
 
@@ -225,17 +230,16 @@
 
         message.textContent = "Acceso verificado.";
 
-        window.location.href = "./admin-panel.html";
+        window.location.replace("./admin-panel.html");
 
       } catch (error) {
         console.error("Error de acceso:", error);
 
-        const detail = error instanceof Error
-          ? error.message
-          : String(error);
-
         message.textContent =
-          "Error de diagnóstico: " + detail;
+          "No se pudo iniciar sesión: " +
+          (error instanceof Error
+            ? error.message
+            : String(error));
 
       } finally {
         button.disabled = false;
