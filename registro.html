@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crear cuenta | ECLIPSE : Sanctuary</title>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -196,7 +197,7 @@
     const SUPABASE_PUBLIC_KEY =
       "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
 
-    // Nombre exacto de la función desplegada en Supabase.
+    // Función exclusiva para registrar usuarios normales.
     const REGISTER_FUNCTION = "username-register-";
 
     const supabase = createClient(
@@ -232,7 +233,6 @@
 
         try {
           const body = await response.clone().text();
-
           if (body) {
             details += ` | ${body.slice(0, 500)}`;
           }
@@ -281,6 +281,7 @@
 
       if (password !== confirmPassword) {
         showMessage("Las contraseñas no coinciden.");
+        confirmInput.focus();
         return;
       }
 
@@ -289,56 +290,34 @@
       showMessage("Conectando con el santuario...", "success");
 
       try {
-        // Crear la cuenta en el servidor.
+        // Esta función crea la cuenta y el perfil.
+        // No se llama a username-login porque es solo para admins.
         const data = await callFunction(REGISTER_FUNCTION, {
           username,
           password
         });
 
-        // Si el servidor devuelve una sesión, guardarla.
-        if (data?.access_token && data?.refresh_token) {
-          const { error } = await supabase.auth.setSession({
-            access_token: data.access_token,
-            refresh_token: data.refresh_token
-          });
-
-          if (error) throw error;
-        } else {
-          // Si no devuelve sesión, intentar iniciar sesión.
-          const loginData = await callFunction("username-login", {
-            username,
-            password
-          });
-
-          if (
-            !loginData?.access_token ||
-            !loginData?.refresh_token
-          ) {
-            throw new Error(
-              "La cuenta podría haberse creado, pero no se recibió una sesión. Comprueba el inicio de sesión antes de volver a registrarte."
-            );
-          }
-
-          const { error } = await supabase.auth.setSession({
-            access_token: loginData.access_token,
-            refresh_token: loginData.refresh_token
-          });
-
-          if (error) throw error;
+        if (data?.success !== true) {
+          throw new Error(
+            data?.message ||
+            "El servidor no confirmó la creación de la cuenta."
+          );
         }
 
         showMessage(
-          "¡Cuenta creada! Entrando al santuario...",
+          "¡Cuenta creada! Ahora inicia sesión con tu usuario y contraseña.",
           "success"
         );
 
-        window.location.replace("./index.html");
+        // El usuario inicia sesión desde la página normal.
+        window.location.replace("./login.html");
 
       } catch (error) {
         console.error("Error de registro:", error);
 
         showMessage(
-          "Error de registro:\n" + (error.message || String(error))
+          "No se pudo completar el registro:\n" +
+          (error.message || String(error))
         );
       } finally {
         button.disabled = false;
