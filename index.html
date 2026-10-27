@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -6,67 +7,486 @@
 <meta name="theme-color" content="#090b12">
 <title>ECLIPSE : Sanctuary — Bound to You</title>
 <style>
-:root{--bg:#090b12;--panel:#111521;--panel2:#171b2a;--red:#8f2639;--blue:#263f83;--green:#1d644d;--text:#f4f1f5;--muted:#b4b5c5;--line:#35384a;--gold:#d8c18a}
-*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:Georgia,"Times New Roman",serif;background:radial-gradient(ellipse at 12% 8%,#50172455,transparent 35%),radial-gradient(ellipse at 90% 18%,#1b367155,transparent 34%),radial-gradient(ellipse at 70% 95%,#14503c44,transparent 32%),var(--bg);min-height:100vh}
-header{padding:22px 6vw;border-bottom:1px solid #ffffff18;background:#090b12b8;backdrop-filter:blur(10px);position:sticky;top:0;z-index:5}
-.nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-size:clamp(17px,2.5vw,25px);letter-spacing:2px}.brand span{display:block;color:var(--muted);font:11px Arial,sans-serif;letter-spacing:3px;margin-top:5px}.nav a{color:var(--text);text-decoration:none;font:13px Arial,sans-serif;border:1px solid var(--line);padding:10px 13px;border-radius:999px}
-main{max-width:1100px;margin:auto;padding:40px 20px 70px}.hero{text-align:center;padding:42px 15px 36px}.sigil{color:var(--gold);font-size:20px;letter-spacing:7px}.hero h1{font-size:clamp(30px,6vw,58px);font-weight:normal;letter-spacing:3px;margin:18px 0 10px}.hero p{font:14px/1.7 Arial,sans-serif;color:var(--muted);max-width:620px;margin:0 auto}.ornament{color:var(--gold);letter-spacing:8px;margin:24px 0}
-.notice{border:1px solid #d8c18a55;background:#d8c18a0b;border-radius:14px;padding:14px 16px;color:#e8d9b5;font:13px/1.6 Arial,sans-serif;margin:0 auto 26px;max-width:850px}
-.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}.panel{background:linear-gradient(135deg,#161a29f2,#0f121cf2);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 18px 50px #0003;position:relative;overflow:hidden}.panel:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,var(--red),var(--blue),var(--green))}.panel h2{font-size:21px;font-weight:normal;margin:2px 0 8px}.sub{color:var(--muted);font:13px/1.6 Arial,sans-serif;margin:0 0 18px}.field{display:block;margin:13px 0;color:#d9d9e4;font:12px Arial,sans-serif}.field input{display:block;width:100%;margin-top:7px;padding:12px 13px;border-radius:9px;background:#090c15;border:1px solid var(--line);color:white;font-size:14px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}.btn{border:1px solid #7f3142;background:linear-gradient(110deg,#6c1d30,#26376d);color:white;padding:11px 16px;border-radius:999px;cursor:pointer;font:13px Arial,sans-serif}.btn.secondary{background:#171b29;border-color:var(--line)}.btn:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}.small{font:12px/1.6 Arial,sans-serif;color:var(--muted)}.status{font:13px/1.6 Arial,sans-serif;color:#e6d7ad;min-height:20px;margin-top:12px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.stat{background:#ffffff06;border:1px solid #ffffff12;padding:13px 10px;border-radius:12px;text-align:center}.stat strong{display:block;font-size:23px;font-weight:normal}.stat span{display:block;font:11px Arial,sans-serif;color:var(--muted);margin-top:5px}
-.candidate{display:grid;grid-template-columns:66px 1fr auto;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid #ffffff12}.avatar{width:66px;height:66px;border-radius:12px;display:grid;place-items:center;font-size:25px;background:linear-gradient(135deg,#562033,#25396d,#1a4c3b);border:1px solid #ffffff22}.candidate h3{margin:0 0 5px;font-size:16px;font-weight:normal}.candidate p{margin:0;color:var(--muted);font:12px Arial,sans-serif}.vote-btn{padding:9px 12px}.bar{height:5px;background:#ffffff12;border-radius:99px;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--blue),var(--green));border-radius:99px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.pill{border:1px solid #ffffff22;border-radius:999px;padding:6px 10px;color:var(--muted);font:10px Arial,sans-serif;letter-spacing:1px}.full{margin-top:20px}.footer{text-align:center;color:#8e90a3;font:11px/1.8 Arial,sans-serif;margin-top:32px;letter-spacing:.5px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.nav{align-items:flex-start}.nav a{white-space:nowrap}.hero{padding-top:30px}.panel{padding:20px}.candidate{grid-template-columns:54px 1fr auto}.avatar{width:54px;height:54px}.stats{gap:6px}.stat{padding:12px 5px}}
+:root {
+  --bg:#090b12;
+  --panel:#111521;
+  --line:#35384a;
+  --text:#f4f1f5;
+  --muted:#b4b5c5;
+  --gold:#d8c18a;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Georgia,"Times New Roman",serif;
+  background:
+    radial-gradient(ellipse at 12% 8%,#50172455,transparent 35%),
+    radial-gradient(ellipse at 90% 18%,#1b367155,transparent 34%),
+    #090b12;
+}
+header {
+  padding:18px 5vw;
+  border-bottom:1px solid #ffffff18;
+  background:#090b12ee;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+.nav {
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.brand { font-size:clamp(16px,2.5vw,24px); letter-spacing:2px; }
+.brand span {
+  display:block;
+  margin-top:5px;
+  color:var(--muted);
+  font:11px Arial,sans-serif;
+  letter-spacing:3px;
+}
+a { color:var(--gold); }
+.nav a,.btn {
+  display:inline-block;
+  border:1px solid var(--line);
+  padding:10px 13px;
+  border-radius:999px;
+  color:var(--text);
+  text-decoration:none;
+  font:13px Arial,sans-serif;
+}
+main { max-width:1050px; margin:auto; padding:25px 16px 55px; }
+.hero { text-align:center; padding:28px 10px; }
+.sigil,.ornament { color:var(--gold); letter-spacing:6px; }
+.hero h1 { font-size:clamp(30px,6vw,55px); font-weight:normal; }
+.hero p,.sub,.small,.status {
+  font:13px/1.7 Arial,sans-serif;
+  color:var(--muted);
+}
+.hero p { max-width:650px; margin:auto; }
+.grid { display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:18px; }
+.panel {
+  min-width:0;
+  padding:21px;
+  margin-bottom:18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:linear-gradient(135deg,#161a29f2,#0f121cf2);
+  box-shadow:0 18px 50px #0003;
+}
+h2 { font-weight:normal; font-size:21px; }
+.section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.pill { border:1px solid #ffffff22; border-radius:999px; padding:6px 9px; font:10px Arial,sans-serif; color:var(--muted); }
+.field { display:block; margin:14px 0; font:12px Arial,sans-serif; }
+input {
+  display:block;
+  width:100%;
+  margin-top:7px;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#090c15;
+  color:white;
+}
+.actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:15px; }
+.btn { background:linear-gradient(110deg,#6c1d30,#26376d); cursor:pointer; }
+button:disabled { opacity:.5; cursor:wait; }
+.status { min-height:20px; overflow-wrap:anywhere; }
+.status.error { color:#ffb8c2; }
+.status.success { color:#b8f0ce; }
+.round-card { padding:14px 0; border-bottom:1px solid #ffffff18; }
+.round-card h3 { font-weight:normal; margin:0 0 5px; }
+.candidate {
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr) auto;
+  gap:12px;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #ffffff12;
+}
+.avatar {
+  width:52px;
+  height:52px;
+  border-radius:11px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#562033,#25396d,#1a4c3b);
+}
+.avatar img { width:100%; height:100%; object-fit:cover; }
+.candidate h4 { margin:0 0 5px; font-weight:normal; }
+.candidate p { margin:0; color:var(--muted); font:12px Arial,sans-serif; }
+.empty { color:var(--muted); font:13px/1.7 Arial,sans-serif; padding:15px 0; }
+.footer { text-align:center; color:#8e90a3; font:11px/1.8 Arial,sans-serif; margin-top:25px; }
+[hidden] { display:none !important; }
+@media(max-width:760px) {
+  .grid { grid-template-columns:1fr; }
+  .panel { padding:17px; }
+}
+@media(max-width:420px) {
+  .candidate { grid-template-columns:42px minmax(0,1fr); }
+  .avatar { width:42px; height:42px; }
+  .vote-btn { grid-column:2; justify-self:start; }
+}
 </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header><div class="nav"><div class="brand">✦ ECLIPSE : SANCTUARY <span>BOUND TO YOU · GLOBAL VOTING</span></div><a href="#access">ENTRAR / REGISTRARSE</a></div></header>
+<header>
+  <div class="nav">
+    <div class="brand">✦ ECLIPSE : SANCTUARY
+      <span>BOUND TO YOU · GLOBAL VOTING</span>
+    </div>
+    <div>
+      <a href="./registro.html">REGISTRARSE</a>
+      <a href="./admin.html">ADMIN</a>
+    </div>
+  </div>
+</header>
+
 <main>
-<section class="hero"><div class="sigil">✦ ─── ⌈ SANCTUARY ⌋ ─── ✦</div><h1>Bound to You</h1><p>Un santuario para celebrar a tus favoritos. Una comunidad, una votación compartida y resultados para participantes de todo el mundo.</p><div class="ornament">✧ ❖ ✧</div></section>
-<div class="notice"><strong>Versión de preparación:</strong> el formulario visual ya no pide correo electrónico. Esta plantilla incluye el punto de conexión inicial. Aún no crea cuentas ni guarda votos: faltan tablas, políticas RLS y autenticación segura. No introduzcas contraseñas reales.</div>
-<div class="grid">
-<section class="panel" id="voting"><div class="section-title"><h2>✦ Votación del santuario</h2><span class="pill" id="voteState">VISTA PREVIA</span></div><p class="sub">Los resultados de abajo son ejemplos visuales, no votos reales.</p>
-<div class="stats"><div class="stat"><strong id="totalVotes">128</strong><span>VOTOS DE EJEMPLO</span></div><div class="stat"><strong>5</strong><span>PUNTOS / VOTO*</span></div><div class="stat"><strong>—</strong><span>ESTADO REAL</span></div></div>
-<div class="candidate"><div class="avatar">✧</div><div><h3>Participante Uno</h3><p>Ejemplo · 52 votos</p><div class="bar"><i style="width:41%"></i></div></div><button class="btn vote-btn" data-demo="Uno">Votar</button></div>
-<div class="candidate"><div class="avatar">❖</div><div><h3>Participante Dos</h3><p>Ejemplo · 43 votos</p><div class="bar"><i style="width:34%"></i></div></div><button class="btn vote-btn" data-demo="Dos">Votar</button></div>
-<div class="candidate"><div class="avatar">✦</div><div><h3>Participante Tres</h3><p>Ejemplo · 33 votos</p><div class="bar"><i style="width:26%"></i></div></div><button class="btn vote-btn" data-demo="Tres">Votar</button></div>
-<p class="small">* El valor es ilustrativo. En la versión conectada se podrá configurar desde el panel de administración.</p><div class="status" id="voteMessage" aria-live="polite"></div></section>
-<aside class="panel" id="access"><h2>✦ Acceso al santuario</h2><p class="sub">Diseño de ejemplo para registro e inicio de sesión.</p>
-<form id="demoForm"><label class="field">Nombre de usuario<input id="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" required placeholder="Ejemplo: EclipseFan"></label><label class="field">Contraseña<input id="password" type="password" autocomplete="new-password" minlength="10" required placeholder="Usa 10 caracteres o más"></label><div class="actions"><button class="btn" type="submit">Vista previa de registro</button><button class="btn secondary" type="button" id="clearForm">Limpiar</button></div><div class="status" id="formMessage" aria-live="polite"></div></form>
-<hr style="border:0;border-top:1px solid #ffffff18;margin:22px 0"><h2>✧ Reglas previstas</h2><p class="small">• Una votación por cuenta<br>• Puntos por voto configurables<br>• Cada 5 puntos equivalen a 1 voto equivalente; los sobrantes se conservan<br>• Ajustes administrativos con historial<br>• Retirada de participantes sin borrar su historial<br>• Fotos personales con permisos adecuados</p></aside>
-</div>
-<section class="panel full"><div class="section-title"><h2>✦ Administración</h2><span class="pill">SOLO ADMINISTRADORES</span></div><p class="sub">El panel real deberá verificar los permisos en Supabase, no solo ocultar controles en la página.</p><p class="small">Cuando la conexión esté lista, aquí podrás gestionar permisos, abrir o cerrar votaciones, ajustar puntos con motivo registrado y consultar el historial.</p></section>
-<div class="footer">✦ ECLIPSE : SANCTUARY · BOUND TO YOU ✦<br>PLANTILLA DE CONEXIÓN · FUNCIONES REALES PENDIENTES</div>
+  <section class="hero">
+    <div class="sigil">✦ ─── ⌈ SANCTUARY ⌋ ─── ✦</div>
+    <h1>Bound to You</h1>
+    <p>Un santuario para celebrar a tus favoritos. Inicia sesión para participar en las rondas abiertas.</p>
+    <div class="ornament">✧ ❖ ✧</div>
+  </section>
+
+  <div class="panel">
+    <div id="topNotice" class="status">Conectando con el santuario…</div>
+  </div>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="section-title">
+        <h2>✦ Votaciones abiertas</h2>
+        <span class="pill" id="connectionState">CONECTANDO</span>
+      </div>
+      <p class="sub">Las rondas y participantes se cargan desde Supabase.</p>
+      <div id="rounds"><div class="empty">Cargando rondas…</div></div>
+      <div id="voteMessage" class="status" aria-live="polite"></div>
+    </section>
+
+    <aside class="panel">
+      <h2>✦ Acceso al santuario</h2>
+      <p class="sub">Entra con tu nombre de usuario y contraseña.</p>
+
+      <div id="sessionPanel" hidden>
+        <p id="signedInAs" class="small"></p>
+        <button class="btn" id="logoutButton" type="button">Cerrar sesión</button>
+      </div>
+
+      <form id="loginForm">
+        <label class="field">Nombre de usuario
+          <input id="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" required>
+        </label>
+        <label class="field">Contraseña
+          <input id="password" type="password" autocomplete="current-password" minlength="8" maxlength="72" required>
+        </label>
+        <div class="actions">
+          <button class="btn" id="loginButton" type="submit">Iniciar sesión</button>
+          <a class="btn" href="./registro.html">Crear cuenta</a>
+        </div>
+        <div id="loginMessage" class="status" aria-live="polite"></div>
+      </form>
+
+      <hr style="border:0;border-top:1px solid #ffffff18;margin:22px 0">
+      <h2>✧ Reglas</h2>
+      <p class="small">• Un voto por cuenta y ronda.<br>
+      • Los votos se validan en el servidor.<br>
+      • La ronda debe estar abierta.<br>
+      • El participante debe pertenecer a la ronda.</p>
+      <p class="small">El ranking se añadirá mediante una consulta segura del servidor.</p>
+    </aside>
+  </div>
+
+  <div class="footer">✦ ECLIPSE : SANCTUARY · BOUND TO YOU ✦</div>
 </main>
+
 <script>
+(() => {
+  "use strict";
 
-// ── Supabase: conexión inicial ──────────────────────────────────
-// Reemplaza ambos marcadores por Project URL y Publishable key.
-// Usa SOLO sb_publishable_... o la antigua anon. Nunca service_role/secret.
-const SUPABASE_URL = "https://oflletoswulovqfrxqpc.supabase.co/rest/v1/";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
-
-let supabaseClient = null;
-const supabaseConfigReady =
-  window.supabase &&
-  SUPABASE_URL.startsWith("https://") &&
-  !SUPABASE_URL.includes("https://oflletoswulovqfrxqpc.supabase.co/rest/v1/") &&
-  SUPABASE_PUBLISHABLE_KEY &&
-  !SUPABASE_PUBLISHABLE_KEY.includes("sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N");
-
-if (supabaseConfigReady) {
-  supabaseClient = window.supabase.createClient(
+  const SUPABASE_URL = "https://oflletoswulovqfrxqpc.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
+  const supabase = window.supabase?.createClient(
     SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
+    SUPABASE_PUBLISHABLE_KEY,
+    { auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } }
   );
-  console.info("Cliente Supabase inicializado.");
-} else {
-  console.info("Supabase pendiente: añade Project URL y Publishable key.");
-}
 
-document.querySelectorAll('[data-demo]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('voteMessage').textContent='Esta es solo una vista previa: no se ha guardado ningún voto. La votación real se habilitará al conectar Supabase.';}));
-document.getElementById('demoForm').addEventListener('submit',event=>{event.preventDefault();document.getElementById('formMessage').textContent='Esta es solo una vista previa. No se creó ninguna cuenta. El registro real sin correo requiere configurar el servidor de forma segura.';document.getElementById('password').value='';});
-document.getElementById('clearForm').addEventListener('click',()=>{document.getElementById('demoForm').reset();document.getElementById('formMessage').textContent='';});
+  const $ = id => document.getElementById(id);
+
+  function showMessage(id, text, type="") {
+    $(id).textContent = text;
+    $(id).className = "status" + (type ? " " + type : "");
+  }
+
+  function setConnection(state, notice, error=false) {
+    $("connectionState").textContent = state;
+    $("topNotice").textContent = notice;
+    $("topNotice").className = "status" + (error ? " error" : "");
+  }
+
+  async function getSession() {
+    const {data,error} = await supabase.auth.getSession();
+    if(error) throw error;
+    return data.session;
+  }
+
+  async function updateLoginPanel() {
+    const session = await getSession();
+    $("loginForm").hidden = !!session;
+    $("sessionPanel").hidden = !session;
+
+    if(session) {
+      const {data} = await supabase.from("profiles")
+        .select("username").eq("user_id",session.user.id).maybeSingle();
+      $("signedInAs").textContent =
+        "Sesión iniciada" + (data?.username ? " como " + data.username : "") + ".";
+    }
+    return session;
+  }
+
+  async function loadRounds() {
+    const container = $("rounds");
+    container.replaceChildren();
+    const loading = document.createElement("p");
+    loading.className = "empty";
+    loading.textContent = "Cargando rondas abiertas…";
+    container.append(loading);
+
+    const {data:rounds,error} = await supabase.from("rounds")
+      .select("id,title,status,created_at")
+      .eq("status","open").order("created_at",{ascending:false});
+
+    if(error) {
+      container.replaceChildren();
+      const p = document.createElement("p");
+      p.className = "empty";
+      p.textContent = "No se pudieron cargar las rondas. Revisa las políticas RLS de Supabase.";
+      container.append(p);
+      setConnection("ERROR","No se pudo leer la información de Supabase.",true);
+      console.error(error);
+      return;
+    }
+
+    if(!rounds?.length) {
+      container.replaceChildren();
+      const p = document.createElement("p");
+      p.className = "empty";
+      p.textContent = "No hay rondas abiertas ahora mismo.";
+      container.append(p);
+      setConnection("CONECTADO","Conexión establecida; no hay rondas abiertas.");
+      return;
+    }
+
+    const session = await getSession();
+    const {data:participants,error:pError} = await supabase.from("participants")
+      .select("id,name,photo_url,active").eq("active",true).order("name");
+
+    if(pError) {
+      container.textContent = "No se pudieron cargar los participantes. Revisa las políticas RLS.";
+      console.error(pError);
+      return;
+    }
+
+    const {data:assignments,error:aError} = await supabase.from("round_participants")
+      .select("round_id,participant_id")
+      .in("round_id",rounds.map(r=>r.id));
+
+    if(aError) {
+      container.textContent = "No se pudieron cargar las asignaciones de participantes.";
+      console.error(aError);
+      return;
+    }
+
+    const byId = new Map((participants||[]).map(p=>[String(p.id),p]));
+    const byRound = new Map();
+
+    (assignments||[]).forEach(a=>{
+      const key = String(a.round_id);
+      const participant = byId.get(String(a.participant_id));
+      if(!participant) return;
+      if(!byRound.has(key)) byRound.set(key,[]);
+      byRound.get(key).push(participant);
+    });
+
+    container.replaceChildren();
+
+    rounds.forEach(round=>{
+      const card = document.createElement("section");
+      card.className = "round-card";
+
+      const heading = document.createElement("h3");
+      heading.textContent = round.title || "ECLIPSE : Sanctuary";
+
+      const meta = document.createElement("p");
+      meta.className = "small";
+      meta.textContent = "Ronda #" + round.id + " · Abierta";
+      card.append(heading,meta);
+
+      const candidates = byRound.get(String(round.id)) || [];
+      if(!candidates.length) {
+        const p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "No hay participantes activos asignados a esta ronda.";
+        card.append(p);
+      }
+
+      candidates.forEach(participant=>{
+        const row = document.createElement("div");
+        row.className = "candidate";
+
+        const avatar = document.createElement("div");
+        avatar.className = "avatar";
+        if(participant.photo_url) {
+          const img = document.createElement("img");
+          img.src = participant.photo_url;
+          img.alt = "Foto de " + participant.name;
+          img.loading = "lazy";
+          img.onerror = () => { avatar.replaceChildren(); avatar.textContent = "✧"; };
+          avatar.append(img);
+        } else avatar.textContent = "✧";
+
+        const details = document.createElement("div");
+        const name = document.createElement("h4");
+        name.textContent = participant.name;
+        const desc = document.createElement("p");
+        desc.textContent = "Participante activo";
+        details.append(name,desc);
+
+        const button = document.createElement("button");
+        button.className = "btn vote-btn";
+        button.textContent = "Votar";
+        button.disabled = !session;
+        button.title = session ? "Emitir voto" : "Inicia sesión para votar";
+        button.addEventListener("click",()=>castVote(round.id,participant.id,button));
+
+        row.append(avatar,details,button);
+        card.append(row);
+      });
+      container.append(card);
+    });
+
+    setConnection("CONECTADO",
+      session ? "Conectado. Tu sesión está lista para votar." :
+      "Conectado. Inicia sesión para habilitar la votación.");
+  }
+
+  async function castVote(roundId,participantId,button) {
+    button.disabled = true;
+    showMessage("voteMessage","Enviando voto…");
+    try {
+      if(!(await getSession())) throw new Error("Inicia sesión antes de votar.");
+
+      const {data,error} = await supabase.rpc("cast_vote",{
+        p_round_id:roundId,
+        p_participant_id:participantId
+      });
+      if(error) throw error;
+
+      showMessage("voteMessage",
+        typeof data === "string" ? data : "El servidor aceptó tu voto. ¡Gracias!",
+        "success");
+      await loadRounds();
+    } catch(error) {
+      let detail = error?.message || "No se pudo registrar el voto.";
+      if(/Ya has votado/i.test(detail))
+        detail = "Ya votaste en esta ronda. Solo se permite un voto por cuenta.";
+      showMessage("voteMessage",detail,"error");
+      button.disabled = false;
+      console.error(error);
+    }
+  }
+
+  async function login(username,password) {
+    const {data,error} = await supabase.functions.invoke("username-login",{
+      body:{username,password}
+    });
+
+    if(error) {
+      let detail = error.message || "Error de inicio de sesión.";
+      if(error.context?.clone) {
+        try {
+          const body = await error.context.clone().text();
+          if(body) detail += " — " + body.slice(0,250);
+        } catch(_) {}
+      }
+      throw new Error(detail);
+    }
+    if(data?.error) throw new Error(data.error);
+    if(!data?.access_token || !data?.refresh_token)
+      throw new Error("La función username-login no devolvió una sesión válida.");
+
+    const {error:setError} = await supabase.auth.setSession({
+      access_token:data.access_token,
+      refresh_token:data.refresh_token
+    });
+    if(setError) throw setError;
+  }
+
+  $("loginForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+    const button=$("loginButton");
+    button.disabled=true;
+    button.textContent="Entrando…";
+    showMessage("loginMessage","Verificando acceso…");
+
+    try {
+      await login($("username").value.trim(),$("password").value);
+      $("password").value="";
+      showMessage("loginMessage","Sesión iniciada correctamente.","success");
+      await updateLoginPanel();
+      await loadRounds();
+    } catch(error) {
+      showMessage("loginMessage",error.message || "No se pudo iniciar sesión.","error");
+      console.error(error);
+    } finally {
+      button.disabled=false;
+      button.textContent="Iniciar sesión";
+    }
+  });
+
+  $("logoutButton").addEventListener("click",async()=>{
+    const {error}=await supabase.auth.signOut();
+    if(error) {
+      showMessage("loginMessage","Error al cerrar sesión: "+error.message,"error");
+      return;
+    }
+    showMessage("loginMessage","Sesión cerrada.","success");
+    await updateLoginPanel();
+    await loadRounds();
+  });
+
+  supabase?.auth.onAuthStateChange(()=>{
+    setTimeout(async()=>{
+      try {
+        await updateLoginPanel();
+        await loadRounds();
+      } catch(error) { console.error(error); }
+    },0);
+  });
+
+  (async()=>{
+    if(!supabase) {
+      setConnection("ERROR","No se pudo cargar la librería de Supabase.",true);
+      return;
+    }
+    try {
+      await updateLoginPanel();
+      await loadRounds();
+    } catch(error) {
+      console.error(error);
+      setConnection("ERROR","No se pudo iniciar la página. Revisa la configuración.",true);
+    }
+  })();
+})();
 </script>
 </body>
 </html>
