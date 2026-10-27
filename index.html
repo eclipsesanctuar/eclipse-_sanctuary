@@ -214,6 +214,7 @@ button:disabled { opacity:.5; cursor:wait; }
 
   const SUPABASE_URL = "https://oflletoswulovqfrxqpc.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
+
   const supabase = window.supabase?.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY,
@@ -256,6 +257,7 @@ button:disabled { opacity:.5; cursor:wait; }
   async function loadRounds() {
     const container = $("rounds");
     container.replaceChildren();
+
     const loading = document.createElement("p");
     loading.className = "empty";
     loading.textContent = "Cargando rondas abiertas…";
@@ -287,6 +289,7 @@ button:disabled { opacity:.5; cursor:wait; }
     }
 
     const session = await getSession();
+
     const {data:participants,error:pError} = await supabase.from("participants")
       .select("id,name,photo_url,active").eq("active",true).order("name");
 
@@ -332,6 +335,7 @@ button:disabled { opacity:.5; cursor:wait; }
       card.append(heading,meta);
 
       const candidates = byRound.get(String(round.id)) || [];
+
       if(!candidates.length) {
         const p = document.createElement("p");
         p.className = "empty";
@@ -345,18 +349,25 @@ button:disabled { opacity:.5; cursor:wait; }
 
         const avatar = document.createElement("div");
         avatar.className = "avatar";
+
         if(participant.photo_url) {
           const img = document.createElement("img");
           img.src = participant.photo_url;
           img.alt = "Foto de " + participant.name;
           img.loading = "lazy";
-          img.onerror = () => { avatar.replaceChildren(); avatar.textContent = "✧"; };
+          img.onerror = () => {
+            avatar.replaceChildren();
+            avatar.textContent = "✧";
+          };
           avatar.append(img);
-        } else avatar.textContent = "✧";
+        } else {
+          avatar.textContent = "✧";
+        }
 
         const details = document.createElement("div");
         const name = document.createElement("h4");
         name.textContent = participant.name;
+
         const desc = document.createElement("p");
         desc.textContent = "Participante activo";
         details.append(name,desc);
@@ -371,6 +382,7 @@ button:disabled { opacity:.5; cursor:wait; }
         row.append(avatar,details,button);
         card.append(row);
       });
+
       container.append(card);
     });
 
@@ -382,23 +394,31 @@ button:disabled { opacity:.5; cursor:wait; }
   async function castVote(roundId,participantId,button) {
     button.disabled = true;
     showMessage("voteMessage","Enviando voto…");
+
     try {
-      if(!(await getSession())) throw new Error("Inicia sesión antes de votar.");
+      if(!(await getSession())) {
+        throw new Error("Inicia sesión antes de votar.");
+      }
 
       const {data,error} = await supabase.rpc("cast_vote",{
         p_round_id:roundId,
         p_participant_id:participantId
       });
+
       if(error) throw error;
 
       showMessage("voteMessage",
         typeof data === "string" ? data : "El servidor aceptó tu voto. ¡Gracias!",
         "success");
+
       await loadRounds();
     } catch(error) {
       let detail = error?.message || "No se pudo registrar el voto.";
-      if(/Ya has votado/i.test(detail))
+
+      if(/Ya has votado/i.test(detail)) {
         detail = "Ya votaste en esta ronda. Solo se permite un voto por cuenta.";
+      }
+
       showMessage("voteMessage",detail,"error");
       button.disabled = false;
       console.error(error);
@@ -406,33 +426,40 @@ button:disabled { opacity:.5; cursor:wait; }
   }
 
   async function login(username,password) {
-    const {data,error} = await supabase.functions.invoke("username-login",{
+    const {data,error} = await supabase.functions.invoke("username-login-public",{
       body:{username,password}
     });
 
     if(error) {
       let detail = error.message || "Error de inicio de sesión.";
+
       if(error.context?.clone) {
         try {
           const body = await error.context.clone().text();
           if(body) detail += " — " + body.slice(0,250);
         } catch(_) {}
       }
+
       throw new Error(detail);
     }
+
     if(data?.error) throw new Error(data.error);
-    if(!data?.access_token || !data?.refresh_token)
-      throw new Error("La función username-login no devolvió una sesión válida.");
+
+    if(!data?.access_token || !data?.refresh_token) {
+      throw new Error("La función username-login-public no devolvió una sesión válida.");
+    }
 
     const {error:setError} = await supabase.auth.setSession({
       access_token:data.access_token,
       refresh_token:data.refresh_token
     });
+
     if(setError) throw setError;
   }
 
   $("loginForm").addEventListener("submit",async event=>{
     event.preventDefault();
+
     const button=$("loginButton");
     button.disabled=true;
     button.textContent="Entrando…";
@@ -455,29 +482,36 @@ button:disabled { opacity:.5; cursor:wait; }
 
   $("logoutButton").addEventListener("click",async()=>{
     const {error}=await supabase.auth.signOut();
+
     if(error) {
       showMessage("loginMessage","Error al cerrar sesión: "+error.message,"error");
       return;
     }
+
     showMessage("loginMessage","Sesión cerrada.","success");
     await updateLoginPanel();
     await loadRounds();
   });
 
-  supabase?.auth.onAuthStateChange(()=>{
-    setTimeout(async()=>{
-      try {
-        await updateLoginPanel();
-        await loadRounds();
-      } catch(error) { console.error(error); }
-    },0);
-  });
+  if(supabase) {
+    supabase.auth.onAuthStateChange(()=>{
+      setTimeout(async()=>{
+        try {
+          await updateLoginPanel();
+          await loadRounds();
+        } catch(error) {
+          console.error(error);
+        }
+      },0);
+    });
+  }
 
   (async()=>{
     if(!supabase) {
       setConnection("ERROR","No se pudo cargar la librería de Supabase.",true);
       return;
     }
+
     try {
       await updateLoginPanel();
       await loadRounds();
