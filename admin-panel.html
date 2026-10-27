@@ -1196,6 +1196,7 @@ async function loadAll() {
     loadRounds(),
     loadPeople(),
     read("profiles", "profiles-data"),
+    loadAccountProfiles(),
     read("votes", "votes-data"),
     read("point_ledger", "ledger-data"),
     loadSettings()
@@ -1203,8 +1204,7 @@ async function loadAll() {
 
   await loadAssignments();
   msg("notice", "Carga terminada.");
-}
-
+  }
 async function verify() {
   if (!active) section("checking");
 
