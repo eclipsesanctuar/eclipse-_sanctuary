@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090b12">
 <title>ECLIPSE : Sanctuary — Bound to You</title>
+
 <style>
 :root {
   --bg:#090b12;
@@ -80,10 +81,22 @@ main { max-width:1050px; margin:auto; padding:25px 16px 55px; }
   box-shadow:0 18px 50px #0003;
 }
 h2 { font-weight:normal; font-size:21px; }
-.section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
-.pill { border:1px solid #ffffff22; border-radius:999px; padding:6px 9px; font:10px Arial,sans-serif; color:var(--muted); }
+.section-title {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.pill {
+  border:1px solid #ffffff22;
+  border-radius:999px;
+  padding:6px 9px;
+  font:10px Arial,sans-serif;
+  color:var(--muted);
+}
 .field { display:block; margin:14px 0; font:12px Arial,sans-serif; }
-input {
+input,select {
   display:block;
   width:100%;
   margin-top:7px;
@@ -122,8 +135,37 @@ button:disabled { opacity:.5; cursor:wait; }
 .candidate h4 { margin:0 0 5px; font-weight:normal; }
 .candidate p { margin:0; color:var(--muted); font:12px Arial,sans-serif; }
 .empty { color:var(--muted); font:13px/1.7 Arial,sans-serif; padding:15px 0; }
-.footer { text-align:center; color:#8e90a3; font:11px/1.8 Arial,sans-serif; margin-top:25px; }
+.footer {
+  text-align:center;
+  color:#8e90a3;
+  font:11px/1.8 Arial,sans-serif;
+  margin-top:25px;
+}
+.ranking-box {
+  margin-top:18px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#090b1280;
+}
+.ranking-box h4 {
+  margin:0 0 12px;
+  color:var(--gold);
+  font-weight:normal;
+}
+.ranking-line {
+  display:grid;
+  grid-template-columns:35px minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid #ffffff18;
+  font:13px Arial,sans-serif;
+}
+.ranking-line:last-child { border-bottom:0; }
+.ranking-line strong { color:var(--gold); font-weight:normal; }
 [hidden] { display:none !important; }
+
 @media(max-width:760px) {
   .grid { grid-template-columns:1fr; }
   .panel { padding:17px; }
@@ -132,10 +174,13 @@ button:disabled { opacity:.5; cursor:wait; }
   .candidate { grid-template-columns:42px minmax(0,1fr); }
   .avatar { width:42px; height:42px; }
   .vote-btn { grid-column:2; justify-self:start; }
+  .ranking-line { grid-template-columns:28px minmax(0,1fr) auto; gap:6px; }
 }
 </style>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
 <header>
   <div class="nav">
@@ -167,7 +212,7 @@ button:disabled { opacity:.5; cursor:wait; }
         <h2>✦ Votaciones abiertas</h2>
         <span class="pill" id="connectionState">CONECTANDO</span>
       </div>
-      <p class="sub">Las rondas y participantes se cargan desde Supabase.</p>
+      <p class="sub">Las rondas, participantes y resultados se cargan desde Supabase.</p>
       <div id="rounds"><div class="empty">Cargando rondas…</div></div>
       <div id="voteMessage" class="status" aria-live="polite"></div>
     </section>
@@ -178,6 +223,7 @@ button:disabled { opacity:.5; cursor:wait; }
 
       <div id="sessionPanel" hidden>
         <p id="signedInAs" class="small"></p>
+        <p id="myBalance" class="small"></p>
         <button class="btn" id="logoutButton" type="button">Cerrar sesión</button>
       </div>
 
@@ -196,12 +242,16 @@ button:disabled { opacity:.5; cursor:wait; }
       </form>
 
       <hr style="border:0;border-top:1px solid #ffffff18;margin:22px 0">
+
       <h2>✧ Reglas</h2>
-      <p class="small">• Un voto por cuenta y ronda.<br>
-      • Los votos se validan en el servidor.<br>
-      • La ronda debe estar abierta.<br>
-      • El participante debe pertenecer a la ronda.</p>
-      <p class="small">El ranking se añadirá mediante una consulta segura del servidor.</p>
+      <p class="small">
+        • Cada 5 puntos permiten emitir 1 voto.<br>
+        • Puedes usar varios votos en una misma ronda.<br>
+        • Los puntos se descuentan al votar.<br>
+        • Solo puedes votar en rondas abiertas.<br>
+        • No puedes votar en una ronda donde eres candidato.
+      </p>
+      <p class="small">El ranking muestra los votos acumulados de cada participante.</p>
     </aside>
   </div>
 
@@ -214,11 +264,16 @@ button:disabled { opacity:.5; cursor:wait; }
 
   const SUPABASE_URL = "https://oflletoswulovqfrxqpc.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
+  const POINTS_PER_VOTE = 5;
 
   const supabase = window.supabase?.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY,
-    { auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } }
+    { auth: {
+      persistSession:true,
+      autoRefreshToken:true,
+      detectSessionInUrl:true
+    }}
   );
 
   const $ = id => document.getElementById(id);
@@ -240,17 +295,45 @@ button:disabled { opacity:.5; cursor:wait; }
     return data.session;
   }
 
+  async function refreshBalance() {
+    const session = await getSession();
+
+    if(!session) {
+      $("myBalance").textContent = "";
+      return null;
+    }
+
+    const {data,error} = await supabase.rpc("get_my_point_balance");
+
+    if(error) {
+      $("myBalance").textContent = "No se pudo consultar tu saldo.";
+      console.error(error);
+      return null;
+    }
+
+    const balance = Number(data);
+    $("myBalance").textContent = `Tus puntos disponibles: ${balance}`;
+    return balance;
+  }
+
   async function updateLoginPanel() {
     const session = await getSession();
+
     $("loginForm").hidden = !!session;
     $("sessionPanel").hidden = !session;
 
     if(session) {
       const {data} = await supabase.from("profiles")
-        .select("username").eq("user_id",session.user.id).maybeSingle();
+        .select("username")
+        .eq("user_id",session.user.id)
+        .maybeSingle();
+
       $("signedInAs").textContent =
         "Sesión iniciada" + (data?.username ? " como " + data.username : "") + ".";
+
+      await refreshBalance();
     }
+
     return session;
   }
 
@@ -265,7 +348,8 @@ button:disabled { opacity:.5; cursor:wait; }
 
     const {data:rounds,error} = await supabase.from("rounds")
       .select("id,title,status,created_at")
-      .eq("status","open").order("created_at",{ascending:false});
+      .eq("status","open")
+      .order("created_at",{ascending:false});
 
     if(error) {
       container.replaceChildren();
@@ -291,7 +375,9 @@ button:disabled { opacity:.5; cursor:wait; }
     const session = await getSession();
 
     const {data:participants,error:pError} = await supabase.from("participants")
-      .select("id,name,photo_url,active").eq("active",true).order("name");
+      .select("id,name,photo_url,active")
+      .eq("active",true)
+      .order("name");
 
     if(pError) {
       container.textContent = "No se pudieron cargar los participantes. Revisa las políticas RLS.";
@@ -315,6 +401,7 @@ button:disabled { opacity:.5; cursor:wait; }
     (assignments||[]).forEach(a=>{
       const key = String(a.round_id);
       const participant = byId.get(String(a.participant_id));
+
       if(!participant) return;
       if(!byRound.has(key)) byRound.set(key,[]);
       byRound.get(key).push(participant);
@@ -322,7 +409,7 @@ button:disabled { opacity:.5; cursor:wait; }
 
     container.replaceChildren();
 
-    rounds.forEach(round=>{
+    for(const round of rounds) {
       const card = document.createElement("section");
       card.className = "round-card";
 
@@ -376,52 +463,160 @@ button:disabled { opacity:.5; cursor:wait; }
         button.className = "btn vote-btn";
         button.textContent = "Votar";
         button.disabled = !session;
-        button.title = session ? "Emitir voto" : "Inicia sesión para votar";
-        button.addEventListener("click",()=>castVote(round.id,participant.id,button));
+        button.title = session ? "Elegir cuántos votos usar" : "Inicia sesión para votar";
+        button.addEventListener("click",()=>{
+          castVote(round.id,participant.id,button);
+        });
 
         row.append(avatar,details,button);
         card.append(row);
       });
 
-      container.append(card);
-    });
+      // Ranking de esta ronda
+      const rankingBox = document.createElement("div");
+      rankingBox.className = "ranking-box";
 
-    setConnection("CONECTADO",
-      session ? "Conectado. Tu sesión está lista para votar." :
-      "Conectado. Inicia sesión para habilitar la votación.");
+      const rankingTitle = document.createElement("h4");
+      rankingTitle.textContent = "✦ Ranking de la ronda";
+      rankingBox.append(rankingTitle);
+
+      const loadingRanking = document.createElement("p");
+      loadingRanking.className = "small";
+      loadingRanking.textContent = "Cargando resultados…";
+      rankingBox.append(loadingRanking);
+      card.append(rankingBox);
+
+      const {data:ranking,error:rankingError} =
+        await supabase.rpc("get_round_ranking",{
+          p_round_id:round.id
+        });
+
+      rankingBox.replaceChildren(rankingTitle);
+
+      if(rankingError) {
+        const errorText = document.createElement("p");
+        errorText.className = "small";
+        errorText.textContent = "No se pudo cargar el ranking.";
+        rankingBox.append(errorText);
+        console.error("Error del ranking:",rankingError);
+      } else if(!ranking?.length) {
+        const emptyText = document.createElement("p");
+        emptyText.className = "small";
+        emptyText.textContent = "Todavía no hay participantes en el ranking.";
+        rankingBox.append(emptyText);
+      } else {
+        ranking.forEach((item,index)=>{
+          const line = document.createElement("div");
+          line.className = "ranking-line";
+
+          const position = document.createElement("span");
+          position.textContent = "#" + (index + 1);
+
+          const candidateName = document.createElement("span");
+          candidateName.textContent = item.participant_name;
+
+          const total = document.createElement("strong");
+          const count = Number(item.vote_count);
+          total.textContent = `${count} ${count === 1 ? "voto" : "votos"}`;
+
+          line.append(position,candidateName,total);
+          rankingBox.append(line);
+        });
+      }
+
+      container.append(card);
+    }
+
+    setConnection(
+      "CONECTADO",
+      session
+        ? "Conectado. Tu sesión está lista para votar."
+        : "Conectado. Inicia sesión para habilitar la votación."
+    );
   }
 
   async function castVote(roundId,participantId,button) {
-    button.disabled = true;
-    showMessage("voteMessage","Enviando voto…");
+    let balance;
 
     try {
       if(!(await getSession())) {
         throw new Error("Inicia sesión antes de votar.");
       }
 
-      const {data,error} = await supabase.rpc("cast_vote",{
+      const {data,error} = await supabase.rpc("get_my_point_balance");
+      if(error) throw error;
+
+      balance = Number(data);
+
+      if(!Number.isFinite(balance) || balance < POINTS_PER_VOTE) {
+        showMessage(
+          "voteMessage",
+          "No tienes suficientes puntos. Necesitas al menos 5 puntos para votar.",
+          "error"
+        );
+        return;
+      }
+    } catch(error) {
+      showMessage(
+        "voteMessage",
+        error.message || "No se pudo consultar tu saldo.",
+        "error"
+      );
+      console.error(error);
+      return;
+    }
+
+    const maxVotes = Math.floor(balance / POINTS_PER_VOTE);
+
+    const answer = prompt(
+      `Tienes ${balance} puntos.\n\n` +
+      `Cada voto cuesta ${POINTS_PER_VOTE} puntos.\n` +
+      `¿Cuántos votos quieres gastar en este candidato?\n\n` +
+      `Puedes elegir entre 1 y ${maxVotes}.`,
+      "1"
+    );
+
+    if(answer === null) return;
+
+    const count = Number(answer);
+
+    if(!Number.isInteger(count) || count < 1 || count > maxVotes) {
+      showMessage("voteMessage","Introduce una cantidad válida de votos.","error");
+      return;
+    }
+
+    button.disabled = true;
+    showMessage("voteMessage","Registrando tus votos…");
+
+    try {
+      const {data,error} = await supabase.rpc("cast_votes",{
         p_round_id:roundId,
-        p_participant_id:participantId
+        p_participant_id:participantId,
+        p_vote_count:count
       });
 
       if(error) throw error;
 
-      showMessage("voteMessage",
-        typeof data === "string" ? data : "El servidor aceptó tu voto. ¡Gracias!",
-        "success");
+      const result = typeof data === "string" ? JSON.parse(data) : data;
 
+      showMessage(
+        "voteMessage",
+        `¡Voto registrado! Usaste ${result.votes_cast} voto(s), ` +
+        `gastaste ${result.points_spent} puntos y te quedan ${result.remaining_points}.`,
+        "success"
+      );
+
+      await updateLoginPanel();
       await loadRounds();
     } catch(error) {
-      let detail = error?.message || "No se pudo registrar el voto.";
-
-      if(/Ya has votado/i.test(detail)) {
-        detail = "Ya votaste en esta ronda. Solo se permite un voto por cuenta.";
-      }
-
-      showMessage("voteMessage",detail,"error");
-      button.disabled = false;
+      showMessage(
+        "voteMessage",
+        error.message || "No se pudieron registrar los votos.",
+        "error"
+      );
       console.error(error);
+    } finally {
+      button.disabled = false;
     }
   }
 
@@ -460,31 +655,36 @@ button:disabled { opacity:.5; cursor:wait; }
   $("loginForm").addEventListener("submit",async event=>{
     event.preventDefault();
 
-    const button=$("loginButton");
-    button.disabled=true;
-    button.textContent="Entrando…";
+    const button = $("loginButton");
+    button.disabled = true;
+    button.textContent = "Entrando…";
     showMessage("loginMessage","Verificando acceso…");
 
     try {
       await login($("username").value.trim(),$("password").value);
-      $("password").value="";
+      $("password").value = "";
+
       showMessage("loginMessage","Sesión iniciada correctamente.","success");
       await updateLoginPanel();
       await loadRounds();
     } catch(error) {
-      showMessage("loginMessage",error.message || "No se pudo iniciar sesión.","error");
+      showMessage(
+        "loginMessage",
+        error.message || "No se pudo iniciar sesión.",
+        "error"
+      );
       console.error(error);
     } finally {
-      button.disabled=false;
-      button.textContent="Iniciar sesión";
+      button.disabled = false;
+      button.textContent = "Iniciar sesión";
     }
   });
 
   $("logoutButton").addEventListener("click",async()=>{
-    const {error}=await supabase.auth.signOut();
+    const {error} = await supabase.auth.signOut();
 
     if(error) {
-      showMessage("loginMessage","Error al cerrar sesión: "+error.message,"error");
+      showMessage("loginMessage","Error al cerrar sesión: " + error.message,"error");
       return;
     }
 
