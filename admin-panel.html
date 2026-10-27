@@ -1,197 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#100d1b">
-  <title>Administración | ECLIPSE : Sanctuary</title>
-
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #100d1b;
-      --panel: #1b1628;
-      --panel2: #241c34;
-      --border: #51416d;
-      --text: #f4efff;
-      --muted: #bcb0d3;
-      --accent: #b59add;
-      --danger: #ffb4b4;
-      --success: #b9edc9;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Georgia, serif;
-    }
-
-    header {
-      padding: 24px;
-      border-bottom: 1px solid var(--border);
-      background: var(--panel);
-    }
-
-    .header-inner, main {
-      width: min(1100px, 100%);
-      margin: auto;
-    }
-
-    main { padding: 24px; }
-
-    h1 { font-size: clamp(24px, 5vw, 34px); }
-    h2 { font-size: 21px; }
-    h3 { font-size: 17px; }
-    p { line-height: 1.55; }
-
-    .muted { color: var(--muted); }
-
-    .eyebrow {
-      color: var(--muted);
-      letter-spacing: 2px;
-      font: 11px Arial, sans-serif;
-      text-transform: uppercase;
-    }
-
-    .panel {
-      padding: 20px;
-      margin: 16px 0;
-      min-width: 0;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--panel);
-    }
-
-    .toolbar, nav, .actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-      margin: 16px 0;
-    }
-
-    .toolbar { justify-content: space-between; }
-
-    button {
-      padding: 11px 14px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: var(--panel2);
-      color: var(--text);
-      font: 14px Arial, sans-serif;
-      cursor: pointer;
-    }
-
-    button:hover, button.active {
-      background: var(--accent);
-      color: #180f27;
-    }
-
-    button:disabled {
-      opacity: .55;
-      cursor: wait;
-    }
-
-    button:focus-visible, input:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-    }
-
-    input, select {
-      display: block;
-      width: 100%;
-      margin: 8px 0 16px;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: var(--bg);
-      color: var(--text);
-      font: 15px Arial, sans-serif;
-    }
-
-    label {
-      display: block;
-      font: 14px Arial, sans-serif;
-    }
-
-    .status {
-      padding: 12px;
-      border-radius: 8px;
-      background: var(--panel2);
-      overflow-wrap: anywhere;
-      font: 14px/1.5 Arial, sans-serif;
-    }
-
-    .error { color: var(--danger); }
-    .success { color: var(--success); }
-    .hidden { display: none !important; }
-
-    .table-wrap { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font: 13px/1.5 Arial, sans-serif;
-    }
-
-    th, td {
-      padding: 10px;
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-      vertical-align: top;
-      overflow-wrap: anywhere;
-    }
-
-    th { color: var(--muted); }
-
-    .round-card {
-      padding: 16px;
-      margin: 12px 0;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--panel2);
-    }
-
-    .round-card h3 {
-      margin-top: 0;
-      overflow-wrap: anywhere;
-    }
-
-    .round-meta {
-      color: var(--muted);
-      font: 13px/1.6 Arial, sans-serif;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 9px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font: 12px Arial, sans-serif;
-    }
-
-    footer {
-      padding: 30px 20px;
-      text-align: center;
-      color: var(--muted);
-      font: 12px Arial, sans-serif;
-    }
-
-    @media (max-width: 600px) {
-      main { padding: 16px; }
-      header { padding: 20px 16px; }
-      .panel { padding: 14px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#100d1b">
+<title>Administración | ECLIPSE : Sanctuary</title>
+<style>
+:root{color-scheme:dark;--bg:#100d1b;--p:#1b1628;--p2:#241c34;--b:#51416d;--t:#f4efff;--m:#bcb0d3;--a:#b59add;--bad:#ffb4b4;--good:#b9edc9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font-family:Georgia,serif}
+header{padding:22px;background:var(--p);border-bottom:1px solid var(--b)}
+header>div,main{max-width:1120px;margin:auto}
+main{padding:22px}
+h1{font-size:clamp(24px,5vw,34px)}
+.muted,.eyebrow{color:var(--m)}
+.eyebrow{font:11px Arial;letter-spacing:2px;text-transform:uppercase}
+.panel,.card{background:var(--p);border:1px solid var(--b);border-radius:13px;padding:17px;margin:14px 0}
+.toolbar,nav,.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.toolbar{justify-content:space-between}
+button{background:var(--p2);color:var(--t);border:1px solid var(--b);border-radius:8px;padding:10px 13px;cursor:pointer}
+button:hover,button.active{background:var(--a);color:#180f27}
+button:disabled{opacity:.5}
+input,select{width:100%;padding:11px;margin:7px 0 14px;border:1px solid var(--b);border-radius:8px;background:var(--bg);color:var(--t)}
+label{font:14px Arial;display:block}
+.status{background:var(--p2);padding:12px;border-radius:8px;overflow-wrap:anywhere;font:14px/1.5 Arial}
+.error{color:var(--bad)}
+.success{color:var(--good)}
+.hidden{display:none!important}
+.table-wrap{overflow:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.5 Arial}
+td,th{text-align:left;padding:9px;border-bottom:1px solid var(--b);overflow-wrap:anywhere}
+th{color:var(--m)}
+.card{background:var(--p2)}
+.meta{font:13px Arial;color:var(--m)}
+.badge{border:1px solid var(--b);border-radius:20px;padding:4px 8px;font:12px Arial}
+.formbox{border:1px solid var(--b);border-radius:10px;padding:14px;margin:12px 0}
+.small{font-size:12px}
+footer{text-align:center;color:var(--m);padding:25px;font:12px Arial}
+@media(max-width:650px){main{padding:12px}.panel{padding:13px}}
+</style>
 </head>
-
 <body>
+
 <header>
-  <div class="header-inner">
+  <div>
     <div class="eyebrow">Bound to You · Sanctuary</div>
     <h1>☾ ECLIPSE : Sanctuary</h1>
     <p class="muted">Panel privado de administración</p>
@@ -199,643 +51,706 @@
 </header>
 
 <main>
-  <section id="checking" class="panel">
-    <h2>Verificando acceso…</h2>
-    <p class="muted">Comprobando sesión y permisos.</p>
+<section id="checking" class="panel">
+  <h2>Verificando acceso…</h2>
+  <p class="muted">Comprobando sesión y permisos.</p>
+</section>
+
+<section id="denied" class="panel hidden">
+  <h2>Acceso no verificado</h2>
+  <p id="denied-msg" class="error" role="alert"></p>
+  <button id="retry">Reintentar</button>
+  <button id="login">Volver al inicio de sesión</button>
+</section>
+
+<section id="app" class="hidden">
+  <div class="toolbar">
+    <p id="account" class="muted">Sesión verificada</p>
+    <div class="actions">
+      <button id="refresh">Actualizar todo</button>
+      <button id="logout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div id="notice" class="status" role="status" aria-live="polite"></div>
+
+  <nav>
+    <button class="tab active" data-tab="rounds">Rondas</button>
+    <button class="tab" data-tab="participants">Participantes</button>
+    <button class="tab" data-tab="assignments">Asignaciones</button>
+    <button class="tab" data-tab="votes">Votos y puntos</button>
+    <button class="tab" data-tab="settings">Configuración</button>
+  </nav>
+
+  <section id="tab-rounds" class="panel pane">
+    <h2>Rondas</h2>
+    <p class="muted">Las rondas nuevas se crean como borrador.</p>
+
+    <form id="round-form" class="formbox">
+      <h3 id="round-heading">Crear ronda</h3>
+      <label for="round-title">Título</label>
+      <input id="round-title" maxlength="120" required
+        placeholder="Ej. Ronda 1 — El comienzo">
+      <button id="round-save">Crear ronda</button>
+      <button id="round-cancel" class="hidden" type="button">Cancelar edición</button>
+      <p id="round-msg" role="status"></p>
+    </form>
+
+    <div id="rounds-data" class="status">Cargando…</div>
   </section>
 
-  <section id="denied" class="panel hidden">
-    <h2>Acceso no verificado</h2>
-    <p id="denied-message" class="error" role="alert">
-      No se pudo confirmar el acceso.
+  <section id="tab-participants" class="panel pane hidden">
+    <h2>Participantes</h2>
+    <p class="muted">Desactivar conserva el historial.</p>
+
+    <form id="participant-form" class="formbox">
+      <h3>Agregar participante</h3>
+      <label for="pname">Nombre</label>
+      <input id="pname" maxlength="100" required>
+
+      <label for="pphoto">URL de foto (opcional, HTTPS)</label>
+      <input id="pphoto" type="url" placeholder="https://…">
+
+      <button id="p-save">Agregar participante</button>
+      <p id="p-msg" role="status"></p>
+    </form>
+
+    <div id="participants-data" class="status">Cargando…</div>
+    <h3>Perfiles registrados</h3>
+    <div id="profiles-data" class="status">Cargando…</div>
+  </section>
+
+  <section id="tab-assignments" class="panel pane hidden">
+    <h2>Asignar participantes a rondas</h2>
+
+    <form id="assignment-form" class="formbox">
+      <label for="ar">Ronda</label>
+      <select id="ar" required></select>
+
+      <label for="ap">Participante activo</label>
+      <select id="ap" required></select>
+
+      <button id="a-save">Asignar participante</button>
+      <p id="a-msg" role="status"></p>
+    </form>
+
+    <h3>Asignaciones actuales</h3>
+    <div id="assignments-data" class="status">Cargando…</div>
+  </section>
+
+  <section id="tab-votes" class="panel pane hidden">
+    <h2>Votos</h2>
+    <div id="votes-data" class="status">Cargando…</div>
+
+    <h3>Registro de puntos</h3>
+    <div id="ledger-data" class="status">Cargando…</div>
+  </section>
+
+  <section id="tab-settings" class="panel pane hidden">
+    <h2>Configuración de votación</h2>
+    <p class="muted">El cambio aplica a votos futuros; no recalcula puntos anteriores.</p>
+
+    <form id="settings-form" class="formbox">
+      <label for="ppv">Puntos por voto (1–1000)</label>
+      <input id="ppv" type="number" min="1" max="1000" step="1" required>
+      <button id="settings-save">Guardar configuración</button>
+      <p id="settings-msg" role="status"></p>
+    </form>
+
+    <div id="settings-data" class="status">Cargando…</div>
+  </section>
+
+  <section class="panel">
+    <h3>Seguridad</h3>
+    <p id="security" class="muted">Pendiente de comprobación.</p>
+    <p class="muted small">
+      No publiques nunca la clave service_role. Este archivo usa únicamente
+      la clave pública del proyecto.
     </p>
-    <button id="retry-button" type="button">Reintentar</button>
-    <button id="login-button" type="button">Volver al inicio de sesión</button>
   </section>
-
-  <section id="dashboard" class="hidden">
-    <div class="toolbar">
-      <div>
-        <div class="eyebrow">Sesión autenticada</div>
-        <p id="account-label" class="muted">Cuenta verificada</p>
-      </div>
-      <div class="actions">
-        <button id="refresh-button" type="button">Actualizar</button>
-        <button id="logout-button" type="button">Cerrar sesión</button>
-      </div>
-    </div>
-
-    <div id="global-message" class="status" role="status" aria-live="polite">
-      Acceso verificado.
-    </div>
-
-    <nav aria-label="Secciones">
-      <button type="button" class="tab active" data-tab="rounds">Rondas</button>
-      <button type="button" class="tab" data-tab="participants">Participantes</button>
-      <button type="button" class="tab" data-tab="votes">Votos y puntos</button>
-      <button type="button" class="tab" data-tab="settings">Configuración</button>
-    </nav>
-
-    <!-- RONDAS -->
-    <section id="tab-rounds" class="panel tab-panel">
-      <h2>Administrar rondas</h2>
-      <p class="muted">
-        Crea rondas, modifica sus títulos y cambia sus estados.
-      </p>
-
-      <form id="round-form" class="panel">
-        <h3 id="round-form-heading">Crear una ronda</h3>
-
-        <label for="round-title">Título</label>
-        <input
-          id="round-title"
-          name="title"
-          type="text"
-          maxlength="120"
-          required
-          placeholder="Ej. Ronda 1 — El comienzo"
-        >
-
-        <div class="toolbar">
-          <button id="round-submit" type="submit">Crear ronda</button>
-          <button id="round-cancel" type="button" class="hidden">
-            Cancelar edición
-          </button>
-        </div>
-
-        <p id="round-form-message" class="muted" role="status" aria-live="polite"></p>
-      </form>
-
-      <div class="toolbar">
-        <h3>Rondas existentes</h3>
-        <button id="rounds-refresh" type="button">Actualizar rondas</button>
-      </div>
-
-      <div id="rounds-data" class="status">Esperando datos…</div>
-    </section>
-
-    <!-- PARTICIPANTES -->
-    <section id="tab-participants" class="panel tab-panel hidden">
-      <h2>Participantes</h2>
-      <h3>Participantes</h3>
-      <div id="participants-data" class="status">Esperando datos…</div>
-
-      <h3>Perfiles</h3>
-      <div id="profiles-data" class="status">Esperando datos…</div>
-
-      <h3>Participantes por ronda</h3>
-      <div id="round-participants-data" class="status">Esperando datos…</div>
-    </section>
-
-    <!-- VOTOS -->
-    <section id="tab-votes" class="panel tab-panel hidden">
-      <h2>Votos y puntos</h2>
-      <h3>Votos</h3>
-      <div id="votes-data" class="status">Esperando datos…</div>
-
-      <h3>Registro de puntos</h3>
-      <div id="point-ledger-data" class="status">Esperando datos…</div>
-    </section>
-
-    <!-- CONFIGURACIÓN -->
-    <section id="tab-settings" class="panel tab-panel hidden">
-      <h2>Configuración</h2>
-      <p class="muted">Vista de solo lectura.</p>
-      <div id="settings-data" class="status">Esperando datos…</div>
-    </section>
-
-    <section class="panel">
-      <h2>Seguridad</h2>
-      <p id="security-status" class="muted">Pendiente de comprobación.</p>
-    </section>
-  </section>
+</section>
 </main>
 
 <footer>ECLIPSE : Sanctuary · Área privada</footer>
 
 <script type="module">
-  import { createClient } from
-    "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-  const SUPABASE_URL =
-    "https://oflletoswulovqfrxqpc.supabase.co";
+const db = createClient(
+  "https://oflletoswulovqfrxqpc.supabase.co",
+  "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zSoqf-N"
+);
 
-  // Clave pública del proyecto. Nunca pongas aquí la service_role key.
-  const SUPABASE_PUBLIC_KEY =
-    "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
+const $ = id => document.getElementById(id);
 
-  const supabase = createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLIC_KEY
+let active = false;
+let editing = null;
+let rounds = [];
+let people = [];
+
+const states = {
+  draft: "Borrador",
+  open: "Abierta",
+  closed: "Cerrada"
+};
+
+function msg(id, text, bad = false) {
+  $(id).textContent = text;
+  $(id).classList.toggle("error", bad);
+  $(id).classList.toggle("success", !bad && !!text);
+}
+
+function section(id) {
+  ["checking", "denied", "app"].forEach(x => {
+    $(x).classList.toggle("hidden", x !== id);
+  });
+}
+
+function table(el, rows, cols) {
+  el.replaceChildren();
+
+  if (!rows?.length) {
+    el.textContent = "No hay registros disponibles.";
+    return;
+  }
+
+  cols = cols || [...new Set(rows.flatMap(r => Object.keys(r)))];
+
+  const wrap = document.createElement("div");
+  wrap.className = "table-wrap";
+
+  const t = document.createElement("table");
+  const h = document.createElement("tr");
+
+  cols.forEach(c => {
+    const th = document.createElement("th");
+    th.textContent = c;
+    h.append(th);
+  });
+
+  const head = document.createElement("thead");
+  head.append(h);
+  t.append(head);
+
+  const body = document.createElement("tbody");
+
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+
+    cols.forEach(c => {
+      const td = document.createElement("td");
+      const v = r[c];
+
+      td.textContent = v == null
+        ? "—"
+        : typeof v === "object"
+          ? JSON.stringify(v)
+          : String(v);
+
+      tr.append(td);
+    });
+
+    body.append(tr);
+  });
+
+  t.append(body);
+  wrap.append(t);
+  el.append(wrap);
+}
+
+async function read(name, id, cols) {
+  const el = $(id);
+  el.textContent = "Cargando…";
+
+  const { data, error } = await db
+    .from(name)
+    .select("*")
+    .limit(100);
+
+  if (error) {
+    el.textContent = "No se pudo leer esta sección. Comprueba las políticas RLS.";
+    el.classList.add("error");
+    return [];
+  }
+
+  el.classList.remove("error");
+  table(el, data, cols);
+  return data || [];
+}
+
+function selectFill(id, items, label, placeholder) {
+  const s = $(id);
+  const old = s.value;
+  s.replaceChildren();
+
+  const first = document.createElement("option");
+  first.value = "";
+  first.textContent = placeholder;
+  s.append(first);
+
+  items.forEach(x => {
+    const o = document.createElement("option");
+    o.value = x.id;
+    o.textContent = label(x);
+    s.append(o);
+  });
+
+  if ([...s.options].some(o => o.value === old)) {
+    s.value = old;
+  }
+}
+
+async function loadRounds() {
+  const el = $("rounds-data");
+  el.textContent = "Cargando rondas…";
+
+  const { data, error } = await db
+    .from("rounds")
+    .select("id,title,status,created_at")
+    .order("id");
+
+  if (error) {
+    el.textContent = "No se pudieron cargar rondas. Revisa RLS.";
+    return;
+  }
+
+  rounds = data || [];
+  el.replaceChildren();
+
+  if (!rounds.length) {
+    el.textContent = "Todavía no hay rondas.";
+  }
+
+  rounds.forEach(r => {
+    const c = document.createElement("article");
+    c.className = "card";
+
+    const h = document.createElement("h3");
+    h.textContent = r.title;
+
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = states[r.status] || r.status;
+
+    const meta = document.createElement("p");
+    meta.className = "meta";
+    meta.textContent =
+      `ID ${r.id} · ${r.created_at ? new Date(r.created_at).toLocaleString("es") : ""}`;
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const edit = document.createElement("button");
+    edit.textContent = "Editar título";
+    edit.onclick = () => {
+      editing = r.id;
+      $("round-title").value = r.title;
+      $("round-heading").textContent = "Editar ronda " + r.id;
+      $("round-save").textContent = "Guardar cambios";
+      $("round-cancel").classList.remove("hidden");
+    };
+    actions.append(edit);
+
+    if (r.status !== "open") {
+      const b = document.createElement("button");
+      b.textContent = "Abrir ronda";
+      b.onclick = () => changeStatus(r.id, "open");
+      actions.append(b);
+    }
+
+    if (r.status !== "closed") {
+      const b = document.createElement("button");
+      b.textContent = "Cerrar ronda";
+      b.onclick = () => changeStatus(r.id, "closed");
+      actions.append(b);
+    }
+
+    c.append(h, badge, meta, actions);
+    el.append(c);
+  });
+
+  selectFill(
+    "ar",
+    rounds,
+    r => `${r.title} · ${states[r.status]} · ID ${r.id}`,
+    "Selecciona ronda"
+  );
+}
+
+async function changeStatus(id, status) {
+  if (!confirm(`¿Seguro que quieres ${status === "open" ? "abrir" : "cerrar"} esta ronda?`)) {
+    return;
+  }
+
+  const { data, error } = await db
+    .from("rounds")
+    .update({ status })
+    .eq("id", id)
+    .select("id");
+
+  if (error || !data?.length) {
+    msg("notice", "No se pudo cambiar el estado. Revisa permisos.", true);
+    return;
+  }
+
+  msg("notice", "Estado actualizado.");
+  await loadRounds();
+}
+
+$("round-form").onsubmit = async e => {
+  e.preventDefault();
+  if (!active) return;
+
+  const title = $("round-title").value.trim();
+  if (!title) {
+    msg("round-msg", "Escribe un título.", true);
+    return;
+  }
+
+  const b = $("round-save");
+  b.disabled = true;
+
+  const res = editing !== null
+    ? await db.from("rounds").update({ title }).eq("id", editing).select("id")
+    : await db.from("rounds").insert({ title, status: "draft" }).select("id");
+
+  b.disabled = false;
+
+  if (res.error || !res.data?.length) {
+    msg("round-msg", "No se pudo guardar. Comprueba RLS.", true);
+    return;
+  }
+
+  editing = null;
+  $("round-form").reset();
+  $("round-heading").textContent = "Crear ronda";
+  b.textContent = "Crear ronda";
+  $("round-cancel").classList.add("hidden");
+
+  msg("round-msg", "Ronda guardada.");
+  await loadRounds();
+};
+
+$("round-cancel").onclick = () => {
+  editing = null;
+  $("round-form").reset();
+  $("round-heading").textContent = "Crear ronda";
+  $("round-save").textContent = "Crear ronda";
+  $("round-cancel").classList.add("hidden");
+  msg("round-msg", "");
+};
+
+async function loadPeople() {
+  const el = $("participants-data");
+  el.textContent = "Cargando participantes…";
+
+  const { data, error } = await db
+    .from("participants")
+    .select("id,name,photo_url,active,created_at")
+    .order("id");
+
+  if (error) {
+    el.textContent = "No se pudieron cargar participantes. Comprueba RLS.";
+    return;
+  }
+
+  people = data || [];
+  el.replaceChildren();
+
+  if (!people.length) {
+    el.textContent = "Todavía no hay participantes.";
+  }
+
+  people.forEach(p => {
+    const c = document.createElement("article");
+    c.className = "card";
+
+    const h = document.createElement("h3");
+    h.textContent = p.name;
+
+    const meta = document.createElement("p");
+    meta.className = "meta";
+    meta.textContent =
+      `ID ${p.id} · ${p.active ? "Activo" : "Inactivo"} · ${p.photo_url ? "Foto configurada" : "Sin foto"}`;
+
+    const b = document.createElement("button");
+    b.textContent = p.active ? "Desactivar" : "Activar";
+
+    b.onclick = async () => {
+      if (!confirm(`${p.active ? "¿Desactivar" : "¿Activar"} a ${p.name}?`)) {
+        return;
+      }
+
+      const { error } = await db
+        .from("participants")
+        .update({ active: !p.active })
+        .eq("id", p.id);
+
+      if (error) {
+        msg("p-msg", "No se pudo cambiar. Revisa RLS.", true);
+        return;
+      }
+
+      msg("p-msg", "Estado actualizado.");
+      await loadPeople();
+      await loadAssignments();
+    };
+
+    c.append(h, meta, b);
+    el.append(c);
+  });
+
+  selectFill(
+    "ap",
+    people.filter(p => p.active),
+    p => `${p.name} · ID ${p.id}`,
+    "Selecciona participante activo"
+  );
+}
+
+$("participant-form").onsubmit = async e => {
+  e.preventDefault();
+
+  const name = $("pname").value.trim();
+  const photo = $("pphoto").value.trim();
+
+  if (!name) {
+    msg("p-msg", "Escribe un nombre.", true);
+    return;
+  }
+
+  if (photo) {
+    try {
+      const u = new URL(photo);
+      if (u.protocol !== "https:") throw 0;
+    } catch {
+      msg("p-msg", "La foto debe usar una URL HTTPS válida.", true);
+      return;
+    }
+  }
+
+  const payload = { name, active: true };
+  if (photo) payload.photo_url = photo;
+
+  const { data, error } = await db
+    .from("participants")
+    .insert(payload)
+    .select("id");
+
+  if (error || !data?.length) {
+    console.warn(error?.code);
+    msg("p-msg", "No se pudo crear. Revisa permisos RLS y restricciones.", true);
+    return;
+  }
+
+  $("participant-form").reset();
+  msg("p-msg", "Participante agregado.");
+  await loadPeople();
+};
+
+async function loadAssignments() {
+  await read(
+    "round_participants",
+    "assignments-data",
+    ["round_id", "participant_id", "added_at"]
   );
 
-  const $ = selector => document.querySelector(selector);
+  selectFill(
+    "ar",
+    rounds,
+    r => `${r.title} · ${states[r.status]} · ID ${r.id}`,
+    "Selecciona ronda"
+  );
 
-  let checking = false;
-  let authorizedUserId = null;
-  let pageActive = false;
-  let editingRoundId = null;
-  let authEventReady = false;
+  selectFill(
+    "ap",
+    people.filter(p => p.active),
+    p => `${p.name} · ID ${p.id}`,
+    "Selecciona participante activo"
+  );
+}
 
-  function showOnly(section) {
-    ["checking", "denied", "dashboard"].forEach(id => {
-      $("#" + id).classList.toggle("hidden", id !== section);
+$("assignment-form").onsubmit = async e => {
+  e.preventDefault();
+
+  const round_id = Number($("ar").value);
+  const participant_id = Number($("ap").value);
+
+  if (!round_id || !participant_id) {
+    msg("a-msg", "Selecciona ambos campos.", true);
+    return;
+  }
+
+  const { error } = await db
+    .from("round_participants")
+    .insert({ round_id, participant_id });
+
+  if (error) {
+    console.warn(error.code);
+    msg(
+      "a-msg",
+      error.code === "23505"
+        ? "Ya está asignado a esa ronda."
+        : "No se pudo asignar. Comprueba RLS y duplicados.",
+      true
+    );
+    return;
+  }
+
+  msg("a-msg", "Participante asignado.");
+  await loadAssignments();
+};
+
+async function loadSettings() {
+  const { data, error } = await db
+    .from("voting_settings")
+    .select("id,points_per_vote,updated_at")
+    .eq("id", 1)
+    .limit(1);
+
+  if (error) {
+    $("settings-data").textContent =
+      "No se pudo leer la configuración. Revisa RLS.";
+    return;
+  }
+
+  table($("settings-data"), data || []);
+
+  if (data?.length) {
+    $("ppv").value = data[0].points_per_vote;
+  }
+}
+
+$("settings-form").onsubmit = async e => {
+  e.preventDefault();
+
+  const points_per_vote = Number($("ppv").value);
+
+  if (!Number.isInteger(points_per_vote) ||
+      points_per_vote < 1 ||
+      points_per_vote > 1000) {
+    msg("settings-msg", "Usa un entero entre 1 y 1000.", true);
+    return;
+  }
+
+  const { data, error } = await db
+    .from("voting_settings")
+    .update({
+      points_per_vote,
+      updated_at: new Date().toISOString()
+    })
+    .eq("id", 1)
+    .select("id,points_per_vote");
+
+  if (error || !data?.length) {
+    console.warn(error?.code);
+    msg(
+      "settings-msg",
+      "No se guardó. Revisa la política UPDATE y que exista id=1.",
+      true
+    );
+    return;
+  }
+
+  msg(
+    "settings-msg",
+    "Guardado. Los votos futuros usarán " + points_per_vote + " puntos."
+  );
+
+  await loadSettings();
+};
+
+async function loadAll() {
+  await Promise.all([
+    loadRounds(),
+    loadPeople(),
+    read("profiles", "profiles-data"),
+    read("votes", "votes-data"),
+    read("point_ledger", "ledger-data"),
+    loadSettings()
+  ]);
+
+  await loadAssignments();
+  msg("notice", "Carga terminada.");
+}
+
+async function verify() {
+  if (!active) section("checking");
+
+  try {
+    const { data, error } = await db.auth.getSession();
+
+    if (error || !data.session) {
+      throw Error("No hay sesión activa. Inicia sesión en admin.html.");
+    }
+
+    const id = data.session.user.id;
+    const a = await db.rpc("is_eclipse_admin");
+
+    if (a.error) {
+      throw Error("No se pudo verificar el permiso de administrador.");
+    }
+
+    if (a.data !== true) {
+      throw Error("Esta cuenta no tiene permisos de administrador.");
+    }
+
+    const u = await db.auth.getUser();
+
+    if (u.error || u.data.user?.id !== id) {
+      throw Error("No se pudo validar la sesión.");
+    }
+
+    active = true;
+
+    $("account").textContent = "Sesión verificada · " + id;
+    $("security").textContent =
+      "Sesión y permisos de administrador confirmados por Supabase.";
+
+    section("app");
+    await loadAll();
+
+  } catch (e) {
+    active = false;
+    $("denied-msg").textContent = e.message || "Acceso no verificado.";
+    section("denied");
+  }
+}
+
+$("retry").onclick = verify;
+$("refresh").onclick = verify;
+
+$("login").onclick = async () => {
+  await db.auth.signOut();
+  location.replace("./admin.html");
+};
+
+$("logout").onclick = async () => {
+  active = false;
+  await db.auth.signOut();
+  location.replace("./admin.html");
+};
+
+document.querySelectorAll(".tab").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".tab").forEach(x => {
+      x.classList.toggle("active", x === b);
     });
-  }
 
-  function setGlobalMessage(message, isError = false) {
-    const element = $("#global-message");
-    element.textContent = message;
-    element.classList.toggle("error", isError);
-    element.classList.toggle("success", !isError);
-  }
-
-  function showRoundFormMessage(message, isError = false) {
-    const element = $("#round-form-message");
-    element.textContent = message;
-    element.classList.toggle("error", isError);
-    element.classList.toggle("success", !isError && Boolean(message));
-  }
-
-  function resetRoundForm() {
-    editingRoundId = null;
-    $("#round-form").reset();
-    $("#round-form-heading").textContent = "Crear una ronda";
-    $("#round-submit").textContent = "Crear ronda";
-    $("#round-cancel").classList.add("hidden");
-    showRoundFormMessage("");
-  }
-
-  function renderRows(container, rows) {
-    container.replaceChildren();
-
-    if (!rows || rows.length === 0) {
-      container.textContent = "No hay registros disponibles.";
-      return;
-    }
-
-    const columns = [
-      ...new Set(rows.flatMap(row => Object.keys(row)))
-    ];
-
-    const wrap = document.createElement("div");
-    wrap.className = "table-wrap";
-
-    const table = document.createElement("table");
-    const thead = document.createElement("thead");
-    const header = document.createElement("tr");
-
-    columns.forEach(column => {
-      const th = document.createElement("th");
-      th.textContent = column;
-      header.appendChild(th);
+    document.querySelectorAll(".pane").forEach(x => {
+      x.classList.toggle("hidden", x.id !== "tab-" + b.dataset.tab);
     });
+  };
+});
 
-    thead.appendChild(header);
-    table.appendChild(thead);
-
-    const tbody = document.createElement("tbody");
-
-    rows.forEach(row => {
-      const tr = document.createElement("tr");
-
-      columns.forEach(column => {
-        const td = document.createElement("td");
-        const value = row[column];
-
-        td.textContent = value == null
-          ? "—"
-          : typeof value === "object"
-            ? JSON.stringify(value)
-            : String(value);
-
-        tr.appendChild(td);
-      });
-
-      tbody.appendChild(tr);
-    });
-
-    table.appendChild(tbody);
-    wrap.appendChild(table);
-    container.appendChild(wrap);
+db.auth.onAuthStateChange(event => {
+  if (event === "SIGNED_OUT") {
+    active = false;
+    location.replace("./admin.html");
   }
+});
 
-  async function loadTable(tableName, containerId) {
-    const container = $("#" + containerId);
-    container.textContent = "Cargando…";
-    container.classList.remove("error");
-
-    try {
-      const { data, error } = await supabase
-        .from(tableName)
-        .select("*")
-        .limit(100);
-
-      if (error) {
-        container.textContent =
-          "No se pudieron leer los datos. Comprueba los permisos RLS.";
-        container.classList.add("error");
-        console.warn("Error de lectura en " + tableName, error.code);
-        return;
-      }
-
-      renderRows(container, data);
-    } catch (error) {
-      container.textContent = "Error de conexión al cargar esta tabla.";
-      container.classList.add("error");
-      console.warn("Error de conexión en " + tableName, error);
-    }
-  }
-
-  async function loadRounds() {
-    const container = $("#rounds-data");
-
-    if (!authorizedUserId || !pageActive) return;
-
-    container.textContent = "Cargando rondas…";
-    container.classList.remove("error");
-
-    try {
-      const { data, error } = await supabase
-        .from("rounds")
-        .select("id, title, status, created_at")
-        .order("id", { ascending: true });
-
-      if (error) {
-        container.textContent =
-          "No se pudieron cargar las rondas. Comprueba la conexión y las políticas RLS.";
-        container.classList.add("error");
-        console.warn("Error al cargar rondas:", error.code);
-        return;
-      }
-
-      container.replaceChildren();
-
-      if (!data || data.length === 0) {
-        container.textContent = "Todavía no hay rondas creadas.";
-        return;
-      }
-
-      const statusLabels = {
-        draft: "Borrador",
-        open: "Abierta",
-        closed: "Cerrada"
-      };
-
-      data.forEach(round => {
-        const card = document.createElement("article");
-        card.className = "round-card";
-
-        const title = document.createElement("h3");
-        title.textContent = round.title;
-
-        const badge = document.createElement("span");
-        badge.className = "badge";
-        badge.textContent =
-          statusLabels[round.status] || round.status;
-
-        const meta = document.createElement("p");
-        meta.className = "round-meta";
-        meta.textContent =
-          "ID: " + round.id +
-          " · Creada: " +
-          (round.created_at
-            ? new Date(round.created_at).toLocaleString("es")
-            : "No disponible");
-
-        const actions = document.createElement("div");
-        actions.className = "actions";
-
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.textContent = "Editar título";
-        editButton.addEventListener("click", () => {
-          editingRoundId = round.id;
-          $("#round-title").value = round.title;
-          $("#round-form-heading").textContent =
-            "Editar ronda " + round.id;
-          $("#round-submit").textContent = "Guardar cambios";
-          $("#round-cancel").classList.remove("hidden");
-          showRoundFormMessage("Modifica el título y guarda los cambios.");
-
-          $("#round-form").scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-          $("#round-title").focus();
-        });
-
-        actions.appendChild(editButton);
-
-        if (round.status !== "open") {
-          const openButton = document.createElement("button");
-          openButton.type = "button";
-          openButton.textContent = "Abrir ronda";
-          openButton.addEventListener("click", () => {
-            changeRoundStatus(round.id, "open");
-          });
-          actions.appendChild(openButton);
-        }
-
-        if (round.status !== "closed") {
-          const closeButton = document.createElement("button");
-          closeButton.type = "button";
-          closeButton.textContent = "Cerrar ronda";
-          closeButton.addEventListener("click", () => {
-            changeRoundStatus(round.id, "closed");
-          });
-          actions.appendChild(closeButton);
-        }
-
-        card.append(title, badge, meta, actions);
-        container.appendChild(card);
-      });
-    } catch (error) {
-      container.textContent = "Ocurrió un error al cargar las rondas.";
-      container.classList.add("error");
-      console.warn("Error al cargar rondas:", error);
-    }
-  }
-
-  async function changeRoundStatus(roundId, newStatus) {
-    if (!authorizedUserId || !pageActive) return;
-
-    if (!["open", "closed"].includes(newStatus)) return;
-
-    const action = newStatus === "open" ? "abrir" : "cerrar";
-
-    if (!confirm("¿Seguro que quieres " + action + " esta ronda?")) {
-      return;
-    }
-
-    setGlobalMessage("Guardando estado…");
-
-    try {
-      const { data, error } = await supabase
-        .from("rounds")
-        .update({ status: newStatus })
-        .eq("id", roundId)
-        .select("id");
-
-      if (error) {
-        console.warn("Error al cambiar estado:", error.code);
-        setGlobalMessage(
-          "No se pudo guardar el estado. Revisa los permisos.",
-          true
-        );
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        setGlobalMessage(
-          "No se confirmó el cambio. Comprueba que la ronda exista y sea accesible.",
-          true
-        );
-        return;
-      }
-
-      setGlobalMessage("Estado actualizado correctamente.");
-      await loadRounds();
-    } catch (error) {
-      setGlobalMessage("Error de conexión al actualizar el estado.", true);
-      console.warn(error);
-    }
-  }
-
-  async function handleRoundSubmit(event) {
-    event.preventDefault();
-
-    if (!authorizedUserId || !pageActive) {
-      showRoundFormMessage("La sesión no está activa.", true);
-      return;
-    }
-
-    const title = $("#round-title").value.trim();
-
-    if (!title) {
-      showRoundFormMessage("Escribe el título de la ronda.", true);
-      return;
-    }
-
-    const submitButton = $("#round-submit");
-    submitButton.disabled = true;
-    showRoundFormMessage("Guardando…");
-
-    try {
-      let result;
-
-      if (editingRoundId !== null) {
-        result = await supabase
-          .from("rounds")
-          .update({ title })
-          .eq("id", editingRoundId)
-          .select("id");
-      } else {
-        result = await supabase
-          .from("rounds")
-          .insert({
-            title,
-            status: "draft"
-          })
-          .select("id");
-      }
-
-      if (result.error) {
-        console.warn("Error al guardar ronda:", {
-          code: result.error.code,
-          message: result.error.message
-        });
-
-        showRoundFormMessage(
-          "No se pudo guardar. Código: " +
-          (result.error.code || "desconocido") +
-          ". Revisa la configuración de la tabla y los permisos.",
-          true
-        );
-        return;
-      }
-
-      if (!result.data || result.data.length === 0) {
-        showRoundFormMessage(
-          "Supabase no confirmó el cambio. Comprueba los permisos y la existencia de la ronda.",
-          true
-        );
-        return;
-      }
-
-      resetRoundForm();
-      setGlobalMessage("Ronda guardada correctamente.");
-      await loadRounds();
-
-    } catch (error) {
-      showRoundFormMessage(
-        "Ocurrió un error de conexión al guardar.",
-        true
-      );
-      console.warn("Error al guardar ronda:", error);
-    } finally {
-      submitButton.disabled = false;
-    }
-  }
-
-  async function loadDashboardData() {
-    if (!authorizedUserId || !pageActive) return;
-
-    setGlobalMessage("Actualizando datos…");
-
-    await Promise.all([
-      loadRounds(),
-      loadTable("participants", "participants-data"),
-      loadTable("profiles", "profiles-data"),
-      loadTable("round_participants", "round-participants-data"),
-      loadTable("votes", "votes-data"),
-      loadTable("point_ledger", "point-ledger-data"),
-      loadTable("voting_settings", "settings-data")
-    ]);
-
-    if (pageActive) {
-      setGlobalMessage("Carga terminada.");
-    }
-  }
-
-  async function verifyAccess() {
-    if (checking) return;
-
-    checking = true;
-    pageActive = false;
-    authorizedUserId = null;
-    showOnly("checking");
-
-    let stage = "inicio";
-
-    try {
-      stage = "configuración de la clave pública";
-
-      if (!SUPABASE_URL || !SUPABASE_PUBLIC_KEY) {
-        throw new Error("Falta configurar la conexión pública de Supabase.");
-      }
-
-      stage = "sesión";
-
-      const {
-        data: sessionData,
-        error: sessionError
-      } = await supabase.auth.getSession();
-
-      if (sessionError) {
-        throw new Error("No se pudo consultar la sesión.");
-      }
-
-      if (!sessionData.session) {
-        throw new Error("No existe una sesión activa. Inicia sesión primero.");
-      }
-
-      const sessionUserId = sessionData.session.user.id;
-
-      stage = "permisos de administrador";
-
-      const { data: isAdmin, error: adminError } =
-        await supabase.rpc("is_eclipse_admin");
-
-      if (adminError) {
-        console.warn("Error al comprobar permisos:", adminError.code);
-        throw new Error("Supabase no pudo verificar los permisos.");
-      }
-
-      if (isAdmin !== true) {
-        throw new Error("Esta cuenta no tiene permisos de administrador.");
-      }
-
-      stage = "validación final";
-
-      const { data: userData, error: userError } =
-        await supabase.auth.getUser();
-
-      if (
-        userError ||
-        !userData.user ||
-        userData.user.id !== sessionUserId
-      ) {
-        throw new Error("No se pudo validar la sesión actual.");
-      }
-
-      authorizedUserId = userData.user.id;
-      pageActive = true;
-
-      $("#account-label").textContent =
-        "Cuenta verificada · ID: " + authorizedUserId;
-
-      $("#security-status").textContent =
-        "Sesión válida y permisos de administrador confirmados por Supabase.";
-
-      showOnly("dashboard");
-      await loadDashboardData();
-
-    } catch (error) {
-      console.warn("Comprobación fallida en " + stage + ":", error.message);
-
-      $("#denied-message").textContent =
-        "Falló la comprobación de: " + stage + ". " + error.message;
-
-      $("#security-status").textContent =
-        "No se ha concedido acceso al panel.";
-
-      showOnly("denied");
-    } finally {
-      checking = false;
-    }
-  }
-
-  // Eventos de los formularios y botones
-  $("#round-form").addEventListener("submit", handleRoundSubmit);
-  $("#round-cancel").addEventListener("click", resetRoundForm);
-
-  $("#rounds-refresh").addEventListener("click", loadRounds);
-
-  $("#retry-button").addEventListener("click", verifyAccess);
-
-  $("#login-button").addEventListener("click", async () => {
-    await supabase.auth.signOut();
-    window.location.replace("./admin.html");
-  });
-
-  $("#logout-button").addEventListener("click", async () => {
-    pageActive = false;
-    authorizedUserId = null;
-    await supabase.auth.signOut();
-    window.location.replace("./admin.html");
-  });
-
-  $("#refresh-button").addEventListener("click", verifyAccess);
-
-  document.querySelectorAll(".tab").forEach(button => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(tab => {
-        tab.classList.toggle("active", tab === button);
-      });
-
-      document.querySelectorAll(".tab-panel").forEach(panel => {
-        panel.classList.toggle(
-          "hidden",
-          panel.id !== "tab-" + button.dataset.tab
-        );
-      });
-    });
-  });
-
-  supabase.auth.onAuthStateChange(event => {
-    if (
-      authEventReady &&
-      event === "SIGNED_OUT"
-    ) {
-      pageActive = false;
-      authorizedUserId = null;
-      window.location.replace("./admin.html");
-    }
-  });
-
-  authEventReady = true;
-  await verifyAccess();
+await verify();
 </script>
 </body>
 </html>
