@@ -1104,6 +1104,92 @@ $("settings-form").onsubmit = async e => {
 
   await loadSettings();
 };
+  
+async function loadAccountProfiles() {
+  const select = $("account-user");
+  select.replaceChildren();
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Cargando perfiles…";
+  select.append(placeholder);
+
+  const { data, error } = await db
+    .from("profiles")
+    .select("user_id,username")
+    .order("username");
+
+  select.replaceChildren();
+
+  const first = document.createElement("option");
+  first.value = "";
+  first.textContent = error
+    ? "No se pudieron cargar perfiles"
+    : "Selecciona una cuenta";
+  select.append(first);
+
+  if (error) {
+    msg("account-points-msg",
+      "No se pudieron cargar las cuentas: " + error.message, true);
+    return;
+  }
+
+  (data || []).forEach(profile => {
+    if (!profile.user_id) return;
+
+    const option = document.createElement("option");
+    option.value = profile.user_id;
+    option.textContent =
+      (profile.username || "Cuenta sin nombre") +
+      " · " + profile.user_id.slice(0, 8);
+
+    select.append(option);
+  });
+}
+
+$("account-points-form").onsubmit = async e => {
+  e.preventDefault();
+  if (!active) return;
+
+  const userId = $("account-user").value;
+  const points = Number($("account-points").value);
+  const reason = $("account-reason").value.trim()
+    || "Puntos agregados por administración";
+
+  if (!userId) {
+    msg("account-points-msg", "Selecciona una cuenta.", true);
+    return;
+  }
+
+  if (!Number.isInteger(points) || points < 1 || points > 100000) {
+    msg("account-points-msg",
+      "Escribe un número entero entre 1 y 100000.", true);
+    return;
+  }
+
+  const button = $("account-points-save");
+  button.disabled = true;
+
+  const { error } = await db.rpc("admin_add_account_points", {
+    p_user_id: userId,
+    p_points: points,
+    p_reason: reason
+  });
+
+  button.disabled = false;
+
+  if (error) {
+    msg("account-points-msg",
+      "Error al agregar puntos: " + error.message, true);
+    return;
+  }
+
+  msg("account-points-msg",
+    "¡Listo! Se agregaron " + points + " puntos a la cuenta.");
+
+  $("account-reason").value = "";
+};
+
 
 async function loadAll() {
   await Promise.all([
