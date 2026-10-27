@@ -1,47 +1,170 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#100d1b">
-<title>Administración | ECLIPSE : Sanctuary</title>
-<style>
-:root{color-scheme:dark;--bg:#100d1b;--p:#1b1628;--p2:#241c34;--b:#51416d;--t:#f4efff;--m:#bcb0d3;--a:#b59add;--bad:#ffb4b4;--good:#b9edc9}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--t);font-family:Georgia,serif}
-header{padding:22px;background:var(--p);border-bottom:1px solid var(--b)}
-header>div,main{max-width:1120px;margin:auto}
-main{padding:22px}
-h1{font-size:clamp(24px,5vw,34px)}
-.muted,.eyebrow{color:var(--m)}
-.eyebrow{font:11px Arial;letter-spacing:2px;text-transform:uppercase}
-.panel,.card{background:var(--p);border:1px solid var(--b);border-radius:13px;padding:17px;margin:14px 0}
-.toolbar,nav,.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:12px 0}
-.toolbar{justify-content:space-between}
-button{background:var(--p2);color:var(--t);border:1px solid var(--b);border-radius:8px;padding:10px 13px;cursor:pointer}
-button:hover,button.active{background:var(--a);color:#180f27}
-button:disabled{opacity:.5}
-input,select{width:100%;padding:11px;margin:7px 0 14px;border:1px solid var(--b);border-radius:8px;background:var(--bg);color:var(--t)}
-label{font:14px Arial;display:block}
-.status{background:var(--p2);padding:12px;border-radius:8px;overflow-wrap:anywhere;font:14px/1.5 Arial}
-.error{color:var(--bad)}
-.success{color:var(--good)}
-.hidden{display:none!important}
-.table-wrap{overflow:auto}
-table{border-collapse:collapse;width:100%;font:13px/1.5 Arial}
-td,th{text-align:left;padding:9px;border-bottom:1px solid var(--b);overflow-wrap:anywhere}
-th{color:var(--m)}
-.card{background:var(--p2)}
-.meta{font:13px Arial;color:var(--m)}
-.badge{border:1px solid var(--b);border-radius:20px;padding:4px 8px;font:12px Arial}
-.formbox{border:1px solid var(--b);border-radius:10px;padding:14px;margin:12px 0}
-.small{font-size:12px}
-footer{text-align:center;color:var(--m);padding:25px;font:12px Arial}
-@media(max-width:650px){main{padding:12px}.panel{padding:13px}}
-</style>
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#100d1b">
+  <title>Administración | ECLIPSE : Sanctuary</title>
 
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #100d1b;
+      --p: #1b1628;
+      --p2: #241c34;
+      --b: #51416d;
+      --t: #f4efff;
+      --m: #bcb0d3;
+      --a: #b59add;
+      --bad: #ffb4b4;
+      --good: #b9edc9;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--t);
+      font-family: Georgia, serif;
+    }
+
+    header {
+      padding: 22px;
+      background: var(--p);
+      border-bottom: 1px solid var(--b);
+    }
+
+    header > div, main {
+      max-width: 1120px;
+      margin: auto;
+    }
+
+    main { padding: 22px; }
+    h1 { font-size: clamp(24px, 5vw, 34px); }
+    .muted, .eyebrow { color: var(--m); }
+
+    .eyebrow {
+      font: 11px Arial, sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .panel, .card {
+      background: var(--p);
+      border: 1px solid var(--b);
+      border-radius: 13px;
+      padding: 17px;
+      margin: 14px 0;
+    }
+
+    .toolbar, nav, .actions {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+
+    .toolbar { justify-content: space-between; }
+
+    button {
+      background: var(--p2);
+      color: var(--t);
+      border: 1px solid var(--b);
+      border-radius: 8px;
+      padding: 10px 13px;
+      cursor: pointer;
+    }
+
+    button:hover, button.active {
+      background: var(--a);
+      color: #180f27;
+    }
+
+    button:disabled { opacity: .5; }
+
+    input, select {
+      width: 100%;
+      padding: 11px;
+      margin: 7px 0 14px;
+      border: 1px solid var(--b);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--t);
+    }
+
+    label {
+      font: 14px Arial, sans-serif;
+      display: block;
+    }
+
+    .status {
+      background: var(--p2);
+      padding: 12px;
+      border-radius: 8px;
+      overflow-wrap: anywhere;
+      font: 14px/1.5 Arial, sans-serif;
+    }
+
+    .error { color: var(--bad); }
+    .success { color: var(--good); }
+    .hidden { display: none !important; }
+
+    .table-wrap { overflow: auto; }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font: 13px/1.5 Arial, sans-serif;
+    }
+
+    td, th {
+      text-align: left;
+      padding: 9px;
+      border-bottom: 1px solid var(--b);
+      overflow-wrap: anywhere;
+    }
+
+    th { color: var(--m); }
+    .card { background: var(--p2); }
+
+    .meta {
+      font: 13px Arial, sans-serif;
+      color: var(--m);
+    }
+
+    .badge {
+      border: 1px solid var(--b);
+      border-radius: 20px;
+      padding: 4px 8px;
+      font: 12px Arial, sans-serif;
+    }
+
+    .formbox {
+      border: 1px solid var(--b);
+      border-radius: 10px;
+      padding: 14px;
+      margin: 12px 0;
+    }
+
+    .small { font-size: 12px; }
+
+    footer {
+      text-align: center;
+      color: var(--m);
+      padding: 25px;
+      font: 12px Arial, sans-serif;
+    }
+
+    @media (max-width: 650px) {
+      main { padding: 12px; }
+      .panel { padding: 13px; }
+    }
+  </style>
+</head>
+
+<body>
 <header>
   <div>
     <div class="eyebrow">Bound to You · Sanctuary</div>
@@ -51,134 +174,135 @@ footer{text-align:center;color:var(--m);padding:25px;font:12px Arial}
 </header>
 
 <main>
-<section id="checking" class="panel">
-  <h2>Verificando acceso…</h2>
-  <p class="muted">Comprobando sesión y permisos.</p>
-</section>
+  <section id="checking" class="panel">
+    <h2>Verificando acceso…</h2>
+    <p class="muted">Comprobando sesión y permisos.</p>
+  </section>
 
-<section id="denied" class="panel hidden">
-  <h2>Acceso no verificado</h2>
-  <p id="denied-msg" class="error" role="alert"></p>
-  <button id="retry">Reintentar</button>
-  <button id="login">Volver al inicio de sesión</button>
-</section>
+  <section id="denied" class="panel hidden">
+    <h2>Acceso no verificado</h2>
+    <p id="denied-msg" class="error" role="alert"></p>
+    <button id="retry">Reintentar</button>
+    <button id="login">Volver al inicio de sesión</button>
+  </section>
 
-<section id="app" class="hidden">
-  <div class="toolbar">
-    <p id="account" class="muted">Sesión verificada</p>
-    <div class="actions">
-      <button id="refresh">Actualizar todo</button>
-      <button id="logout">Cerrar sesión</button>
+  <section id="app" class="hidden">
+    <div class="toolbar">
+      <p id="account" class="muted">Sesión verificada</p>
+      <div class="actions">
+        <button id="refresh">Actualizar todo</button>
+        <button id="logout">Cerrar sesión</button>
+      </div>
     </div>
-  </div>
 
-  <div id="notice" class="status" role="status" aria-live="polite"></div>
+    <div id="notice" class="status" role="status" aria-live="polite"></div>
 
-  <nav>
-    <button class="tab active" data-tab="rounds">Rondas</button>
-    <button class="tab" data-tab="participants">Participantes</button>
-    <button class="tab" data-tab="assignments">Asignaciones</button>
-    <button class="tab" data-tab="votes">Votos y puntos</button>
-    <button class="tab" data-tab="settings">Configuración</button>
-  </nav>
+    <nav>
+      <button class="tab active" data-tab="rounds">Rondas</button>
+      <button class="tab" data-tab="participants">Participantes</button>
+      <button class="tab" data-tab="assignments">Asignaciones</button>
+      <button class="tab" data-tab="votes">Votos y puntos</button>
+      <button class="tab" data-tab="settings">Configuración</button>
+    </nav>
 
-  <section id="tab-rounds" class="panel pane">
-    <h2>Rondas</h2>
-    <p class="muted">Las rondas nuevas se crean como borrador.</p>
+    <section id="tab-rounds" class="panel pane">
+      <h2>Rondas</h2>
+      <p class="muted">Las rondas nuevas se crean como borrador.</p>
 
-    <form id="round-form" class="formbox">
-      <h3 id="round-heading">Crear ronda</h3>
-      <label for="round-title">Título</label>
-      <input id="round-title" maxlength="120" required
-        placeholder="Ej. Ronda 1 — El comienzo">
-      <button id="round-save">Crear ronda</button>
-      <button id="round-cancel" class="hidden" type="button">Cancelar edición</button>
-      <p id="round-msg" role="status"></p>
-    </form>
+      <form id="round-form" class="formbox">
+        <h3 id="round-heading">Crear ronda</h3>
+        <label for="round-title">Título</label>
+        <input id="round-title" maxlength="120" required
+          placeholder="Ej. Ronda 1 — El comienzo">
+        <button id="round-save">Crear ronda</button>
+        <button id="round-cancel" class="hidden" type="button">Cancelar edición</button>
+        <p id="round-msg" role="status"></p>
+      </form>
 
-    <div id="rounds-data" class="status">Cargando…</div>
+      <div id="rounds-data" class="status">Cargando…</div>
+    </section>
+
+    <section id="tab-participants" class="panel pane hidden">
+      <h2>Participantes</h2>
+      <p class="muted">Desactivar conserva el historial.</p>
+
+      <form id="participant-form" class="formbox">
+        <h3>Agregar participante</h3>
+        <label for="pname">Nombre</label>
+        <input id="pname" maxlength="100" required>
+
+        <label for="pphoto">URL de foto (opcional, HTTPS)</label>
+        <input id="pphoto" type="url" placeholder="https://…">
+
+        <button id="p-save">Agregar participante</button>
+        <p id="p-msg" role="status"></p>
+      </form>
+
+      <div id="participants-data" class="status">Cargando…</div>
+      <h3>Perfiles registrados</h3>
+      <div id="profiles-data" class="status">Cargando…</div>
+    </section>
+
+    <section id="tab-assignments" class="panel pane hidden">
+      <h2>Asignar participantes a rondas</h2>
+
+      <form id="assignment-form" class="formbox">
+        <label for="ar">Ronda</label>
+        <select id="ar" required></select>
+
+        <label for="ap">Participante activo</label>
+        <select id="ap" required></select>
+
+        <button id="a-save">Asignar participante</button>
+        <p id="a-msg" role="status"></p>
+      </form>
+
+      <h3>Asignaciones actuales</h3>
+      <div id="assignments-data" class="status">Cargando…</div>
+    </section>
+
+    <section id="tab-votes" class="panel pane hidden">
+      <h2>Votos</h2>
+      <div id="votes-data" class="status">Cargando…</div>
+
+      <h3>Registro de puntos</h3>
+      <div id="ledger-data" class="status">Cargando…</div>
+    </section>
+
+    <section id="tab-settings" class="panel pane hidden">
+      <h2>Configuración de votación</h2>
+      <p class="muted">El cambio aplica a votos futuros; no recalcula puntos anteriores.</p>
+
+      <form id="settings-form" class="formbox">
+        <label for="ppv">Puntos por voto (1–1000)</label>
+        <input id="ppv" type="number" min="1" max="1000" step="1" required>
+        <button id="settings-save">Guardar configuración</button>
+        <p id="settings-msg" role="status"></p>
+      </form>
+
+      <div id="settings-data" class="status">Cargando…</div>
+    </section>
+
+    <section class="panel">
+      <h3>Seguridad</h3>
+      <p id="security" class="muted">Pendiente de comprobación.</p>
+      <p class="muted small">
+        No publiques nunca la clave service_role. Este archivo utiliza
+        únicamente la clave pública del proyecto.
+      </p>
+    </section>
   </section>
-
-  <section id="tab-participants" class="panel pane hidden">
-    <h2>Participantes</h2>
-    <p class="muted">Desactivar conserva el historial.</p>
-
-    <form id="participant-form" class="formbox">
-      <h3>Agregar participante</h3>
-      <label for="pname">Nombre</label>
-      <input id="pname" maxlength="100" required>
-
-      <label for="pphoto">URL de foto (opcional, HTTPS)</label>
-      <input id="pphoto" type="url" placeholder="https://…">
-
-      <button id="p-save">Agregar participante</button>
-      <p id="p-msg" role="status"></p>
-    </form>
-
-    <div id="participants-data" class="status">Cargando…</div>
-    <h3>Perfiles registrados</h3>
-    <div id="profiles-data" class="status">Cargando…</div>
-  </section>
-
-  <section id="tab-assignments" class="panel pane hidden">
-    <h2>Asignar participantes a rondas</h2>
-
-    <form id="assignment-form" class="formbox">
-      <label for="ar">Ronda</label>
-      <select id="ar" required></select>
-
-      <label for="ap">Participante activo</label>
-      <select id="ap" required></select>
-
-      <button id="a-save">Asignar participante</button>
-      <p id="a-msg" role="status"></p>
-    </form>
-
-    <h3>Asignaciones actuales</h3>
-    <div id="assignments-data" class="status">Cargando…</div>
-  </section>
-
-  <section id="tab-votes" class="panel pane hidden">
-    <h2>Votos</h2>
-    <div id="votes-data" class="status">Cargando…</div>
-
-    <h3>Registro de puntos</h3>
-    <div id="ledger-data" class="status">Cargando…</div>
-  </section>
-
-  <section id="tab-settings" class="panel pane hidden">
-    <h2>Configuración de votación</h2>
-    <p class="muted">El cambio aplica a votos futuros; no recalcula puntos anteriores.</p>
-
-    <form id="settings-form" class="formbox">
-      <label for="ppv">Puntos por voto (1–1000)</label>
-      <input id="ppv" type="number" min="1" max="1000" step="1" required>
-      <button id="settings-save">Guardar configuración</button>
-      <p id="settings-msg" role="status"></p>
-    </form>
-
-    <div id="settings-data" class="status">Cargando…</div>
-  </section>
-
-  <section class="panel">
-    <h3>Seguridad</h3>
-    <p id="security" class="muted">Pendiente de comprobación.</p>
-    <p class="muted small">
-      No publiques nunca la clave service_role. Este archivo usa únicamente
-      la clave pública del proyecto.
-    </p>
-  </section>
-</section>
 </main>
 
 <footer>ECLIPSE : Sanctuary · Área privada</footer>
 
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from
+  "https://esm.sh/@supabase/supabase-js@2";
 
 const db = createClient(
   "https://oflletoswulovqfrxqpc.supabase.co",
-  "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zSoqf-N"
+  "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N"
 );
 
 const $ = id => document.getElementById(id);
@@ -402,6 +526,7 @@ $("round-form").onsubmit = async e => {
   if (!active) return;
 
   const title = $("round-title").value.trim();
+
   if (!title) {
     msg("round-msg", "Escribe un título.", true);
     return;
@@ -411,8 +536,10 @@ $("round-form").onsubmit = async e => {
   b.disabled = true;
 
   const res = editing !== null
-    ? await db.from("rounds").update({ title }).eq("id", editing).select("id")
-    : await db.from("rounds").insert({ title, status: "draft" }).select("id");
+    ? await db.from("rounds")
+        .update({ title }).eq("id", editing).select("id")
+    : await db.from("rounds")
+        .insert({ title, status: "draft" }).select("id");
 
   b.disabled = false;
 
@@ -522,7 +649,7 @@ $("participant-form").onsubmit = async e => {
   if (photo) {
     try {
       const u = new URL(photo);
-      if (u.protocol !== "https:") throw 0;
+      if (u.protocol !== "https:") throw new Error("URL no segura");
     } catch {
       msg("p-msg", "La foto debe usar una URL HTTPS válida.", true);
       return;
@@ -538,7 +665,6 @@ $("participant-form").onsubmit = async e => {
     .select("id");
 
   if (error || !data?.length) {
-    console.warn(error?.code);
     msg("p-msg", "No se pudo crear. Revisa permisos RLS y restricciones.", true);
     return;
   }
@@ -586,7 +712,6 @@ $("assignment-form").onsubmit = async e => {
     .insert({ round_id, participant_id });
 
   if (error) {
-    console.warn(error.code);
     msg(
       "a-msg",
       error.code === "23505"
@@ -643,7 +768,6 @@ $("settings-form").onsubmit = async e => {
     .select("id,points_per_vote");
 
   if (error || !data?.length) {
-    console.warn(error?.code);
     msg(
       "settings-msg",
       "No se guardó. Revisa la política UPDATE y que exista id=1.",
