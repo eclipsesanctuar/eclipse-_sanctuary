@@ -566,36 +566,52 @@ footer {
       <div id="assignments-data" class="status">Cargando…</div>
     </section>
 
-    <section id="tab-votes" class="panel pane hidden">
-      <h2>Votos</h2>
-      <div id="votes-data" class="status">Cargando…</div>
 
-      <h3>Registro de puntos</h3>
-      <div id="ledger-data" class="status">Cargando…</div>
-    </section>
+<section id="tab-votes" class="panel pane hidden">
+  <h2>Votos y puntos</h2>
 
-    <section id="tab-settings" class="panel pane hidden">
-      <h2>Configuración de votación</h2>
-      <p class="muted">El cambio aplica a votos futuros; no recalcula puntos anteriores.</p>
+  <form id="account-points-form" class="formbox">
+    <h3>Agregar puntos a una cuenta</h3>
+    <p class="muted">
+      Selecciona una cuenta, indica la cantidad y agrega los puntos.
+    </p>
 
-      <form id="settings-form" class="formbox">
-        <label for="ppv">Puntos por voto (1–1000)</label>
-        <input id="ppv" type="number" min="1" max="1000" step="1" required>
-        <button id="settings-save">Guardar configuración</button>
-        <p id="settings-msg" role="status"></p>
-      </form>
+    <label for="account-user">Cuenta</label>
+    <select id="account-user" required>
+      <option value="">Cargando perfiles…</option>
+    </select>
 
-      <div id="settings-data" class="status">Cargando…</div>
-    </section>
+    <label for="account-points">Cantidad de puntos</label>
+    <input
+      id="account-points"
+      type="number"
+      min="1"
+      max="100000"
+      step="1"
+      value="50"
+      required
+    >
 
-    <section class="panel">
-      <h3>Seguridad</h3>
-      <p id="security" class="muted">Pendiente de comprobación.</p>
-      <p class="muted small">
-        No publiques nunca la clave service_role. Este archivo utiliza
-        únicamente la clave pública del proyecto.
-      </p>
-    </section>
+    <label for="account-reason">Motivo (opcional)</label>
+    <input
+      id="account-reason"
+      maxlength="200"
+      placeholder="Ej. Recompensa semanal"
+    >
+
+    <button id="account-points-save" type="submit">
+      Agregar puntos
+    </button>
+
+    <p id="account-points-msg" role="status" aria-live="polite"></p>
+  </form>
+
+  <h3>Votos</h3>
+  <div id="votes-data" class="status">Cargando…</div>
+
+  <h3>Registro de puntos de participantes</h3>
+  <div id="ledger-data" class="status">Cargando…</div>
+</section>
   </section>
 </main>
 
