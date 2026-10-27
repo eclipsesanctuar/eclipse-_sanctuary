@@ -6,8 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#100d1b">
   <title>Administración | ECLIPSE : Sanctuary</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -18,6 +22,7 @@
       color: #f4efff;
       font-family: Georgia, serif;
     }
+
     .panel {
       width: 100%;
       max-width: 420px;
@@ -27,28 +32,33 @@
       background: #1b1628;
       box-shadow: 0 20px 60px #0006;
     }
+
     .moon {
       text-align: center;
       font-size: 38px;
       margin-bottom: 8px;
     }
+
     h1 {
       text-align: center;
       font-size: 25px;
       letter-spacing: 2px;
       margin: 0 0 8px;
     }
+
     .subtitle {
       text-align: center;
       color: #bcb0d3;
       font-size: 14px;
       margin: 0 0 28px;
     }
+
     label {
       display: block;
       margin: 18px 0 8px;
       font-size: 14px;
     }
+
     input {
       width: 100%;
       padding: 12px;
@@ -58,10 +68,12 @@
       color: white;
       font: inherit;
     }
+
     input:focus {
       outline: 2px solid #ad8be8;
       outline-offset: 2px;
     }
+
     button {
       width: 100%;
       margin-top: 24px;
@@ -74,7 +86,12 @@
       font-size: 15px;
       cursor: pointer;
     }
-    button:disabled { opacity: .6; cursor: wait; }
+
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
     #message {
       min-height: 24px;
       margin: 16px 0 0;
@@ -82,6 +99,7 @@
       font: 14px/1.5 Arial, sans-serif;
       overflow-wrap: anywhere;
     }
+
     .back {
       display: block;
       text-align: center;
@@ -91,14 +109,20 @@
     }
   </style>
 </head>
+
 <body>
   <main class="panel">
     <div class="moon" aria-hidden="true">☾</div>
+
     <h1>ECLIPSE : Sanctuary</h1>
-    <p class="subtitle">Acceso reservado a administradores</p>
+
+    <p class="subtitle">
+      Acceso reservado a administradores
+    </p>
 
     <form id="login-form">
       <label for="username">Nombre de usuario</label>
+
       <input
         id="username"
         name="username"
@@ -109,6 +133,7 @@
       >
 
       <label for="password">Contraseña</label>
+
       <input
         id="password"
         name="password"
@@ -121,18 +146,25 @@
       <button id="submit-button" type="submit">
         Entrar al santuario
       </button>
+
       <p id="message" role="status" aria-live="polite"></p>
     </form>
 
-    <a class="back" href="./index.html">Volver al inicio</a>
+    <a class="back" href="./index.html">
+      Volver al inicio
+    </a>
   </main>
 
   <script type="module">
     import { createClient } from
       "https://esm.sh/@supabase/supabase-js@2";
 
-    const SUPABASE_URL = "https://oflletoswulovqfrxqpc.supabase.co";
-    const SUPABASE_PUBLIC_KEY = "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N";
+    const SUPABASE_URL =
+      "https://oflletoswulovqfrxqpc.supabase.co";
+
+    // Clave pública corregida para coincidir con admin-panel.html.
+    const SUPABASE_PUBLIC_KEY =
+      "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zSoqf-N";
 
     const supabase = createClient(
       SUPABASE_URL,
@@ -145,21 +177,33 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
+
       message.textContent = "";
       button.disabled = true;
 
       try {
         const username =
           document.querySelector("#username").value.trim();
+
         const password =
           document.querySelector("#password").value;
 
-        const { data, error } = await supabase.functions.invoke(
-          "username-login",
-          { body: { username, password } }
-        );
+        const { data, error } =
+          await supabase.functions.invoke(
+            "username-login",
+            {
+              body: {
+                username,
+                password
+              }
+            }
+          );
 
-        if (error || !data?.access_token || !data?.refresh_token) {
+        if (
+          error ||
+          !data?.access_token ||
+          !data?.refresh_token
+        ) {
           throw new Error(
             data?.error || "No se pudo iniciar sesión."
           );
@@ -168,17 +212,23 @@
         const { error: sessionError } =
           await supabase.auth.setSession({
             access_token: data.access_token,
-            refresh_token: data.refresh_token,
+            refresh_token: data.refresh_token
           });
 
-        if (sessionError) throw sessionError;
+        if (sessionError) {
+          throw sessionError;
+        }
 
         message.textContent = "Acceso verificado.";
+
         window.location.href = "./admin-panel.html";
+
       } catch (error) {
         console.error("Error de acceso:", error);
+
         message.textContent =
           "No se pudo iniciar sesión. Comprueba tus datos e inténtalo de nuevo.";
+
       } finally {
         button.disabled = false;
       }
