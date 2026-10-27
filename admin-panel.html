@@ -2,37 +2,41 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#100d1b">
   <title>Administración | ECLIPSE : Sanctuary</title>
 
   <style>
     :root {
       color-scheme: dark;
-      --bg: #100d1b;
-      --p: #1b1628;
-      --p2: #241c34;
-      --b: #51416d;
-      --t: #f4efff;
-      --m: #bcb0d3;
-      --a: #b59add;
-      --bad: #ffb4b4;
-      --good: #b9edc9;
+      --bg: #0b0913;
+      --panel: #171222;
+      --panel2: #21182f;
+      --border: #59446f;
+      --text: #f8f1ff;
+      --muted: #c1b2d7;
+      --accent: #c6a5f5;
+      --bad: #ffb4c1;
+      --good: #b8f0ce;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--t);
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 8% 0%, #70234c45, transparent 38%),
+        radial-gradient(ellipse at 95% 12%, #513b9450, transparent 35%),
+        linear-gradient(160deg, #0b0913, #100c1c 60%, #0b0913);
+      color: var(--text);
       font-family: Georgia, serif;
     }
 
     header {
-      padding: 22px;
-      background: var(--p);
-      border-bottom: 1px solid var(--b);
+      padding: 28px 20px;
+      background: linear-gradient(120deg, #21132f, #151124 65%, #20152f);
+      border-bottom: 1px solid var(--border);
     }
 
     header > div, main {
@@ -40,27 +44,84 @@
       margin: auto;
     }
 
-    main { padding: 22px; }
-    h1 { font-size: clamp(24px, 5vw, 34px); }
-    .muted, .eyebrow { color: var(--m); }
+    header::after {
+      content: "✦  ✧  ❖  ✧  ✦";
+      display: block;
+      margin-top: 20px;
+      color: #d9bafa;
+      letter-spacing: 9px;
+    }
+
+    h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: normal;
+    }
+
+    h2 { font-size: clamp(23px, 4vw, 32px); }
+
+    main { padding: 24px 16px 45px; }
 
     .eyebrow {
-      font: 11px Arial, sans-serif;
-      letter-spacing: 2px;
+      color: #d8b8ff;
+      font: 12px Arial, sans-serif;
+      letter-spacing: 3px;
       text-transform: uppercase;
     }
 
-    .panel, .card {
-      background: var(--p);
-      border: 1px solid var(--b);
-      border-radius: 13px;
-      padding: 17px;
-      margin: 14px 0;
+    .muted, .meta { color: var(--muted); }
+
+    .panel, .formbox, .card {
+      padding: 20px;
+      margin: 18px 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #1b1429f5, #120e1df5);
+      overflow-wrap: anywhere;
     }
 
-    .toolbar, nav, .actions {
+    .formbox { background: var(--panel2); }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font: 14px/1.5 Arial, sans-serif;
+    }
+
+    input, select {
+      display: block;
+      width: 100%;
+      min-height: 45px;
+      padding: 12px;
+      margin: 7px 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px Arial, sans-serif;
+    }
+
+    button {
+      min-height: 42px;
+      padding: 11px 15px;
+      margin: 4px 4px 4px 0;
+      border: 1px solid #67517f;
+      border-radius: 10px;
+      background: #2b203e;
+      color: var(--text);
+      cursor: pointer;
+      font: 14px Arial, sans-serif;
+    }
+
+    button:hover:not(:disabled) {
+      background: #493360;
+      border-color: var(--accent);
+    }
+
+    button:disabled { opacity: .55; cursor: wait; }
+
+    .toolbar, .actions, nav {
       display: flex;
-      gap: 9px;
+      gap: 8px;
       align-items: center;
       flex-wrap: wrap;
       margin: 12px 0;
@@ -68,404 +129,65 @@
 
     .toolbar { justify-content: space-between; }
 
-    button {
-      background: var(--p2);
-      color: var(--t);
-      border: 1px solid var(--b);
-      border-radius: 8px;
-      padding: 10px 13px;
-      cursor: pointer;
-    }
+    nav button { flex: 1; }
 
-    button:hover, button.active {
-      background: var(--a);
-      color: #180f27;
-    }
-
-    button:disabled { opacity: .5; }
-
-    input, select {
-      width: 100%;
-      padding: 11px;
-      margin: 7px 0 14px;
-      border: 1px solid var(--b);
-      border-radius: 8px;
-      background: var(--bg);
-      color: var(--t);
-    }
-
-    label {
-      font: 14px Arial, sans-serif;
-      display: block;
+    nav button.active {
+      background: var(--accent);
+      color: #21132e;
     }
 
     .status {
-      background: var(--p2);
-      padding: 12px;
-      border-radius: 8px;
+      padding: 14px;
+      border: 1px solid #49365d;
+      border-radius: 12px;
+      background: var(--panel2);
+      line-height: 1.5;
       overflow-wrap: anywhere;
-      font: 14px/1.5 Arial, sans-serif;
     }
 
     .error { color: var(--bad); }
     .success { color: var(--good); }
     .hidden { display: none !important; }
 
-    .table-wrap { overflow: auto; }
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #342448;
+    }
+
+    .table-wrap { overflow-x: auto; }
 
     table {
-      border-collapse: collapse;
       width: 100%;
+      border-collapse: collapse;
       font: 13px/1.5 Arial, sans-serif;
     }
 
     td, th {
+      padding: 10px;
       text-align: left;
-      padding: 9px;
-      border-bottom: 1px solid var(--b);
+      border-bottom: 1px solid var(--border);
       overflow-wrap: anywhere;
     }
 
-    th { color: var(--m); }
-    .card { background: var(--p2); }
-
-    .meta {
-      font: 13px Arial, sans-serif;
-      color: var(--m);
-    }
-
-    .badge {
-      border: 1px solid var(--b);
-      border-radius: 20px;
-      padding: 4px 8px;
-      font: 12px Arial, sans-serif;
-    }
-
-    .formbox {
-      border: 1px solid var(--b);
-      border-radius: 10px;
-      padding: 14px;
-      margin: 12px 0;
-    }
-
-    .small { font-size: 12px; }
+    th { color: var(--muted); }
 
     footer {
-      text-align: center;
-      color: var(--m);
       padding: 25px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
       font: 12px Arial, sans-serif;
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 600px) {
       main { padding: 12px; }
-      .panel { padding: 13px; }
+      .panel, .formbox, .card { padding: 15px; }
+      nav { display: grid; grid-template-columns: 1fr 1fr; }
+      nav button { width: 100%; }
     }
-    
-/* ✦ ECLIPSE : SANCTUARY — NUEVO DISEÑO ✦ */
-
-:root {
-  --bg: #0b0913;
-  --p: #171222;
-  --p2: #21182f;
-  --b: #51406b;
-  --t: #f8f1ff;
-  --m: #c1b2d7;
-  --a: #c6a5f5;
-  --bad: #ffb4c1;
-  --good: #b8f0ce;
-}
-
-body {
-  min-height: 100vh;
-  background:
-    radial-gradient(ellipse at 8% 0%, #70234c45, transparent 38%),
-    radial-gradient(ellipse at 95% 12%, #513b9450, transparent 35%),
-    linear-gradient(160deg, #0b0913, #100c1c 60%, #0b0913);
-  color: var(--t);
-}
-
-header {
-  position: relative;
-  overflow: hidden;
-  padding: 32px 22px;
-  background: linear-gradient(120deg, #21132f, #151124 65%, #20152f);
-  border-bottom: 1px solid #a783d955;
-  box-shadow: 0 12px 40px #0005;
-}
-
-header::after {
-  content: "✦  ✧  ❖  ✧  ✦";
-  display: block;
-  margin-top: 20px;
-  color: #d9bafa;
-  letter-spacing: 9px;
-  font-size: 14px;
-}
-
-header h1 {
-  margin: 12px 0;
-  font-weight: normal;
-  letter-spacing: 1px;
-  line-height: 1.25;
-  text-shadow: 0 0 28px #c6a5f544;
-}
-
-header .eyebrow {
-  color: #d8b8ff;
-  letter-spacing: 3px;
-}
-
-main {
-  max-width: 1180px;
-  padding: 28px 20px 50px;
-}
-
-.panel {
-  padding: 24px;
-  margin: 20px 0;
-  border: 1px solid #70568e99;
-  border-radius: 20px;
-  background: linear-gradient(145deg, #1b1429f5, #120e1df5);
-  box-shadow: 0 18px 45px #0003, inset 0 1px #ffffff08;
-}
-
-.panel h2 {
-  margin-top: 4px;
-  font-size: clamp(24px, 4vw, 34px);
-  letter-spacing: .3px;
-}
-
-.panel h3 {
-  line-height: 1.4;
-}
-
-.muted, .eyebrow, .meta {
-  color: #c4b5d9;
-}
-
-nav {
-  gap: 10px;
-  padding: 8px 0 16px;
-}
-
-nav .tab {
-  min-height: 48px;
-  padding: 13px 19px;
-  border-radius: 13px;
-  border: 1px solid #66517f;
-  background: #21182f;
-  color: #f8f1ff;
-  font: 15px Arial, sans-serif;
-  transition: background .2s, border-color .2s, transform .2s;
-}
-
-nav .tab:hover {
-  border-color: #c6a5f5;
-  transform: translateY(-1px);
-}
-
-nav .tab.active {
-  background: linear-gradient(120deg, #c6a5f5, #a98ad9);
-  border-color: #d9c2fa;
-  color: #21132e;
-  box-shadow: 0 0 22px #b28de933;
-}
-
-button {
-  min-height: 42px;
-  padding: 11px 16px;
-  border: 1px solid #67517f;
-  border-radius: 11px;
-  background: linear-gradient(135deg, #2b203e, #21182f);
-  color: #f8f1ff;
-  font: 14px Arial, sans-serif;
-  transition: border-color .2s, background .2s, transform .2s;
-}
-
-button:hover:not(:disabled) {
-  border-color: #c6a5f5;
-  background: linear-gradient(120deg, #493360, #332344);
-}
-
-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
-input, select {
-  min-height: 45px;
-  padding: 12px 14px;
-  border: 1px solid #59446f;
-  border-radius: 11px;
-  background: #0d0a16;
-  color: #fff7ff;
-  font: 14px Arial, sans-serif;
-}
-
-input:focus, select:focus {
-  outline: 2px solid #b994ed;
-  outline-offset: 2px;
-  border-color: #c6a5f5;
-}
-
-label {
-  color: #e8dcf7;
-  line-height: 1.5;
-}
-
-.formbox {
-  padding: 20px;
-  margin: 18px 0;
-  border: 1px solid #5d4775;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #21182f, #171121);
-}
-
-.formbox h3 {
-  margin-top: 0;
-  color: #e5d1ff;
-}
-
-.card {
-  padding: 19px;
-  margin: 14px 0;
-  border: 1px solid #59446f;
-  border-radius: 15px;
-  background: linear-gradient(135deg, #251b36, #191323);
-  box-shadow: 0 8px 25px #0002;
-}
-
-.card h3 {
-  color: #f5eaff;
-  font-size: 20px;
-}
-
-.badge {
-  display: inline-block;
-  margin: 4px 0;
-  padding: 6px 11px;
-  border-color: #8d70ad;
-  border-radius: 999px;
-  background: #342448;
-  color: #e8d7ff;
-}
-
-.status {
-  padding: 15px 17px;
-  border: 1px solid #49365d;
-  border-radius: 13px;
-  background: #21182f;
-  color: #eee4fa;
-  line-height: 1.6;
-}
-
-.status.success {
-  color: #b8f0ce;
-  border-color: #426d58;
-  background: #17281f;
-}
-
-.status.error {
-  color: #ffb4c1;
-  border-color: #824354;
-  background: #301722;
-}
-
-.table-wrap {
-  border: 1px solid #514064;
-  border-radius: 12px;
-  overflow-x: auto;
-  background: #151020;
-}
-
-table {
-  min-width: 460px;
-  border-collapse: collapse;
-}
-
-th {
-  background: #281d39;
-  color: #dfc8ff;
-  font-weight: normal;
-}
-
-td, th {
-  padding: 13px 12px;
-  border-bottom: 1px solid #392a4c;
-}
-
-tbody tr:hover {
-  background: #ffffff08;
-}
-
-footer {
-  padding: 30px 16px;
-  border-top: 1px solid #49365d;
-  background: #100c19;
-  color: #bca9d4;
-  letter-spacing: 1px;
-}
-
-@media (max-width: 650px) {
-  header {
-    padding: 25px 18px;
-  }
-
-  main {
-    padding: 12px 12px 35px;
-  }
-
-  .panel {
-    padding: 17px;
-    border-radius: 17px;
-  }
-
-  nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
-  }
-
-  nav .tab {
-    width: 100%;
-    min-height: 48px;
-    padding: 11px 8px;
-    font-size: 13px;
-  }
-
-  .toolbar {
-    align-items: stretch;
-    gap: 8px;
-  }
-
-  .toolbar .actions {
-    width: 100%;
-  }
-
-  .toolbar .actions button {
-    flex: 1;
-  }
-
-  .formbox {
-    padding: 15px;
-  }
-
-  .card {
-    padding: 15px;
-  }
-
-  .actions button {
-    max-width: 100%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition: none !important;
-  }
-}
-
   </style>
 </head>
 
@@ -487,49 +209,49 @@ footer {
   <section id="denied" class="panel hidden">
     <h2>Acceso no verificado</h2>
     <p id="denied-msg" class="error" role="alert"></p>
-    <button id="retry">Reintentar</button>
-    <button id="login">Volver al inicio de sesión</button>
+    <button id="retry" type="button">Reintentar</button>
+    <button id="login" type="button">Volver al inicio de sesión</button>
   </section>
 
   <section id="app" class="hidden">
     <div class="toolbar">
-      <p id="account" class="muted">Sesión verificada</p>
+      <div>
+        <p id="account" class="muted">Sesión verificada</p>
+        <p id="security" class="muted"></p>
+      </div>
       <div class="actions">
-        <button id="refresh">Actualizar todo</button>
-        <button id="logout">Cerrar sesión</button>
+        <button id="refresh" type="button">Actualizar todo</button>
+        <button id="logout" type="button">Cerrar sesión</button>
       </div>
     </div>
 
     <div id="notice" class="status" role="status" aria-live="polite"></div>
 
     <nav>
-      <button class="tab active" data-tab="rounds">Rondas</button>
-      <button class="tab" data-tab="participants">Participantes</button>
-      <button class="tab" data-tab="assignments">Asignaciones</button>
-      <button class="tab" data-tab="votes">Votos y puntos</button>
-      <button class="tab" data-tab="settings">Configuración</button>
+      <button class="tab active" data-tab="rounds" type="button">Rondas</button>
+      <button class="tab" data-tab="participants" type="button">Participantes</button>
+      <button class="tab" data-tab="assignments" type="button">Asignaciones</button>
+      <button class="tab" data-tab="votes" type="button">Votos y puntos</button>
+      <button class="tab" data-tab="settings" type="button">Configuración</button>
     </nav>
 
     <section id="tab-rounds" class="panel pane">
       <h2>Rondas</h2>
-      <p class="muted">Las rondas nuevas se crean como borrador.</p>
 
       <form id="round-form" class="formbox">
         <h3 id="round-heading">Crear ronda</h3>
         <label for="round-title">Título</label>
-        <input id="round-title" maxlength="120" required
-          placeholder="Ej. Ronda 1 — El comienzo">
-        <button id="round-save">Crear ronda</button>
-        <button id="round-cancel" class="hidden" type="button">Cancelar edición</button>
+        <input id="round-title" maxlength="120" required>
+        <button id="round-save" type="submit">Crear ronda</button>
+        <button id="round-cancel" type="button" class="hidden">Cancelar edición</button>
         <p id="round-msg" role="status"></p>
       </form>
 
-      <div id="rounds-data" class="status">Cargando…</div>
+      <div id="rounds-data" class="status">Cargando rondas…</div>
     </section>
 
     <section id="tab-participants" class="panel pane hidden">
       <h2>Participantes</h2>
-      <p class="muted">Desactivar conserva el historial.</p>
 
       <form id="participant-form" class="formbox">
         <h3>Agregar participante</h3>
@@ -539,11 +261,13 @@ footer {
         <label for="pphoto">URL de foto (opcional, HTTPS)</label>
         <input id="pphoto" type="url" placeholder="https://…">
 
-        <button id="p-save">Agregar participante</button>
+        <button type="submit">Agregar participante</button>
         <p id="p-msg" role="status"></p>
       </form>
 
+      <h3>Participantes</h3>
       <div id="participants-data" class="status">Cargando…</div>
+
       <h3>Perfiles registrados</h3>
       <div id="profiles-data" class="status">Cargando…</div>
     </section>
@@ -558,7 +282,7 @@ footer {
         <label for="ap">Participante activo</label>
         <select id="ap" required></select>
 
-        <button id="a-save">Asignar participante</button>
+        <button type="submit">Asignar participante</button>
         <p id="a-msg" role="status"></p>
       </form>
 
@@ -566,52 +290,53 @@ footer {
       <div id="assignments-data" class="status">Cargando…</div>
     </section>
 
+    <section id="tab-votes" class="panel pane hidden">
+      <h2>Votos y puntos</h2>
 
-<section id="tab-votes" class="panel pane hidden">
-  <h2>Votos y puntos</h2>
+      <form id="account-points-form" class="formbox">
+        <h3>Agregar puntos a una cuenta</h3>
+        <p class="muted">Selecciona una cuenta, indica la cantidad y el motivo.</p>
 
-  <form id="account-points-form" class="formbox">
-    <h3>Agregar puntos a una cuenta</h3>
-    <p class="muted">
-      Selecciona una cuenta, indica la cantidad y agrega los puntos.
-    </p>
+        <label for="account-user">Cuenta</label>
+        <select id="account-user" required>
+          <option value="">Cargando perfiles…</option>
+        </select>
 
-    <label for="account-user">Cuenta</label>
-    <select id="account-user" required>
-      <option value="">Cargando perfiles…</option>
-    </select>
+        <label for="account-points">Cantidad de puntos</label>
+        <input id="account-points" type="number" min="1"
+          max="100000" step="1" value="50" required>
 
-    <label for="account-points">Cantidad de puntos</label>
-    <input
-      id="account-points"
-      type="number"
-      min="1"
-      max="100000"
-      step="1"
-      value="50"
-      required
-    >
+        <label for="account-reason">Motivo (opcional)</label>
+        <input id="account-reason" maxlength="200"
+          placeholder="Ej. Recompensa semanal">
 
-    <label for="account-reason">Motivo (opcional)</label>
-    <input
-      id="account-reason"
-      maxlength="200"
-      placeholder="Ej. Recompensa semanal"
-    >
+        <button id="account-points-save" type="submit">Agregar puntos</button>
+        <p id="account-points-msg" role="status" aria-live="polite"></p>
+      </form>
 
-    <button id="account-points-save" type="submit">
-      Agregar puntos
-    </button>
+      <h3>Votos</h3>
+      <div id="votes-data" class="status">Cargando…</div>
 
-    <p id="account-points-msg" role="status" aria-live="polite"></p>
-  </form>
+      <h3>Registro de puntos de participantes</h3>
+      <div id="ledger-data" class="status">Cargando…</div>
+    </section>
 
-  <h3>Votos</h3>
-  <div id="votes-data" class="status">Cargando…</div>
+    <section id="tab-settings" class="panel pane hidden">
+      <h2>Configuración</h2>
 
-  <h3>Registro de puntos de participantes</h3>
-  <div id="ledger-data" class="status">Cargando…</div>
-</section>
+      <form id="settings-form" class="formbox">
+        <label for="ppv">Puntos por voto</label>
+        <input id="ppv" type="number" min="1" max="1000"
+          step="1" value="10" required>
+
+        <button type="submit">Guardar configuración</button>
+        <p id="settings-msg" role="status"></p>
+      </form>
+
+      <div id="settings-data" class="status">
+        Cargando configuración…
+      </div>
+    </section>
   </section>
 </main>
 
@@ -623,7 +348,7 @@ import { createClient } from
 
 const db = createClient(
   "https://oflletoswulovqfrxqpc.supabase.co",
-  "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zWSoqf-N"
+  "sb_publishable_keXgvW4C3G8zgfNnjIqJBw_zSoqf-N"
 );
 
 const $ = id => document.getElementById(id);
@@ -646,8 +371,8 @@ function msg(id, text, bad = false) {
 }
 
 function section(id) {
-  ["checking", "denied", "app"].forEach(x => {
-    $(x).classList.toggle("hidden", x !== id);
+  ["checking", "denied", "app"].forEach(name => {
+    $(name).classList.toggle("hidden", name !== id);
   });
 }
 
@@ -665,32 +390,32 @@ function table(el, rows, cols) {
   wrap.className = "table-wrap";
 
   const t = document.createElement("table");
-  const h = document.createElement("tr");
+  const head = document.createElement("thead");
+  const headerRow = document.createElement("tr");
 
-  cols.forEach(c => {
+  cols.forEach(col => {
     const th = document.createElement("th");
-    th.textContent = c;
-    h.append(th);
+    th.textContent = col;
+    headerRow.append(th);
   });
 
-  const head = document.createElement("thead");
-  head.append(h);
+  head.append(headerRow);
   t.append(head);
 
   const body = document.createElement("tbody");
 
-  rows.forEach(r => {
+  rows.forEach(row => {
     const tr = document.createElement("tr");
 
-    cols.forEach(c => {
+    cols.forEach(col => {
       const td = document.createElement("td");
-      const v = r[c];
+      const value = row[col];
 
-      td.textContent = v == null
+      td.textContent = value == null
         ? "—"
-        : typeof v === "object"
-          ? JSON.stringify(v)
-          : String(v);
+        : typeof value === "object"
+          ? JSON.stringify(value)
+          : String(value);
 
       tr.append(td);
     });
@@ -719,29 +444,29 @@ async function read(name, id, cols) {
   }
 
   el.classList.remove("error");
-  table(el, data, cols);
+  table(el, data || [], cols);
   return data || [];
 }
 
 function selectFill(id, items, label, placeholder) {
-  const s = $(id);
-  const old = s.value;
-  s.replaceChildren();
+  const select = $(id);
+  const old = select.value;
+  select.replaceChildren();
 
   const first = document.createElement("option");
   first.value = "";
   first.textContent = placeholder;
-  s.append(first);
+  select.append(first);
 
-  items.forEach(x => {
-    const o = document.createElement("option");
-    o.value = x.id;
-    o.textContent = label(x);
-    s.append(o);
+  items.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = label(item);
+    select.append(option);
   });
 
-  if ([...s.options].some(o => o.value === old)) {
-    s.value = old;
+  if ([...select.options].some(option => option.value === old)) {
+    select.value = old;
   }
 }
 
@@ -766,58 +491,60 @@ async function loadRounds() {
     el.textContent = "Todavía no hay rondas.";
   }
 
-  rounds.forEach(r => {
-    const c = document.createElement("article");
-    c.className = "card";
+  rounds.forEach(round => {
+    const card = document.createElement("article");
+    card.className = "card";
 
-    const h = document.createElement("h3");
-    h.textContent = r.title;
+    const title = document.createElement("h3");
+    title.textContent = round.title;
 
     const badge = document.createElement("span");
     badge.className = "badge";
-    badge.textContent = states[r.status] || r.status;
+    badge.textContent = states[round.status] || round.status;
 
     const meta = document.createElement("p");
     meta.className = "meta";
     meta.textContent =
-      `ID ${r.id} · ${r.created_at ? new Date(r.created_at).toLocaleString("es") : ""}`;
+      `ID ${round.id} · ${round.created_at ? new Date(round.created_at).toLocaleString("es") : ""}`;
 
     const actions = document.createElement("div");
     actions.className = "actions";
 
-    const edit = document.createElement("button");
-    edit.textContent = "Editar título";
-    edit.onclick = () => {
-      editing = r.id;
-      $("round-title").value = r.title;
-      $("round-heading").textContent = "Editar ronda " + r.id;
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "Editar título";
+    editButton.onclick = () => {
+      editing = round.id;
+      $("round-title").value = round.title;
+      $("round-heading").textContent = "Editar ronda " + round.id;
       $("round-save").textContent = "Guardar cambios";
       $("round-cancel").classList.remove("hidden");
     };
-    actions.append(edit);
+    actions.append(editButton);
 
-    if (r.status !== "open") {
-      const b = document.createElement("button");
-      b.textContent = "Abrir ronda";
-      b.onclick = () => changeStatus(r.id, "open");
-      actions.append(b);
+    if (round.status !== "open") {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = "Abrir ronda";
+      button.onclick = () => changeStatus(round.id, "open");
+      actions.append(button);
     }
 
-    if (r.status !== "closed") {
-      const b = document.createElement("button");
-      b.textContent = "Cerrar ronda";
-      b.onclick = () => changeStatus(r.id, "closed");
-      actions.append(b);
+    if (round.status !== "closed") {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = "Cerrar ronda";
+      button.onclick = () => changeStatus(round.id, "closed");
+      actions.append(button);
     }
 
-    c.append(h, badge, meta, actions);
-    el.append(c);
+    card.append(title, badge, meta, actions);
+    el.append(card);
   });
 
   selectFill(
-    "ar",
-    rounds,
-    r => `${r.title} · ${states[r.status]} · ID ${r.id}`,
+    "ar", rounds,
+    round => `${round.title} · ${states[round.status]} · ID ${round.id}`,
     "Selecciona ronda"
   );
 }
@@ -842,8 +569,8 @@ async function changeStatus(id, status) {
   await loadRounds();
 }
 
-$("round-form").onsubmit = async e => {
-  e.preventDefault();
+$("round-form").onsubmit = async event => {
+  event.preventDefault();
   if (!active) return;
 
   const title = $("round-title").value.trim();
@@ -853,30 +580,32 @@ $("round-form").onsubmit = async e => {
     return;
   }
 
-  const b = $("round-save");
-  b.disabled = true;
+  const button = $("round-save");
+  button.disabled = true;
 
-  const res = editing !== null
-    ? await db.from("rounds")
-        .update({ title }).eq("id", editing).select("id")
-    : await db.from("rounds")
-        .insert({ title, status: "draft" }).select("id");
+  try {
+    const result = editing !== null
+      ? await db.from("rounds")
+          .update({ title }).eq("id", editing).select("id")
+      : await db.from("rounds")
+          .insert({ title, status: "draft" }).select("id");
 
-  b.disabled = false;
+    if (result.error || !result.data?.length) {
+      msg("round-msg", result.error?.message || "No se pudo guardar.", true);
+      return;
+    }
 
-  if (res.error || !res.data?.length) {
-    msg("round-msg", "No se pudo guardar. Comprueba RLS.", true);
-    return;
+    editing = null;
+    $("round-form").reset();
+    $("round-heading").textContent = "Crear ronda";
+    button.textContent = "Crear ronda";
+    $("round-cancel").classList.add("hidden");
+
+    msg("round-msg", "Ronda guardada.");
+    await loadRounds();
+  } finally {
+    button.disabled = false;
   }
-
-  editing = null;
-  $("round-form").reset();
-  $("round-heading").textContent = "Crear ronda";
-  b.textContent = "Crear ronda";
-  $("round-cancel").classList.add("hidden");
-
-  msg("round-msg", "Ronda guardada.");
-  await loadRounds();
 };
 
 $("round-cancel").onclick = () => {
@@ -909,33 +638,34 @@ async function loadPeople() {
     el.textContent = "Todavía no hay participantes.";
   }
 
-  people.forEach(p => {
-    const c = document.createElement("article");
-    c.className = "card";
+  people.forEach(person => {
+    const card = document.createElement("article");
+    card.className = "card";
 
-    const h = document.createElement("h3");
-    h.textContent = p.name;
+    const title = document.createElement("h3");
+    title.textContent = person.name;
 
     const meta = document.createElement("p");
     meta.className = "meta";
     meta.textContent =
-      `ID ${p.id} · ${p.active ? "Activo" : "Inactivo"} · ${p.photo_url ? "Foto configurada" : "Sin foto"}`;
+      `ID ${person.id} · ${person.active ? "Activo" : "Inactivo"} · ${person.photo_url ? "Foto configurada" : "Sin foto"}`;
 
-    const b = document.createElement("button");
-    b.textContent = p.active ? "Desactivar" : "Activar";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = person.active ? "Desactivar" : "Activar";
 
-    b.onclick = async () => {
-      if (!confirm(`${p.active ? "¿Desactivar" : "¿Activar"} a ${p.name}?`)) {
+    button.onclick = async () => {
+      if (!confirm(`${person.active ? "¿Desactivar" : "¿Activar"} a ${person.name}?`)) {
         return;
       }
 
       const { error } = await db
         .from("participants")
-        .update({ active: !p.active })
-        .eq("id", p.id);
+        .update({ active: !person.active })
+        .eq("id", person.id);
 
       if (error) {
-        msg("p-msg", "No se pudo cambiar. Revisa RLS.", true);
+        msg("p-msg", error.message, true);
         return;
       }
 
@@ -944,20 +674,21 @@ async function loadPeople() {
       await loadAssignments();
     };
 
-    c.append(h, meta, b);
-    el.append(c);
+    card.append(title, meta, button);
+    el.append(card);
   });
 
   selectFill(
     "ap",
-    people.filter(p => p.active),
-    p => `${p.name} · ID ${p.id}`,
+    people.filter(person => person.active),
+    person => `${person.name} · ID ${person.id}`,
     "Selecciona participante activo"
   );
 }
 
-$("participant-form").onsubmit = async e => {
-  e.preventDefault();
+$("participant-form").onsubmit = async event => {
+  event.preventDefault();
+  if (!active) return;
 
   const name = $("pname").value.trim();
   const photo = $("pphoto").value.trim();
@@ -969,8 +700,8 @@ $("participant-form").onsubmit = async e => {
 
   if (photo) {
     try {
-      const u = new URL(photo);
-      if (u.protocol !== "https:") throw new Error("URL no segura");
+      const url = new URL(photo);
+      if (url.protocol !== "https:") throw new Error();
     } catch {
       msg("p-msg", "La foto debe usar una URL HTTPS válida.", true);
       return;
@@ -986,7 +717,7 @@ $("participant-form").onsubmit = async e => {
     .select("id");
 
   if (error || !data?.length) {
-    msg("p-msg", "No se pudo crear. Revisa permisos RLS y restricciones.", true);
+    msg("p-msg", error?.message || "No se pudo crear el participante.", true);
     return;
   }
 
@@ -1003,22 +734,22 @@ async function loadAssignments() {
   );
 
   selectFill(
-    "ar",
-    rounds,
-    r => `${r.title} · ${states[r.status]} · ID ${r.id}`,
+    "ar", rounds,
+    round => `${round.title} · ${states[round.status]} · ID ${round.id}`,
     "Selecciona ronda"
   );
 
   selectFill(
     "ap",
-    people.filter(p => p.active),
-    p => `${p.name} · ID ${p.id}`,
+    people.filter(person => person.active),
+    person => `${person.name} · ID ${person.id}`,
     "Selecciona participante activo"
   );
 }
 
-$("assignment-form").onsubmit = async e => {
-  e.preventDefault();
+$("assignment-form").onsubmit = async event => {
+  event.preventDefault();
+  if (!active) return;
 
   const round_id = Number($("ar").value);
   const participant_id = Number($("ap").value);
@@ -1037,7 +768,7 @@ $("assignment-form").onsubmit = async e => {
       "a-msg",
       error.code === "23505"
         ? "Ya está asignado a esa ronda."
-        : "No se pudo asignar. Comprueba RLS y duplicados.",
+        : error.message,
       true
     );
     return;
@@ -1056,7 +787,7 @@ async function loadSettings() {
 
   if (error) {
     $("settings-data").textContent =
-      "No se pudo leer la configuración. Revisa RLS.";
+      "No se pudo leer la configuración: " + error.message;
     return;
   }
 
@@ -1067,22 +798,21 @@ async function loadSettings() {
   }
 }
 
-$("settings-form").onsubmit = async e => {
-  e.preventDefault();
+$("settings-form").onsubmit = async event => {
+  event.preventDefault();
+  if (!active) return;
 
-  const points_per_vote = Number($("ppv").value);
+  const points = Number($("ppv").value);
 
-  if (!Number.isInteger(points_per_vote) ||
-      points_per_vote < 1 ||
-      points_per_vote > 1000) {
-    msg("settings-msg", "Usa un entero entre 1 y 1000.", true);
+  if (!Number.isInteger(points) || points < 1 || points > 1000) {
+    msg("settings-msg", "Usa un número entero entre 1 y 1000.", true);
     return;
   }
 
   const { data, error } = await db
     .from("voting_settings")
     .update({
-      points_per_vote,
+      points_per_vote: points,
       updated_at: new Date().toISOString()
     })
     .eq("id", 1)
@@ -1091,20 +821,16 @@ $("settings-form").onsubmit = async e => {
   if (error || !data?.length) {
     msg(
       "settings-msg",
-      "No se guardó. Revisa la política UPDATE y que exista id=1.",
+      error?.message || "No se guardó. Comprueba que exista id=1 y los permisos.",
       true
     );
     return;
   }
 
-  msg(
-    "settings-msg",
-    "Guardado. Los votos futuros usarán " + points_per_vote + " puntos."
-  );
-
+  msg("settings-msg", "Configuración guardada.");
   await loadSettings();
 };
-  
+
 async function loadAccountProfiles() {
   const select = $("account-user");
   select.replaceChildren();
@@ -1129,8 +855,7 @@ async function loadAccountProfiles() {
   select.append(first);
 
   if (error) {
-    msg("account-points-msg",
-      "No se pudieron cargar las cuentas: " + error.message, true);
+    msg("account-points-msg", "Error al cargar cuentas: " + error.message, true);
     return;
   }
 
@@ -1145,10 +870,16 @@ async function loadAccountProfiles() {
 
     select.append(option);
   });
+
+  if (!data?.length) {
+    msg("account-points-msg", "No se encontraron perfiles.", true);
+  } else {
+    msg("account-points-msg", "");
+  }
 }
 
-$("account-points-form").onsubmit = async e => {
-  e.preventDefault();
+$("account-points-form").onsubmit = async event => {
+  event.preventDefault();
   if (!active) return;
 
   const userId = $("account-user").value;
@@ -1162,37 +893,36 @@ $("account-points-form").onsubmit = async e => {
   }
 
   if (!Number.isInteger(points) || points < 1 || points > 100000) {
-    msg("account-points-msg",
-      "Escribe un número entero entre 1 y 100000.", true);
+    msg("account-points-msg", "Usa un entero entre 1 y 100000.", true);
     return;
   }
 
   const button = $("account-points-save");
   button.disabled = true;
 
-  const { error } = await db.rpc("admin_add_account_points", {
-    p_user_id: userId,
-    p_points: points,
-    p_reason: reason
-  });
+  try {
+    const { error } = await db.rpc("admin_add_account_points", {
+      p_user_id: userId,
+      p_points: points,
+      p_reason: reason
+    });
 
-  button.disabled = false;
+    if (error) {
+      msg("account-points-msg", "Error al agregar puntos: " + error.message, true);
+      return;
+    }
 
-  if (error) {
-    msg("account-points-msg",
-      "Error al agregar puntos: " + error.message, true);
-    return;
+    msg("account-points-msg", `Se agregaron ${points} puntos correctamente.`);
+    $("account-reason").value = "";
+  } finally {
+    button.disabled = false;
   }
-
-  msg("account-points-msg",
-    "¡Listo! Se agregaron " + points + " puntos a la cuenta.");
-
-  $("account-reason").value = "";
 };
 
-
 async function loadAll() {
-  await Promise.all([
+  msg("notice", "Cargando datos…");
+
+  const results = await Promise.allSettled([
     loadRounds(),
     loadPeople(),
     read("profiles", "profiles-data"),
@@ -1203,37 +933,47 @@ async function loadAll() {
   ]);
 
   await loadAssignments();
-  msg("notice", "Carga terminada.");
-  }
+
+  const failed = results.some(result => result.status === "rejected");
+
+  msg(
+    "notice",
+    failed
+      ? "El panel abrió, pero hubo un error al cargar una o más secciones."
+      : "Carga terminada."
+  );
+}
+
 async function verify() {
-  if (!active) section("checking");
+  section("checking");
+  active = false;
 
   try {
     const { data, error } = await db.auth.getSession();
 
-    if (error || !data.session) {
+    if (error) throw Error("Error de sesión: " + error.message);
+    if (!data.session) {
       throw Error("No hay sesión activa. Inicia sesión en admin.html.");
     }
 
     const id = data.session.user.id;
-    const a = await db.rpc("is_eclipse_admin");
+    const adminCheck = await db.rpc("is_eclipse_admin");
 
-    if (a.error) {
-      throw Error("No se pudo verificar el permiso de administrador.");
+    if (adminCheck.error) {
+      throw Error("No se pudo verificar el permiso: " + adminCheck.error.message);
     }
 
-    if (a.data !== true) {
+    if (adminCheck.data !== true) {
       throw Error("Esta cuenta no tiene permisos de administrador.");
     }
 
-    const u = await db.auth.getUser();
+    const userCheck = await db.auth.getUser();
 
-    if (u.error || u.data.user?.id !== id) {
+    if (userCheck.error || userCheck.data.user?.id !== id) {
       throw Error("No se pudo validar la sesión.");
     }
 
     active = true;
-
     $("account").textContent = "Sesión verificada · " + id;
     $("security").textContent =
       "Sesión y permisos de administrador confirmados por Supabase.";
@@ -1241,9 +981,10 @@ async function verify() {
     section("app");
     await loadAll();
 
-  } catch (e) {
+  } catch (error) {
     active = false;
-    $("denied-msg").textContent = e.message || "Acceso no verificado.";
+    $("denied-msg").textContent =
+      error?.message || "No se pudo verificar el acceso.";
     section("denied");
   }
 }
@@ -1262,14 +1003,14 @@ $("logout").onclick = async () => {
   location.replace("./admin.html");
 };
 
-document.querySelectorAll(".tab").forEach(b => {
-  b.onclick = () => {
-    document.querySelectorAll(".tab").forEach(x => {
-      x.classList.toggle("active", x === b);
+document.querySelectorAll(".tab").forEach(button => {
+  button.onclick = () => {
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.classList.toggle("active", tab === button);
     });
 
-    document.querySelectorAll(".pane").forEach(x => {
-      x.classList.toggle("hidden", x.id !== "tab-" + b.dataset.tab);
+    document.querySelectorAll(".pane").forEach(pane => {
+      pane.classList.toggle("hidden", pane.id !== "tab-" + button.dataset.tab);
     });
   };
 });
