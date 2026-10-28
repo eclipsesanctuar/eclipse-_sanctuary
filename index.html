@@ -223,7 +223,11 @@ button:disabled { opacity:.5; cursor:wait; }
       <p class="sub">Entra con tu nombre de usuario y contraseña.</p>
 
       <div id="sessionPanel" hidden>
-        <p id="signedInAs" class="small"></p>
+        <div class="signed-profile">
+  <div id="signedAvatar" class="avatar">✧</div>
+  <p id="signedInAs" class="small"></p>
+</div>
+<p class="small"><a href="./perfil.html">Cambiar foto de perfil</a></p>
         <p id="myBalance" class="small"></p>
         <button class="btn" id="logoutButton" type="button">Cerrar sesión</button>
       </div>
