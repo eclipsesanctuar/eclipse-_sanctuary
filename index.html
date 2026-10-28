@@ -132,6 +132,22 @@ button:disabled { opacity:.5; cursor:wait; }
   background:linear-gradient(135deg,#562033,#25396d,#1a4c3b);
 }
 .avatar img { width:100%; height:100%; object-fit:cover; }
+  .signed-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.signed-profile .avatar {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+}
+
+.signed-profile .small {
+  margin: 0;
+}
 .candidate h4 { margin:0 0 5px; font-weight:normal; }
 .candidate p { margin:0; color:var(--muted); font:12px Arial,sans-serif; }
 .empty { color:var(--muted); font:13px/1.7 Arial,sans-serif; padding:15px 0; }
