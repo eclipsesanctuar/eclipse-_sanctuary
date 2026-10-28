@@ -345,12 +345,30 @@ button:disabled { opacity:.5; cursor:wait; }
 
     if(session) {
       const {data} = await supabase.from("profiles")
-        .select("username")
+        .select("username,photo_url")
         .eq("user_id",session.user.id)
         .maybeSingle();
 
-      $("signedInAs").textContent =
-        "Sesión iniciada" + (data?.username ? " como " + data.username : "") + ".";
+$("signedInAs").textContent =
+  "Sesión iniciada" + (data?.username ? " como " + data.username : "") + ".";
+
+const avatarBox = document.getElementById("signedAvatar");
+avatarBox.replaceChildren();
+
+if (data?.photo_url) {
+  const img = document.createElement("img");
+  img.src = data.photo_url;
+  img.alt = "Foto de perfil";
+
+  img.onerror = () => {
+    avatarBox.replaceChildren();
+    avatarBox.textContent = "✧";
+  };
+
+  avatarBox.append(img);
+} else {
+  avatarBox.textContent = "✧";
+}
 
       await refreshBalance();
     }
